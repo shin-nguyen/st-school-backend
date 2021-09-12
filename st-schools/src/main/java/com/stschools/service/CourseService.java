@@ -10,4 +10,5 @@ public interface CourseService {
     void deleteById(Long id);
 
     CourseDto update(CourseDto course);
+    CourseDto findByID(Long id);
 }

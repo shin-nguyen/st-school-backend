@@ -26,7 +26,6 @@ public class User {
 
     private String address;
     private String phone;
-    private Integer balance;
     private Boolean status;
 
     @Column(name = "error_number")
@@ -36,6 +35,11 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Like> likes;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude

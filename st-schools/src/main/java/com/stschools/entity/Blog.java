@@ -3,6 +3,7 @@ package com.stschools.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity(name = "tbl_blog")
@@ -17,14 +18,24 @@ public class Blog {
 
     private String title;
     private String summary;
-    private String image;
+
+    @Column(length = 1000)
     private String content;
 
     @Column(name = "time_created")
     private Date timeCreated;
 
-    private String author;
     private Boolean status;
+
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Like> likes;
 
     @ManyToOne
     @JoinColumn(name = "topic_id")

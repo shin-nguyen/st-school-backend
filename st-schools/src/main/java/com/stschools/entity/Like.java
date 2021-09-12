@@ -5,21 +5,18 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_comment")
+@Entity(name = "tbl_like")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
+public class Like {
     @Id
     @GeneratedValue
-    private Long id;
+    Long id;
 
     @Column(name = "time_created")
     private Date timeCreated;
-
-    @Column(length = 300)
-    private String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

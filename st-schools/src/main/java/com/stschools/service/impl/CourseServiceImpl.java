@@ -17,6 +17,12 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 
     @Override
+    public CourseDto findByID(Long id) {
+        Course course = courseRepository.findCourseById(id);
+        return ModelMapperControl.map(course, CourseDto.class);
+    }           
+
+    @Override
     public List<CourseDto> getCourses() {
         List<Course> courses = courseRepository.findAll();
         return ModelMapperControl.mapAll(courses, CourseDto.class);

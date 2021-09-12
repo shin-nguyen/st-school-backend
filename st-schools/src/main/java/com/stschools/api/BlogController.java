@@ -1,17 +1,15 @@
 package com.stschools.api;
 
-import com.stschools.common.enums.FileType;
 import com.stschools.dto.BlogDto;
+import com.stschools.dto.TopicDto;
+import com.stschools.dto.UserDto;
 import com.stschools.service.BlogService;
-import com.stschools.util.FileControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -42,23 +40,18 @@ public class BlogController {
     public ResponseEntity<BlogDto> create(@RequestParam String title,
                                        @RequestParam String summary,
                                        @RequestParam String content,
-                                       @RequestParam String author,
                                        @RequestParam Boolean  status,
-//                                       @RequestParam Topic topic,
-//                                       @RequestParam User user,
-                                       @RequestParam MultipartFile image) throws IOException {
-        FileControl.saveFile(FileType.IMAGE, image);
+                                       @RequestParam TopicDto topic,
+                                       @RequestParam UserDto user ) {
 
         BlogDto blogDto = BlogDto.builder()
                 .title(title)
                 .summary(summary)
                 .content(content)
-                .author(author)
                 .timeCreated(new Date())
                 .status(status)
-//                .topic(topic)
-//                .user(user)
-                .image(image.getOriginalFilename())
+                .topic(topic)
+                .user(user)
                 .build();
 
         try{

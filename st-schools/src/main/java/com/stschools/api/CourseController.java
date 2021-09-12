@@ -24,6 +24,20 @@ public class CourseController {
 
     public final CourseService courseService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseDto> getCourse(@PathVariable (name = "id") Long id){
+        try{
+            final CourseDto courseDto = courseService.findByID(id);
+            if(courseDto == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(courseDto);
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/courses")
     public ResponseEntity<List<CourseDto>> getCourses(){
         try{
@@ -59,6 +73,7 @@ public class CourseController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't save", ex);
         }
     }
+    
     @PutMapping("/update")
     public ResponseEntity<CourseDto> update(@RequestParam Long id,
                                             @RequestParam String name,

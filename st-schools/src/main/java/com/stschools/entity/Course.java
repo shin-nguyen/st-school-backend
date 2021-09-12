@@ -16,14 +16,12 @@ public class Course {
     private Long id;
 
     private String name;
+
+    @Column(length = 200)
     private String description;
+
     private Integer price;
     private String image;
-
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Comment> comments;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude

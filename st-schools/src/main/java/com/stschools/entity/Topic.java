@@ -16,13 +16,9 @@ public class Topic {
     private Long id;
 
     private String name;
-    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Subject subject;
+    @Column(length = 200)
+    private String description;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude

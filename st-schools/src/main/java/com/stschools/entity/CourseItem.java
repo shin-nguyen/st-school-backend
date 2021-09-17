@@ -5,20 +5,24 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "tbl_role")
+@Entity(name = "tbl_course_item")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class CourseItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "courseItem", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<User> user;
+    private Collection<Video> videos;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 }

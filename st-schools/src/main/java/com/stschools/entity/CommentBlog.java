@@ -5,14 +5,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_comment")
+@Entity(name = "tbl_comment_blog")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
+public class CommentBlog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "time_created")

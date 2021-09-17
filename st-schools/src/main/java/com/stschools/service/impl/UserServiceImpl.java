@@ -24,16 +24,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public List<UserDto> getCustomers() {
-        List<User> customers = userRepository.getCustomers();
-        return ModelMapperControl.mapAll(customers, UserDto.class);
-    }
+//    @Override
+//    public List<UserDto> getCustomers() {
+//        List<User> customers = userRepository.getCustomers();
+//        return ModelMapperControl.mapAll(customers, UserDto.class);
+//    }
 
     @Override
     public void addRoleToUser(String email, String roleName) {
         User user = userRepository.findByEmail(email);
         Role role = roleRepository.findByName(roleName);
-        user.setRole(role);
+        user.getRoles().add(role);
     }
 }

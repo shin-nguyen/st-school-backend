@@ -5,20 +5,19 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "tbl_role")
+@Entity(name = "tbl_language")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "language")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<User> user;
+    private Collection<Course> courses;
 }

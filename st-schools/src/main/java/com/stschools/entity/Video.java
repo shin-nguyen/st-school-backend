@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Video {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -19,8 +19,8 @@ public class Video {
     private Integer position;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_item_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Course course;
+    private CourseItem courseItem;
 }

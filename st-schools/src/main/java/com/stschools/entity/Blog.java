@@ -13,13 +13,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class Blog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
-    private String summary;
+    private String description;
 
-    @Column(length = 1000)
+    @Column(length = 1500)
     private String content;
 
     @Column(name = "time_created")
@@ -27,25 +27,38 @@ public class Blog {
 
     private Boolean status;
 
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Comment> comments;
+    @Transient
+    private Integer likeTotal(){
+        return this.likeBlogs.size();
+    }
+
+    @Transient
+    private Integer commentTotal(){
+        return this.commentBlogs.size();
+    }
 
     @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Like> likes;
+    private Collection<CommentBlog> commentBlogs;
 
-    @ManyToOne
-    @JoinColumn(name = "topic_id")
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Topic topic;
+    private Collection<LikeBlog> likeBlogs;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinTable(name = "tbl_blog_topic",
+            joinColumns = @JoinColumn(name = "blog_id"),
+            inverseJoinColumns = @JoinColumn(name = "topic_id")
+    )
+    private Collection<Topic> topics;
 }

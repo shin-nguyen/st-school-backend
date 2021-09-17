@@ -5,14 +5,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_like")
+@Entity(name = "tbl_like_blog")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Like {
+public class LikeBlog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "time_created")

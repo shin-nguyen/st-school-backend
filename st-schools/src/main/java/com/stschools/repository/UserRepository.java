@@ -10,7 +10,4 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
-
-    @Query("SELECT u FROM tbl_user u WHERE u.role.name = 'ROLE_CUSTOMER'")
-    List<User> getCustomers();
 }

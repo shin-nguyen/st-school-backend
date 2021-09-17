@@ -5,15 +5,15 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_order")
+@Entity(name = "tbl_like_course")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class LikeCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(name = "time_created")
     private Date timeCreated;
@@ -29,5 +29,4 @@ public class Order {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Course course;
-
 }

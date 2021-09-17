@@ -5,18 +5,21 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_order")
+@Entity(name = "tbl_comment_course")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class CommentCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "time_created")
     private Date timeCreated;
+
+    @Column(length = 300)
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -29,5 +32,4 @@ public class Order {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Course course;
-
 }

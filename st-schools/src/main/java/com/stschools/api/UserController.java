@@ -27,18 +27,18 @@ public class UserController {
 //        return ResponseEntity.ok().body(userService.getUsers());
 //    }
 
-    @GetMapping("/customers")
-    public ResponseEntity<List<UserDto>> getCustomers(){
-        try{
-            final List<UserDto> customers = userService.getCustomers();
-            if(customers == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return ResponseEntity.ok().body(customers);
-
-        }
-        catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found Customers", ex);
-        }
-    }
+//    @GetMapping("/customers")
+//    public ResponseEntity<List<UserDto>> getCustomers(){
+//        try{
+//            final List<UserDto> customers = userService.getCustomers();
+//            if(customers == null){
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//            return ResponseEntity.ok().body(customers);
+//
+//        }
+//        catch (Exception ex){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found Customers", ex);
+//        }
+//    }
 }

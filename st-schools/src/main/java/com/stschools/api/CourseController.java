@@ -57,15 +57,15 @@ public class CourseController {
     public ResponseEntity<CourseDto> create(@RequestParam String name,
                                             @RequestParam String description,
                                             @RequestParam Integer price
-//                                            ,@RequestParam MultipartFile image
+                                            ,@RequestParam MultipartFile image
                                             ) throws IOException {
-//        FileControl.saveFile(FileType.IMAGE, image);
+        FileControl.saveFile(FileType.IMAGE, image);
 
         CourseDto course = CourseDto.builder()
                         .name(name)
                         .description(description)
                         .price(price)
-//                        .image(image.getOriginalFilename())
+                        .image(image.getOriginalFilename())
                         .build();
         try{
             return ResponseEntity.ok().body(courseService.save(course));
@@ -79,16 +79,16 @@ public class CourseController {
                                             @RequestParam String name,
                                             @RequestParam String description,
                                             @RequestParam Integer price
-//                                           ,@RequestParam MultipartFile image
+                                           ,@RequestParam MultipartFile image
                                             ) throws IOException {
-//                FileControl.saveFile(FileType.IMAGE, image);
+                FileControl.saveFile(FileType.IMAGE, image);
 
         CourseDto course = CourseDto.builder()
                 .id(id)
                 .name(name)
                 .description(description)
                 .price(price)
-//              .image(image.getOriginalFilename())
+              .image(image.getOriginalFilename())
                 .build();
         try{
             return ResponseEntity.ok().body(courseService.update(course));

@@ -12,7 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 public class Topic {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -20,7 +20,7 @@ public class Topic {
     @Column(length = 200)
     private String description;
 
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "topics", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Blog> blogs;

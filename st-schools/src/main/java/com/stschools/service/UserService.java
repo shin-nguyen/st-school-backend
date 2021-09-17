@@ -8,6 +8,6 @@ import java.util.List;
 public interface UserService {
 
     List<User> getUsers();
-    List<UserDto> getCustomers();
+//    List<UserDto> getCustomers();
     void addRoleToUser(String username, String roleName);
 }

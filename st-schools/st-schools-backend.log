@@ -34,3 +34,53 @@
 2021-09-18 15:51:04.844  INFO 12672 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-09-18 15:51:04.847  INFO 12672 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2021-09-18 15:51:04.863  INFO 12672 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-09-18 16:22:50.425  INFO 20004 --- [main] com.stschools.StSchoolsApplication       : Starting StSchoolsApplication using Java 15 on Tang-Yu-Cheng with PID 20004 (D:\st-school-backend\st-schools\target\classes started by TangYuCheng in D:\st-school-backend\st-schools)
+2021-09-18 16:22:50.429  INFO 20004 --- [main] com.stschools.StSchoolsApplication       : No active profile set, falling back to default profiles: default
+2021-09-18 16:22:52.153  INFO 20004 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-18 16:22:52.331  INFO 20004 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 164 ms. Found 8 JPA repository interfaces.
+2021-09-18 16:22:53.558  INFO 20004 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-09-18 16:22:53.572  INFO 20004 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-09-18 16:22:53.573  INFO 20004 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.48]
+2021-09-18 16:22:53.831  INFO 20004 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-09-18 16:22:53.831  INFO 20004 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3270 ms
+2021-09-18 16:22:54.172  INFO 20004 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-18 16:22:54.261  INFO 20004 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-09-18 16:22:54.487  INFO 20004 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-18 16:22:54.601  INFO 20004 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-09-18 16:22:54.838  INFO 20004 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-09-18 16:22:54.867  INFO 20004 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MariaDBDialect
+2021-09-18 16:22:57.208  INFO 20004 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-18 16:22:57.217  INFO 20004 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-18 16:22:58.080  WARN 20004 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-09-18 16:22:58.170  INFO 20004 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0c08d3c1-f34f-44e7-b432-c79eccfe58b4
+
+2021-09-18 16:22:58.276  INFO 20004 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@75ef1392, org.springframework.security.web.context.SecurityContextPersistenceFilter@2213854b, org.springframework.security.web.header.HeaderWriterFilter@35efd12c, org.springframework.web.filter.CorsFilter@4271b748, org.springframework.security.web.authentication.logout.LogoutFilter@448a6d00, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@33bd9ac3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@67e1a5fd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@56d6e2e1, org.springframework.security.web.session.SessionManagementFilter@b386a17, org.springframework.security.web.access.ExceptionTranslationFilter@23aaa756]
+2021-09-18 16:22:58.916  INFO 20004 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-09-18 16:22:58.931  INFO 20004 --- [main] com.stschools.StSchoolsApplication       : Started StSchoolsApplication in 9.365 seconds (JVM running for 11.071)
+2021-09-18 18:04:16.357  INFO 16056 --- [main] com.stschools.StSchoolsApplication       : Starting StSchoolsApplication using Java 15 on Tang-Yu-Cheng with PID 16056 (D:\st-school-backend\st-schools\target\classes started by TangYuCheng in D:\st-school-backend\st-schools)
+2021-09-18 18:04:16.364  INFO 16056 --- [main] com.stschools.StSchoolsApplication       : No active profile set, falling back to default profiles: default
+2021-09-18 18:04:25.275  INFO 16056 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-18 18:04:25.601  INFO 16056 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 308 ms. Found 8 JPA repository interfaces.
+2021-09-18 18:04:26.976  INFO 16056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-09-18 18:04:26.989  INFO 16056 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-09-18 18:04:26.989  INFO 16056 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.48]
+2021-09-18 18:04:27.134  INFO 16056 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-09-18 18:04:27.135  INFO 16056 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 10626 ms
+2021-09-18 18:04:27.302  INFO 16056 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-18 18:04:27.376  INFO 16056 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-09-18 18:04:27.708  INFO 16056 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-18 18:04:28.144  INFO 16056 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-09-18 18:04:28.504  INFO 16056 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-09-18 18:04:28.530  INFO 16056 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MariaDBDialect
+2021-09-18 18:04:32.939  INFO 16056 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-18 18:04:32.955  INFO 16056 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-18 18:04:37.276  WARN 16056 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-09-18 18:04:37.363  INFO 16056 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 7711ff39-f830-46be-89ed-7ecce66bdcde
+
+2021-09-18 18:04:37.470  INFO 16056 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@65fa4a07, org.springframework.security.web.context.SecurityContextPersistenceFilter@2979c6ef, org.springframework.security.web.header.HeaderWriterFilter@4d71ec5b, org.springframework.web.filter.CorsFilter@782143e8, org.springframework.security.web.authentication.logout.LogoutFilter@7e28f150, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@61d61b0e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@97cb8dc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2a4bd699, org.springframework.security.web.session.SessionManagementFilter@137d04d8, org.springframework.security.web.access.ExceptionTranslationFilter@5f5c0eda]
+2021-09-18 18:04:38.060  INFO 16056 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-09-18 18:04:38.086  INFO 16056 --- [main] com.stschools.StSchoolsApplication       : Started StSchoolsApplication in 22.95 seconds (JVM running for 24.574)

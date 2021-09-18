@@ -8,13 +8,14 @@ import java.util.Collection;
 @Entity
 @Table(name = "tbl_language")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 200,nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "language")

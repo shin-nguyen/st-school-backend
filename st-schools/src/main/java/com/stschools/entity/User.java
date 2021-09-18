@@ -1,5 +1,6 @@
 package com.stschools.entity;
 
+import com.stschools.common.enums.AuthenticationType;
 import lombok.*;
 
 import javax.persistence.*;

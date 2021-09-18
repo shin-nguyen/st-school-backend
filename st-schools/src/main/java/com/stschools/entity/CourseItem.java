@@ -8,7 +8,6 @@ import java.util.Collection;
 @Entity
 @Table(name = "tbl_course_item")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseItem {

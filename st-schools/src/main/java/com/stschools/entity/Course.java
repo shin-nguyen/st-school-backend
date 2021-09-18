@@ -4,11 +4,11 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "tbl_course")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
@@ -16,21 +16,24 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200)
+    @Column(nullable = false, length = 150)
+    private String name;
+    @Column(length = 200, nullable = false)
     private String description;
 
-    @Column(name = "time_to_complete")
-    private String timeToComplete;
-    private String name;
+    @Column
+    private Date complete;
+
     private Integer price;
     private String image;
 
     @Transient
-    private Integer itemTotal(){
-        return this.courseItems.size();
+    private Integer itemTotal() {
+        return courseItems == null ? 0 : courseItems.size();
     }
 
-    @Transient Integer videoTotal(){
+    @Transient
+    Integer videoTotal() {
         return null;
     }
 
@@ -40,22 +43,22 @@ public class Course {
     @ToString.Exclude
     private Language language;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<CourseItem> courseItems;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Order> orders;
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<CommentCourse> commentCourses;
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<LikeCourse> likeCourses;

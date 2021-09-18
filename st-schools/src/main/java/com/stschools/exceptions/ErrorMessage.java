@@ -1,4 +1,4 @@
-package com.stschools.exception;
+package com.stschools.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

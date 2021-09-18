@@ -8,7 +8,6 @@ import java.util.Date;
 @Entity
 @Table(name = "tbl_order")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
@@ -16,8 +15,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "time_created")
-    private Date timeCreated;
+    @Column
+    private Date createdTime;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdTime = new Date();
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -9,7 +9,6 @@ import java.util.Date;
 @Entity
 @Table(name = "tbl_blog")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Blog {
@@ -17,33 +16,48 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 150)
     private String title;
+    @Column(nullable = false, length = 200)
     private String description;
 
-    @Column(length = 1500)
+    @Column(nullable = false, length = 1500)
     private String content;
 
-    @Column(name = "time_created")
-    private Date timeCreated;
+    @Column
+    private Date createdTime;
+    @Column
+    private Date updateTime;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdTime = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateTime = new Date();
+    }
+
 
     private Boolean status;
 
     @Transient
-    private Integer likeTotal(){
-        return this.likeBlogs.size();
+    private Integer likeTotal() {
+        return likeBlogs == null ? 0 : likeBlogs.size();
     }
 
     @Transient
-    private Integer commentTotal(){
-        return this.commentBlogs.size();
+    private Integer commentTotal() {
+        return commentBlogs == null ? 0 : commentBlogs.size();
     }
 
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<CommentBlog> commentBlogs;
 
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<LikeBlog> likeBlogs;

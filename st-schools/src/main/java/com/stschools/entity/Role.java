@@ -8,7 +8,6 @@ import java.util.Collection;
 @Entity
 @Table(name = "tbl_role")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

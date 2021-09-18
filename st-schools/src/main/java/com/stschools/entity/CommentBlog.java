@@ -15,10 +15,22 @@ public class CommentBlog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "time_created")
-    private Date timeCreated;
+    @Column
+    private Date createdTime;
+    @Column
+    private Date updateTime;
 
-    @Column(length = 300)
+    @PrePersist
+    protected void onCreate() {
+        this.createdTime = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateTime = new Date();
+    }
+
+    @Column(length = 300,nullable = false)
     private String content;
 
     @ManyToOne

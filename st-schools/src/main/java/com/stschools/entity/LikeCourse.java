@@ -8,7 +8,6 @@ import java.util.Date;
 @Entity
 @Table(name = "tbl_like_course")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class LikeCourse {
@@ -16,8 +15,13 @@ public class LikeCourse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "time_created")
-    private Date timeCreated;
+    @Column
+    private Date createdTime;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdTime = new Date();
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")

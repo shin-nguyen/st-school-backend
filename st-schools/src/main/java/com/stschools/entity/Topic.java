@@ -5,9 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "tbl_topic")
+@Entity
+@Table(name = "tbl_topic")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Topic {
@@ -15,13 +15,19 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 150,nullable = false)
     private String name;
 
-    @Column(length = 200)
+    @Column(length = 200,nullable = false)
     private String description;
 
     @ManyToMany(mappedBy = "topics", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Blog> blogs;
+
+    public Topic(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

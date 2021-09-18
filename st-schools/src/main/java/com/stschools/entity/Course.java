@@ -5,7 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "tbl_course")
+@Entity
+@Table(name = "tbl_course")
 @Data
 @Builder
 @AllArgsConstructor

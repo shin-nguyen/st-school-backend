@@ -5,7 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "tbl_language")
+@Entity
+@Table(name = "tbl_language")
 @Data
 @Builder
 @AllArgsConstructor

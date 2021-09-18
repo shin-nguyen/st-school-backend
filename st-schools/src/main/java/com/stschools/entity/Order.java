@@ -5,7 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_order")
+@Entity
+@Table(name = "tbl_order")
 @Data
 @Builder
 @AllArgsConstructor

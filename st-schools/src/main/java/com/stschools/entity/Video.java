@@ -4,7 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name = "tbl_video")
+@Entity
+@Table(name = "tbl_video")
 @Data
 @Builder
 @AllArgsConstructor

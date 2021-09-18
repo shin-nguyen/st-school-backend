@@ -5,20 +5,27 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "tbl_role")
+@Entity
+@Table(name = "tbl_role")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Role{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include()
     private Long id;
 
+    @Column(length = 40, nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<User> user;
+    @Column(length = 150, nullable = false)
+    private String description;
+
+    public Role( String name,String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

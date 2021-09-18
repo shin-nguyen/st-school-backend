@@ -5,9 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "tbl_comment_blog")
+@Entity
+@Table(name = "tbl_comment_blog")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentBlog {

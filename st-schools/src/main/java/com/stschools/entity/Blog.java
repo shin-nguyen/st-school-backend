@@ -6,7 +6,8 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 
-@Entity(name = "tbl_blog")
+@Entity
+@Table(name = "tbl_blog")
 @Data
 @Builder
 @AllArgsConstructor

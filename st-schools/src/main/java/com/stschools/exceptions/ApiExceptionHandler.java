@@ -13,9 +13,9 @@ public class ApiExceptionHandler {
         return new ErrorMessage(10000, ex.getLocalizedMessage());
     }
 
-    @ExceptionHandler(IndexOutOfBoundsException.class)
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage TodoException(Exception ex, WebRequest request) {
-        return new ErrorMessage(10100, "Đối tượng không tồn tại");
+        return new ErrorMessage(10100, "aaaa");
     }
 }

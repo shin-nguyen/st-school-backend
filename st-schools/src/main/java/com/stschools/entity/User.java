@@ -19,6 +19,7 @@ public class User {
 
     @Column(nullable = false, unique = true, length = 45)
     private String username;
+
     @Column(nullable = false, unique = true, length = 45)
     private String email;
 
@@ -26,7 +27,8 @@ public class User {
     private String password;
 
     @Column(length = 90, nullable = false)
-    private String fullname;
+    private String fullName;
+
     @Column(length = 64)
     private String avatar;
 
@@ -90,7 +92,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.fullname = name;
+        this.fullName = name;
         this.avatar = avatar;
         this.birthday = birthday;
         this.address = address;

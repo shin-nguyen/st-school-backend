@@ -45,7 +45,9 @@ public class UserServiceImpl implements UserService {
         try {
             return ModelMapperControl.map(userRepository.save(user), UserDTO.class);
         } catch (Exception e) {
-            throw new UsernameAlreadyExistsException("Username '" + user.getUsername() + "' already exists");
+            throw new UsernameAlreadyExistsException(
+                    "Username '" + user.getUsername() + "' already exists"
+            );
         }
     }
 }

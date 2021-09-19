@@ -26,7 +26,7 @@ public class UserDTO {
     @NotBlank(message = "username is required")
     private String username;
     private String password;
-    private String fullname;
+    private String fullName;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
     private String address;

@@ -35,6 +35,6 @@ public class RoleRepositoryTests {
 		Role roleCustomer = new Role("Customer", "view coure, "
 				+ "buy courses, see blog");
 
-//		repo.saveAll(List.of(roleCustomer));
+		repo.saveAll(List.of(roleCustomer));
 	}
 }

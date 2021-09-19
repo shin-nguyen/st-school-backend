@@ -4,7 +4,7 @@ import com.stschools.dto.CourseDto;
 
 import java.util.List;
 
-public interface CourseService {
+public interface ICourseService {
     List<CourseDto> getCourses();
     CourseDto save(CourseDto courseDto);
     void deleteById(Long id);

@@ -5,7 +5,7 @@ import com.stschools.entity.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface IUserService {
 
     List<User> getUsers();
 //    List<UserDto> getCustomers();

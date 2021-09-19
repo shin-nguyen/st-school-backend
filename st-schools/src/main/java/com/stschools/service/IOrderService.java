@@ -1,4 +1,4 @@
 package com.stschools.service;
 
-public interface CommentService {
+public interface IOrderService {
 }

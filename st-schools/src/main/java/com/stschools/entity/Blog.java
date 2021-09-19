@@ -52,12 +52,12 @@ public class Blog {
         return commentBlogs == null ? 0 : commentBlogs.size();
     }
 
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<CommentBlog> commentBlogs;
 
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<LikeBlog> likeBlogs;

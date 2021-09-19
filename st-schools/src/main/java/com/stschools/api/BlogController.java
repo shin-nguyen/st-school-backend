@@ -3,7 +3,7 @@ package com.stschools.api;
 import com.stschools.dto.BlogDto;
 import com.stschools.dto.TopicDto;
 import com.stschools.dto.UserDto;
-import com.stschools.service.BlogService;
+import com.stschools.service.IBlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
 
-    private final BlogService blogService;
+    private final IBlogService IBlogService;
 
     @GetMapping("/blogs")
     public ResponseEntity<List<BlogDto>> getBlogs(){
         try{
-            final List<BlogDto> blogs = blogService.getBlogs();
+            final List<BlogDto> blogs = IBlogService.getBlogs();
             if(blogs == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -55,7 +55,7 @@ public class BlogController {
                 .build();
 
         try{
-            return ResponseEntity.ok().body(blogService.save(blogDto));
+            return ResponseEntity.ok().body(IBlogService.save(blogDto));
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't save blog", ex);
         }

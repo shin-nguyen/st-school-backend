@@ -4,7 +4,7 @@ import com.stschools.util.ModelMapperControl;
 import com.stschools.dto.BlogDto;
 import com.stschools.entity.Blog;
 import com.stschools.repository.BlogRepository;
-import com.stschools.service.BlogService;
+import com.stschools.service.IBlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BlogServiceImpl implements BlogService {
+public class BlogService implements IBlogService {
 
     private final BlogRepository blogRepository;
 

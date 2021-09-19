@@ -1,8 +1,8 @@
 package com.stschools.service.impl;
 
-import com.stschools.service.RoleService;
+import com.stschools.service.IRoleService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleService implements IRoleService {
 }

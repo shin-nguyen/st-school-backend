@@ -5,7 +5,7 @@ import com.stschools.entity.Blog;
 
 import java.util.List;
 
-public interface BlogService {
+public interface IBlogService {
     List<BlogDto> getBlogs();
     BlogDto save(BlogDto blogDto);
 }

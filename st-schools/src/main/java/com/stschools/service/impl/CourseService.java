@@ -3,7 +3,7 @@ package com.stschools.service.impl;
 import com.stschools.dto.CourseDto;
 import com.stschools.entity.Course;
 import com.stschools.repository.CourseRepository;
-import com.stschools.service.CourseService;
+import com.stschools.service.ICourseService;
 import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CourseServiceImpl implements CourseService {
+public class CourseService implements ICourseService {
 
     private final CourseRepository courseRepository;
 

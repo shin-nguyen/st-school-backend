@@ -1,29 +1,28 @@
 package com.stschools.service.impl;
 
-import com.stschools.util.ModelMapperControl;
-import com.stschools.dto.UserDto;
+import com.stschools.service.IUserService;
 import com.stschools.entity.Role;
 import com.stschools.entity.User;
 import com.stschools.repository.RoleRepository;
 import com.stschools.repository.UserRepository;
-import com.stschools.service.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserService implements IUserService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public List<User> getUsers() {
         List<User> userList = new ArrayList<>();
-        userRepository.findAll().forEach(userList::add);
+//        userRepository.findAll().forEach(userList::add);
         return userList;
     }
 

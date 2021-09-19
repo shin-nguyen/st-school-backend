@@ -2,7 +2,7 @@ package com.stschools.api;
 
 import com.stschools.common.enums.FileType;
 import com.stschools.dto.CourseDto;
-import com.stschools.service.CourseService;
+import com.stschools.service.ICourseService;
 import com.stschools.util.FileControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 public class CourseController {
 
-    public final CourseService courseService;
+    public final ICourseService courseService;
 
     @GetMapping("/{id}")
     public ResponseEntity<CourseDto> getCourse(@PathVariable (name = "id") Long id){

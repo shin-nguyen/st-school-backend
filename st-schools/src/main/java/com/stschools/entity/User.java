@@ -26,7 +26,7 @@ public class User {
     private String password;
 
     @Column(length = 90, nullable = false)
-    private String name;
+    private String fullname;
     @Column(length = 64)
     private String avatar;
 
@@ -35,7 +35,7 @@ public class User {
 
     private String address;
     private String phone;
-    private Boolean status;
+    private boolean status;
 
     @Column
     private Date createdTime;
@@ -90,7 +90,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.name = name;
+        this.fullname = name;
         this.avatar = avatar;
         this.birthday = birthday;
         this.address = address;

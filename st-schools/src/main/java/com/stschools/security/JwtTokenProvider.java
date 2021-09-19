@@ -15,7 +15,7 @@ import static com.stschools.security.SecurityConstants.SECRET;
 public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication){
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         Date now =new Date(System.currentTimeMillis());
 
         Date expiryDate = new Date(now.getTime()+EXPIRATION_TIME);

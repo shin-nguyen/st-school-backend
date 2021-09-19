@@ -5,19 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class BlogDTO {
     private Long id;
-    private String email;
-    private String name;
-    private LocalDate dateOfBirth;
-    private String address;
-    private String phone;
-    private Integer balance;
+    private String title;
+    private String summary;
+    private String content;
+    private Date timeCreated;
     private Boolean status;
+    private TopicDTO topic;
+    private UserDTO user;
 }

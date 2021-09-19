@@ -1,8 +1,8 @@
 package com.stschools.api;
 
 import com.stschools.common.enums.FileType;
-import com.stschools.dto.CourseDto;
-import com.stschools.service.ICourseService;
+import com.stschools.dto.CourseDTO;
+import com.stschools.service.CourseService;
 import com.stschools.util.FileControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,12 +22,12 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 public class CourseController {
 
-    public final ICourseService courseService;
+    public final CourseService courseService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDto> getCourse(@PathVariable (name = "id") Long id){
+    public ResponseEntity<CourseDTO> getCourse(@PathVariable (name = "id") Long id){
         try{
-            final CourseDto courseDto = courseService.findByID(id);
+            final CourseDTO courseDto = courseService.findByID(id);
             if(courseDto == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -39,9 +39,9 @@ public class CourseController {
     }
 
     @GetMapping("/courses")
-    public ResponseEntity<List<CourseDto>> getCourses(){
+    public ResponseEntity<List<CourseDTO>> getCourses(){
         try{
-            final List<CourseDto> courses = courseService.getCourses();
+            final List<CourseDTO> courses = courseService.getCourses();
             if(courses == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -54,14 +54,14 @@ public class CourseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CourseDto> create(@RequestParam String name,
+    public ResponseEntity<CourseDTO> create(@RequestParam String name,
                                             @RequestParam String description,
                                             @RequestParam Integer price
-                                            ,@RequestParam MultipartFile image
+                                            , @RequestParam MultipartFile image
                                             ) throws IOException {
         FileControl.saveFile(FileType.IMAGE, image);
 
-        CourseDto course = CourseDto.builder()
+        CourseDTO course = CourseDTO.builder()
                         .name(name)
                         .description(description)
                         .price(price)
@@ -75,15 +75,15 @@ public class CourseController {
     }
     
     @PutMapping("/update")
-    public ResponseEntity<CourseDto> update(@RequestParam Long id,
+    public ResponseEntity<CourseDTO> update(@RequestParam Long id,
                                             @RequestParam String name,
                                             @RequestParam String description,
                                             @RequestParam Integer price
-                                           ,@RequestParam MultipartFile image
+                                           , @RequestParam MultipartFile image
                                             ) throws IOException {
         FileControl.saveFile(FileType.IMAGE, image);
 
-        CourseDto course = CourseDto.builder()
+        CourseDTO course = CourseDTO.builder()
                 .id(id)
                 .name(name)
                 .description(description)

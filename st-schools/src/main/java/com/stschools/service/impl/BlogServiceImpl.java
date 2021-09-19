@@ -1,10 +1,10 @@
 package com.stschools.service.impl;
 
 import com.stschools.util.ModelMapperControl;
-import com.stschools.dto.BlogDto;
+import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
 import com.stschools.repository.BlogRepository;
-import com.stschools.service.IBlogService;
+import com.stschools.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +12,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BlogService implements IBlogService {
+public class BlogServiceImpl implements BlogService {
 
     private final BlogRepository blogRepository;
 
     @Override
-    public List<BlogDto> getBlogs() {
+    public List<BlogDTO> getBlogs() {
         List<Blog> blogs = blogRepository.findAll();
-        return ModelMapperControl.mapAll(blogs, BlogDto.class);
+        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 
     @Override
-    public BlogDto save(BlogDto blogDto) {
+    public BlogDTO save(BlogDTO blogDto) {
         Blog blog = ModelMapperControl.map(blogDto, Blog.class);
-        return ModelMapperControl.map(blogRepository.save(blog), BlogDto.class);
+        return ModelMapperControl.map(blogRepository.save(blog), BlogDTO.class);
     }
 }

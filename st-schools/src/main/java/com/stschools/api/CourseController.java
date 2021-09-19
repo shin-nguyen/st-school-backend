@@ -81,7 +81,7 @@ public class CourseController {
                                             @RequestParam Integer price
                                            ,@RequestParam MultipartFile image
                                             ) throws IOException {
-                FileControl.saveFile(FileType.IMAGE, image);
+        FileControl.saveFile(FileType.IMAGE, image);
 
         CourseDto course = CourseDto.builder()
                 .id(id)

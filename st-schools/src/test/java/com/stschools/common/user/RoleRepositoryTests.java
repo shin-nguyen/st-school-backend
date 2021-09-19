@@ -8,8 +8,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
-import static org.assertj.core.api.Assertions.assertThat;
+
+
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -32,6 +35,6 @@ public class RoleRepositoryTests {
 		Role roleCustomer = new Role("Customer", "view coure, "
 				+ "buy courses, see blog");
 
-		repo.saveAll(List.of(roleCustomer));
+//		repo.saveAll(List.of(roleCustomer));
 	}
 }

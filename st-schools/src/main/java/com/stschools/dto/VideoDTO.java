@@ -1,4 +1,4 @@
 package com.stschools.dto;
 
-public class OrderDto {
+public class VideoDTO {
 }

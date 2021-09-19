@@ -1,9 +1,9 @@
 package com.stschools.api;
 
-import com.stschools.dto.BlogDto;
-import com.stschools.dto.TopicDto;
-import com.stschools.dto.UserDto;
-import com.stschools.service.IBlogService;
+import com.stschools.dto.BlogDTO;
+import com.stschools.dto.TopicDTO;
+import com.stschools.dto.UserDTO;
+import com.stschools.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
 
-    private final IBlogService IBlogService;
+    private final BlogService IBlogService;
 
     @GetMapping("/blogs")
-    public ResponseEntity<List<BlogDto>> getBlogs(){
+    public ResponseEntity<List<BlogDTO>> getBlogs(){
         try{
-            final List<BlogDto> blogs = IBlogService.getBlogs();
+            final List<BlogDTO> blogs = IBlogService.getBlogs();
             if(blogs == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -37,14 +37,14 @@ public class BlogController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BlogDto> create(@RequestParam String title,
-                                       @RequestParam String summary,
-                                       @RequestParam String content,
-                                       @RequestParam Boolean  status,
-                                       @RequestParam TopicDto topic,
-                                       @RequestParam UserDto user ) {
+    public ResponseEntity<BlogDTO> create(@RequestParam String title,
+                                          @RequestParam String summary,
+                                          @RequestParam String content,
+                                          @RequestParam Boolean  status,
+                                          @RequestParam TopicDTO topic,
+                                          @RequestParam UserDTO user ) {
 
-        BlogDto blogDto = BlogDto.builder()
+        BlogDTO blogDto = BlogDTO.builder()
                 .title(title)
                 .summary(summary)
                 .content(content)

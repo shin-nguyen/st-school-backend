@@ -1,4 +1,4 @@
 package com.stschools.service;
 
-public interface IVideoService {
+public interface TopicService {
 }

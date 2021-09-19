@@ -1,6 +1,7 @@
 package com.stschools.validator;
 
-import com.stschools.entity.User;
+import com.stschools.dto.UserDTO;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,13 +11,13 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserDTO.class.equals(aClass);
     }
 
     @Override
     public void validate(Object object, Errors errors) {
 
-        User user = (User) object;
+        UserDTO user = (UserDTO) object;
 
         if(user.getPassword().length() <6){
             errors.rejectValue("password","Length", "Password must be at least 6 characters");

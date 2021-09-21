@@ -1,9 +1,9 @@
 package com.stschools.repository;
 
-import com.stschools.entity.Video;
+import com.stschools.entity.CourseLecture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VideoRepository extends JpaRepository<Video, Long> {
+public interface VideoRepository extends JpaRepository<CourseLecture, Long> {
 }

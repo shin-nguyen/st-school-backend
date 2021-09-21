@@ -22,4 +22,8 @@ public class Language {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Course> courses;
+
+    public Language(String name) {
+        this.name = name;
+    }
 }

@@ -1,9 +1,10 @@
 package com.stschools.api;
 
-import com.stschools.common.enums.FileType;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.CourseDTO;
+import com.stschools.dto.LanguageDTO;
 import com.stschools.service.CourseService;
-import com.stschools.util.FileControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/course")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class CourseController {
 
     public final CourseService courseService;
+    public final Cloudinary cloudinary;
 
     @GetMapping("/{id}")
     public ResponseEntity<CourseDTO> getCourse(@PathVariable (name = "id") Long id){
@@ -38,7 +40,7 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/courses")
+    @GetMapping("/list")
     public ResponseEntity<List<CourseDTO>> getCourses(){
         try{
             final List<CourseDTO> courses = courseService.getCourses();
@@ -56,16 +58,21 @@ public class CourseController {
     @PostMapping("/add")
     public ResponseEntity<CourseDTO> create(@RequestParam String name,
                                             @RequestParam String description,
-                                            @RequestParam Integer price
-                                            , @RequestParam MultipartFile image
+                                            @RequestParam String totalLength,
+//                                            @RequestParam LanguageDTO language,
+                                            @RequestParam Integer price,
+                                            @RequestParam MultipartFile file
                                             ) throws IOException {
-        FileControl.saveFile(FileType.IMAGE, image);
+        Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
         CourseDTO course = CourseDTO.builder()
                         .name(name)
                         .description(description)
+                        .totalLength(totalLength)
+//                        .language(language)
                         .price(price)
-                        .image(image.getOriginalFilename())
+                        .image(uploadResult.get("secure_url").toString())
                         .build();
         try{
             return ResponseEntity.ok().body(courseService.save(course));
@@ -78,17 +85,22 @@ public class CourseController {
     public ResponseEntity<CourseDTO> update(@RequestParam Long id,
                                             @RequestParam String name,
                                             @RequestParam String description,
-                                            @RequestParam Integer price
-                                           , @RequestParam MultipartFile image
+                                            @RequestParam String totalLength,
+//                                            @RequestParam LanguageDTO language,
+                                            @RequestParam Integer price,
+                                            @RequestParam MultipartFile file
                                             ) throws IOException {
-        FileControl.saveFile(FileType.IMAGE, image);
+        Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
         CourseDTO course = CourseDTO.builder()
                 .id(id)
                 .name(name)
                 .description(description)
+                .totalLength(totalLength)
+//                .language(language)
                 .price(price)
-              .image(image.getOriginalFilename())
+                .image(uploadResult.get("secure_url").toString())
                 .build();
         try{
             return ResponseEntity.ok().body(courseService.update(course));

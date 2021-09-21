@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Table(name = "tbl_course")
@@ -18,24 +17,24 @@ public class Course {
 
     @Column(nullable = false, length = 150)
     private String name;
+
     @Column(length = 200, nullable = false)
     private String description;
 
     @Column
-    private Date complete;
+    private String totalLength;
 
+    @Column
     private Integer price;
+
+    @Column
     private String image;
 
     @Transient
-    private Integer itemTotal() {
-        return courseItems == null ? 0 : courseItems.size();
-    }
+    private Integer sectionTotal;
 
     @Transient
-    Integer videoTotal() {
-        return null;
-    }
+    private Integer lectureTotal;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
@@ -46,7 +45,7 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<CourseItem> courseItems;
+    private Collection<CourseSection> courseSections;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
@@ -62,4 +61,13 @@ public class Course {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<LikeCourse> likeCourses;
+
+    public Course(String name, String description, String totalLength, Integer price, String image, Language language) {
+        this.name = name;
+        this.description = description;
+        this.totalLength = totalLength;
+        this.price = price;
+        this.image = image;
+        this.language = language;
+    }
 }

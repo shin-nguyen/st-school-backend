@@ -6,19 +6,22 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "tbl_course_item")
+@Table(name = "tbl_course_section")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseItem {
+public class CourseSection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "courseItem", cascade = CascadeType.ALL)
+    @Column(nullable = false)
+    private String name;
+
+    @OneToMany(mappedBy = "courseSection", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Video> videos;
+    private Collection<CourseLecture> courseLectures;
 
     @ManyToOne
     @JoinColumn(name = "course_id")

@@ -9,14 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CourseDTO {
+public class LanguageDTO {
     private Long id;
     private String name;
-    private String description;
-    private String totalLength;
-    private Integer price;
-    private String image;
-    private Integer itemTotal;
-    private Integer videoTotal;
-    private LanguageDTO language;
 }

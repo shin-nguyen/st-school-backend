@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_course_lecture")
+@Table(name = "tbl_lecture")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseLecture {
+public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,8 +23,8 @@ public class CourseLecture {
     private Integer position;
 
     @ManyToOne
-    @JoinColumn(name = "course_section_id")
+    @JoinColumn(name = "section_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private CourseSection courseSection;
+    private Section section;
 }

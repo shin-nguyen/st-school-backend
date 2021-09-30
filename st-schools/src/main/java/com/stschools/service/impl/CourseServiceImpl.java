@@ -39,6 +39,8 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseRepository.findCourseById(courseDto.getId());
         course.setName(courseDto.getName());
         course.setDescription(courseDto.getDescription());
+        course.setTotalLength(courseDto.getTotalLength());
+        course.setLanguage(courseDto.getLanguage());
         course.setPrice(courseDto.getPrice());
         course.setImage(courseDto.getImage());
         return ModelMapperControl.map(courseRepository.save(course), CourseDTO.class);

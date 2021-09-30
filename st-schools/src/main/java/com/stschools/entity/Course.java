@@ -25,6 +25,9 @@ public class Course {
     private String totalLength;
 
     @Column
+    private String language;
+
+    @Column
     private Integer price;
 
     @Column
@@ -36,16 +39,10 @@ public class Course {
     @Transient
     private Integer lectureTotal;
 
-    @ManyToOne
-    @JoinColumn(name = "language_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Language language;
-
     @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<CourseSection> courseSections;
+    private Collection<Section> sections;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
     @EqualsAndHashCode.Exclude
@@ -62,12 +59,12 @@ public class Course {
     @ToString.Exclude
     private Collection<LikeCourse> likeCourses;
 
-    public Course(String name, String description, String totalLength, Integer price, String image, Language language) {
+    public Course(String name, String description, String totalLength, String language, Integer price, String image) {
         this.name = name;
         this.description = description;
         this.totalLength = totalLength;
+        this.language = language;
         this.price = price;
         this.image = image;
-        this.language = language;
     }
 }

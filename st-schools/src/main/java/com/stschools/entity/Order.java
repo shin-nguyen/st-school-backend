@@ -18,6 +18,9 @@ public class Order {
     @Column
     private Date createdTime;
 
+    @Transient
+    private Integer total;
+
     @PrePersist
     protected void onCreate() {
         this.createdTime = new Date();
@@ -35,4 +38,7 @@ public class Order {
     @ToString.Exclude
     private Course course;
 
+    public void setTotal() {
+        this.total = this.course.getPrice();
+    }
 }

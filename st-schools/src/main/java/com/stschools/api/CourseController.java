@@ -3,8 +3,8 @@ package com.stschools.api;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.CourseDTO;
-import com.stschools.dto.LanguageDTO;
 import com.stschools.service.CourseService;
+import com.stschools.util.ObjectMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,18 +59,22 @@ public class CourseController {
     public ResponseEntity<CourseDTO> create(@RequestParam String name,
                                             @RequestParam String description,
                                             @RequestParam String totalLength,
-//                                            @RequestParam LanguageDTO language,
+                                            @RequestParam String language,
                                             @RequestParam Integer price,
                                             @RequestParam MultipartFile file
                                             ) throws IOException {
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
+//        Map uploadResult = CloudinaryControl.uploadFile(file);
+
+//        LanguageDTO languageDTO = ObjectMapperControl.objectMapper.readValue(language, LanguageDTO.class);
+
         CourseDTO course = CourseDTO.builder()
                         .name(name)
                         .description(description)
                         .totalLength(totalLength)
-//                        .language(language)
+                        .language(language)
                         .price(price)
                         .image(uploadResult.get("secure_url").toString())
                         .build();
@@ -86,19 +90,23 @@ public class CourseController {
                                             @RequestParam String name,
                                             @RequestParam String description,
                                             @RequestParam String totalLength,
-//                                            @RequestParam LanguageDTO language,
+                                            @RequestParam String language,
                                             @RequestParam Integer price,
                                             @RequestParam MultipartFile file
                                             ) throws IOException {
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
+//        Map uploadResult = CloudinaryControl.uploadFile(file);
+
+//        LanguageDTO languageDTO = ObjectMapperControl.objectMapper.readValue(language, LanguageDTO.class);
+
         CourseDTO course = CourseDTO.builder()
                 .id(id)
                 .name(name)
                 .description(description)
                 .totalLength(totalLength)
-//                .language(language)
+                .language(language)
                 .price(price)
                 .image(uploadResult.get("secure_url").toString())
                 .build();
@@ -125,6 +133,5 @@ public class CourseController {
         }  catch (Exception exc) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found", exc);
         }
-
     }
 }

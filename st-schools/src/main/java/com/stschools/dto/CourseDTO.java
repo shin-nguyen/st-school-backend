@@ -14,9 +14,9 @@ public class CourseDTO {
     private String name;
     private String description;
     private String totalLength;
+    private String language;
     private Integer price;
     private String image;
     private Integer itemTotal;
     private Integer videoTotal;
-    private LanguageDTO language;
 }

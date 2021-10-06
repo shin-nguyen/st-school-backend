@@ -13,11 +13,15 @@ import java.util.List;
 public interface UserRepository extends SearchRepository<User, Long> {
     User findByEmail(String email);
 
-    @Query("select u from User u where concat(u.id, ' ', u.email , ' ',u.fullName) LIKE %?1% ")
+    @Query("select u from User u where concat(u.id, ' ', u.email , ' ',u.lastName, ' ',u.firstName) LIKE %?1% ")
     Page<User> findAll(String keyword, Pageable pageable);
 
     List<User> findAll();
     Long countById(Long id);
 
-    User findByUsername(String username);
+    List<User> findAllByOrderByIdAsc();
+
+    User findByActivationCode(String code);
+
+    User findByPasswordResetCode(String code);
 }

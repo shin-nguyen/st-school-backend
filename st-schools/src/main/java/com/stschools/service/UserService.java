@@ -2,14 +2,21 @@ package com.stschools.service;
 
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
+import graphql.schema.DataFetcher;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getUsers();
-//    List<UserDto> getCustomers();
-    void addRoleToUser(String username, String roleName);
+    User findUserById(Long userId);
 
-    UserDTO save(UserDTO newUser);
+    User findUserByEmail(String email);
+
+    DataFetcher<List<User>> getAllUsersByQuery();
+
+    DataFetcher<User> getUserByQuery();
+
+    List<User> findAllUsers();
+
+    User updateProfile(String email, User user);
 }

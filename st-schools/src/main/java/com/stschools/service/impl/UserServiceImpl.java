@@ -1,53 +1,58 @@
 package com.stschools.service.impl;
 
-import com.stschools.dto.UserDTO;
-import com.stschools.exceptions.UsernameAlreadyExistsException;
-import com.stschools.service.UserService;
-import com.stschools.entity.Role;
 import com.stschools.entity.User;
-import com.stschools.repository.RoleRepository;
 import com.stschools.repository.UserRepository;
-import com.stschools.util.ModelMapperControl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stschools.service.UserService;
+import graphql.schema.DataFetcher;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-//
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
 
     @Override
-    public List<User> getUsers() {
-        List<User> userList = new ArrayList<>();
-        userRepository.findAll().forEach(userList::add);
-        return userList;
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).get();
     }
 
     @Override
-    public void addRoleToUser(String email, String roleName) {
-        User user = userRepository.findByEmail(email);
-        Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
-    public UserDTO save(UserDTO userDTO) {
-        User user = ModelMapperControl.map(userDTO, User.class);
-        try {
-            return ModelMapperControl.map(userRepository.save(user), UserDTO.class);
-        } catch (Exception e) {
-            throw new UsernameAlreadyExistsException(
-                    "Username '" + user.getUsername() + "' already exists"
-            );
-        }
+    public List<User> findAllUsers() {
+        return userRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public DataFetcher<User> getUserByQuery() {
+        return dataFetchingEnvironment -> {
+            Long userId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
+            return userRepository.findById(userId).get();
+        };
+    }
+
+    @Override
+    public DataFetcher<List<User>> getAllUsersByQuery() {
+        return dataFetchingEnvironment -> userRepository.findAllByOrderByIdAsc();
+    }
+
+
+    @Override
+    public User updateProfile(String email, User user) {
+        User userFromDb = userRepository.findByEmail(email);
+        userFromDb.setFirstName(user.getFirstName());
+        userFromDb.setLastName(user.getLastName());
+        userFromDb.setAddress(user.getAddress());
+        userFromDb.setPhone(user.getPhone());
+        userRepository.save(userFromDb);
+        return userFromDb;
     }
 }

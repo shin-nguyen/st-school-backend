@@ -1,10 +1,11 @@
 package com.stschools.entity;
 
-import com.stschools.common.enums.AuthenticationType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.stschools.common.enums.AuthProvider;
+import com.stschools.common.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -17,31 +18,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 45)
-    private String username;
-
-    @Column(nullable = false, unique = true, length = 45)
+    @Column(nullable = true, unique = true)
     private String email;
-
-    @Column(length = 64, nullable = false)
     private String password;
+    private String firstName;
+    private String lastName;
 
-    @Column(length = 90, nullable = false)
-    private String fullName;
-
-    @Column(length = 64)
     private String avatar;
-
-    @Column(nullable = false)
-    private LocalDate birthday;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthday;
 
     private String address;
     private String phone;
-    private boolean status;
+    private boolean active;
+
+    private String activationCode;
+    private String passwordResetCode;
 
     @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date createdTime;
     @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date updateTime;
 
     @PrePersist
@@ -55,8 +53,9 @@ public class User {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "authentication_type", length = 10)
-    private AuthenticationType authenticationType;
+
+    // @Column(name = "authentication_type", length = 10)
+    // private AuthenticationType authenticationType;
 
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
@@ -79,24 +78,39 @@ public class User {
 //    @ToString.Exclude
 //    private List<Order> orders = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JoinTable(name = "tbl_user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+    // @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    // @EqualsAndHashCode.Exclude
+    // @ToString.Exclude
+    // @JoinTable(name = "tbl_user_role",
+    //         joinColumns = @JoinColumn(name = "user_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "role_id")
+    // )
+
+    private AuthProvider provider;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String email, String password, String name, String avatar, LocalDate birthday, String address, String phone, Boolean status) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.fullName = name;
-        this.avatar = avatar;
-        this.birthday = birthday;
-        this.address = address;
-        this.phone = phone;
-        this.status = status;
-    }
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<CommentBlog> commentBlogs;
+//
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<LikeBlog> likeBlogs;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<Blog> blogs;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<Order> orders;
+
 }

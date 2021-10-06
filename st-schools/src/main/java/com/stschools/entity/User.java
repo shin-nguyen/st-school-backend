@@ -59,25 +59,25 @@ public class User {
     private AuthenticationType authenticationType;
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<CommentBlog> commentBlogs;
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<LikeBlog> likeBlogs;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Blog> blogs;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Order> orders;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<CommentBlog> commentBlogs;
+//
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<LikeBlog> likeBlogs;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<Blog> blogs;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private List<Order> orders = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude

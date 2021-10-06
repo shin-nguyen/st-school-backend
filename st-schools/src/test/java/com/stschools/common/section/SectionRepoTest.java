@@ -31,7 +31,11 @@ public class SectionRepoTest {
         List<Section> sectionList = Arrays.asList(
                 new Section("Section1",course),
                 new Section("Section2",course),
-                new Section("Section3",course)
+                new Section("Section3",course),
+                new Section("Section4",course),
+                new Section("Section5",course),
+                new Section("Section6",course),
+                new Section("Section7",course)
         );
 
         sectionRepository.saveAll(sectionList);

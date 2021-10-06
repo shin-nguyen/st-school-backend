@@ -3,7 +3,9 @@ package com.stschools.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_course")
@@ -39,25 +41,25 @@ public class Course {
     @Transient
     private Integer lectureTotal;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Section> sections;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Order> orders;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<CommentCourse> commentCourses;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<LikeCourse> likeCourses;
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<Section> sections;
+//
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private List<Order> orders = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<CommentCourse> commentCourses;
+//
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<LikeCourse> likeCourses;
 
     public Course(String name, String description, String totalLength, String language, Integer price, String image) {
         this.name = name;

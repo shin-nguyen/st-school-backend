@@ -3,6 +3,7 @@ package com.stschools.api;
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.SectionDTO;
 import com.stschools.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class OrderController {
-    @Autowired
-    OrderService orderService;
+    private final OrderService orderService;
 
-    @GetMapping("/list/")
+    @GetMapping("/list")
     public ResponseEntity<?> getListOrder(){
         try {
             List<OrderDTO> orders  = orderService.getAll();

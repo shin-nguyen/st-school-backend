@@ -1,7 +1,6 @@
 package com.stschools.service.impl;
 
 import com.stschools.dto.OrderDTO;
-import com.stschools.entity.Course;
 import com.stschools.entity.Order;
 import com.stschools.repository.OrderRepository;
 import com.stschools.service.OrderService;

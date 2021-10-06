@@ -26,13 +26,13 @@ public class Order {
         this.createdTime = new Date();
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "course_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

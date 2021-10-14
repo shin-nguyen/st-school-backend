@@ -1,7 +1,8 @@
-package com.stschools.cloudinary;
+package com.stschools.configuration;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.stschools.common.constants.CloudinaryConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

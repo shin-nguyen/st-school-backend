@@ -119,19 +119,12 @@ public class CourseController {
 
 
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> delete(@PathVariable (name = "id") Long id){
+    public Long delete(@PathVariable (name = "id") Long id){
         try {
-            Map<String, Boolean> response = new HashMap<>();
-            try {
-                courseService.deleteById(id);
-                response.put("deleted", Boolean.TRUE);
-
-            } catch (Exception exception) {
-                response.put("deleted", Boolean.FALSE);
-            }
-            return response;
+            courseService.deleteById(id);
+            return id;
         }  catch (Exception exc) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found", exc);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't delete", exc);
         }
     }
 }

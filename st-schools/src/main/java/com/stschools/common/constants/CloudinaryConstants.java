@@ -1,4 +1,4 @@
-package com.stschools.cloudinary;
+package com.stschools.common.constants;
 
 public class CloudinaryConstants {
     public static final String CLOUD_NAME = "qscloud";

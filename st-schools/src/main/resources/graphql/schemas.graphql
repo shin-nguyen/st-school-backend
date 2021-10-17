@@ -1,0 +1,25 @@
+schema {
+    query: Query
+}
+
+type Query {
+    users: [User]
+    user(id: ID): User
+}
+
+type User {
+    id: Int
+    email: String
+    password: String
+    firstName: String
+    lastName: String
+    avatar: String
+    birthday: String
+    address: String
+    phone: String
+    activationCode: String
+    passwordResetCode: String
+    active: Boolean
+    provider: String
+    roles: [String]
+}

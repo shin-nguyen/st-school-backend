@@ -2,7 +2,7 @@ package com.stschools.common.course;
 
 import com.stschools.entity.Course;
 import com.stschools.repository.CourseRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,7 +14,7 @@ import java.util.List;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
-public class CourseRepoTests {
+public class CourseRepositoryTests {
     @Autowired
     CourseRepository courseRepository;
 

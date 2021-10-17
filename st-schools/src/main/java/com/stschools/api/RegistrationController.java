@@ -26,7 +26,7 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequest user, BindingResult bindingResult) {
 //        controllerUtils.captchaValidation(user.getCaptcha());
-        System.out.println(user);
+//        System.out.println(user);
         if (controllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
         }

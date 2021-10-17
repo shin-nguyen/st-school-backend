@@ -54,38 +54,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
 
-    // @Column(name = "authentication_type", length = 10)
-    // private AuthenticationType authenticationType;
-
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<CommentBlog> commentBlogs;
-//
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<LikeBlog> likeBlogs;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Blog> blogs;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private List<Order> orders = new ArrayList<>();
-
-    // @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    // @EqualsAndHashCode.Exclude
-    // @ToString.Exclude
-    // @JoinTable(name = "tbl_user_role",
-    //         joinColumns = @JoinColumn(name = "user_id"),
-    //         inverseJoinColumns = @JoinColumn(name = "role_id")
-    // )
-
     private AuthProvider provider;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

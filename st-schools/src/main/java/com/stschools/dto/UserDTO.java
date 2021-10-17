@@ -46,6 +46,4 @@ public class UserDTO {
 
 
     private Set<Role> roles = new HashSet<>();
-
-
 }

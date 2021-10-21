@@ -1,8 +1,10 @@
 package com.stschools.common.user;
 
+import com.stschools.common.enums.AuthProvider;
+import com.stschools.common.enums.Role;
 import com.stschools.entity.User;
 import com.stschools.repository.UserRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -11,10 +13,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,17 +39,21 @@ public class UserRepositoryTests {
 	
 	@Test
 	public void testCreateNewUserWithOneRole() {
-//		Role roleAdmin = entityManager.find(Role.class, 1L);
-//		LocalDate date = LocalDate.of(2000, 11, 12);
-//
-//		User userWithOneRole = new User("tangyucheng","thongchuthanh2000@gmail.com",
-//				"$2a$12$5EPUJpJxWREx.dqp27Kx3.ezavcM1VXWpvJ.4a3s7aimPOIJruFIO",
-//				"thongchuthanh","defaults",date,"BR-VT","0918948074",true);
-//		userWithOneRole.getRoles().add(roleAdmin);
-//
-//		User savedUser = repo.save(userWithOneRole);
-//
-//		assertThat(savedUser.getId()).isGreaterThan(0);
+		User user = new User();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		user.setActive(true);
+		user.setEmail("thongchuthanh2000@gmail.com");
+		user.setFirstName("Cheng");
+		user.setLastName("Tang Yu");
+		user.setAddress("BR-VT");
+		user.setPhone("0918948074");
+		user.setRoles(Collections.singleton(Role.ADMIN));
+		user.setProvider(AuthProvider.LOCAL);
+		user.setPassword(passwordEncoder.encode("123456"));
+		User savedUser = repo.save(user);
+
+		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
 	
 

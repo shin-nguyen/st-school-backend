@@ -14,13 +14,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-
 public class UserDTO {
     private Long id;
-    @Email(message = "needs to be an email")
-    @NotBlank(message = "email is required")
+//    @Email(message = "needs to be an email")
+//    @NotBlank(message = "email is required")
     private String email;
 
     private String password;
@@ -28,9 +25,9 @@ public class UserDTO {
     private String lastName;
 
     private String avatar;
-
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date birthday;
+//
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+//    private Date birthday;
 
     private String address;
     private String phone;
@@ -38,12 +35,11 @@ public class UserDTO {
 
     private String activationCode;
     private String passwordResetCode;
+//
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+//    private Date createdTime;
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+//    private Date updateTime;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date createdTime;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date updateTime;
-
-
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 }

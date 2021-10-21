@@ -38,7 +38,7 @@ public class BlogController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BlogDTO> create(@RequestParam String title,
+    public ResponseEntity<?> create(@RequestParam String title,
                                           @RequestParam String summary,
                                           @RequestParam String content,
                                           @RequestParam Boolean  status,

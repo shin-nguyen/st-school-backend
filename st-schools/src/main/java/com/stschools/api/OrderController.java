@@ -2,6 +2,8 @@ package com.stschools.api;
 
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.SectionDTO;
+import com.stschools.security.CurrentUser;
+import com.stschools.security.UserPrincipal;
 import com.stschools.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO){
+    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO, @CurrentUser UserPrincipal user){
         try{
             return ResponseEntity.ok().body(orderService.save(orderDTO));
         }catch (Exception ex){

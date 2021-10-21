@@ -14,6 +14,8 @@ import org.springframework.test.annotation.Rollback;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
@@ -39,5 +41,7 @@ public class SectionRepositoryTest {
         );
 
         sectionRepository.saveAll(sectionList);
+        Iterable<Section> iterable = sectionRepository.findAll();
+        assertThat(iterable).size().isEqualTo(7);
     }
 }

@@ -175,17 +175,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>5.2.1.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
+
 
         <!-- beans and core-->
         <dependency>

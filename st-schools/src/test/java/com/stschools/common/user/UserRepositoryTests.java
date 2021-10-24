@@ -62,6 +62,12 @@ public class UserRepositoryTests {
 		Iterable<User> listUsers = repo.findAll();
 		listUsers.forEach(System.out::println);
 	}
+
+	@Test
+	public void testListAllUsersByROLE() {
+		Iterable<User> listUsers = repo.findAllByRoles(Role.ADMIN);
+		listUsers.forEach(System.out::println);
+	}
 	
 	@Test
 	public void testGetUserById() {

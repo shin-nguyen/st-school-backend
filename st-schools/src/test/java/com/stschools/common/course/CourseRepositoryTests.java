@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 
 import java.util.Arrays;
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -20,7 +21,7 @@ public class CourseRepositoryTests {
     CourseRepository courseRepository;
 
     @Test
-    public void testAddCourse(){
+    public void testAddCourse() {
 
         List<Course> courseList = Arrays.asList(
                 new Course("Learn HTML",
@@ -29,7 +30,7 @@ public class CourseRepositoryTests {
                         "Eng",
                         96,
                         "https://cdn2.vectorstock.com/i/1000x1000/58/31/loading-icon-on-black-vector-24545831.jpg"
-                        ),
+                ),
                 new Course("Learn CSS",
                         "Start learning CSS with the w3schools fundamentals course. CSS is the language we use to style an HTML document.', 'css.png', 'Learn CSS",
                         "13 Hour",
@@ -42,6 +43,13 @@ public class CourseRepositoryTests {
         courseRepository.saveAll(courseList);
 
         Iterable<Course> iterable = courseRepository.findAll();
+        assertThat(iterable).size().isEqualTo(2);
+    }
+
+    @Test
+    public void findCoursesByUserId() {
+        System.out.println(courseRepository.findCoursesByUserId(1L));
+        Iterable<Course> iterable = courseRepository.findCoursesByUserId(1L);
         assertThat(iterable).size().isEqualTo(2);
     }
 

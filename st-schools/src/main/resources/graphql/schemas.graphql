@@ -5,6 +5,10 @@ schema {
 type Query {
     users: [User]
     user(id: ID): User
+
+    blogs: [Blog]
+    blogsIds(ids: [ID]): [Blog]
+    blog(id: ID): Blog
 }
 
 type User {
@@ -22,4 +26,19 @@ type User {
     active: Boolean
     provider: String
     roles: [String]
+}
+
+type Topic {
+    id : Int
+    name : String
+    description : String
+}
+
+type Blog {
+    id : Int
+    title : String
+    description : String
+    content : String
+    status : Boolean
+    topics : [Topic]
 }

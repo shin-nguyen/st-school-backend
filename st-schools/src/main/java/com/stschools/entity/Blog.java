@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_blog")
@@ -19,7 +20,7 @@ public class Blog {
     @Column(nullable = false, length = 150)
     private String title;
     @Column(nullable = false, length = 200)
-    private String description;
+    private String summary;
 
     @Column(nullable = false, length = 1500)
     private String content;
@@ -76,4 +77,12 @@ public class Blog {
             inverseJoinColumns = @JoinColumn(name = "topic_id")
     )
     private Collection<Topic> topics;
+
+    public Blog(String title, String summary, String content, Boolean status, List<Topic> topics) {
+        this.title = title;
+        this.summary = summary;
+        this.content = content;
+        this.status = status;
+        this.topics = topics;
+    }
 }

@@ -1,5 +1,6 @@
 package com.stschools.repository;
 
+import com.stschools.common.enums.Role;
 import com.stschools.entity.User;
 import com.stschools.paging.SearchRepository;
 import org.springframework.data.domain.Page;
@@ -24,4 +25,6 @@ public interface UserRepository extends SearchRepository<User, Long> {
     User findByActivationCode(String code);
 
     User findByPasswordResetCode(String code);
+
+    List<User> findAllByRoles(Role role);
 }

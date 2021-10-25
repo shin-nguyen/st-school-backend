@@ -29,4 +29,6 @@ public interface UserRepository extends SearchRepository<User, Long> {
     User findByActivationCode(String code);
 
     User findByPasswordResetCode(String code);
+
+    List<User> findAllByRoles(Role role);
 }

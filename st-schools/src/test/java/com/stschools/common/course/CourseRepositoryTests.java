@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 
 import java.util.Arrays;
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -20,7 +21,7 @@ public class CourseRepositoryTests {
     CourseRepository courseRepository;
 
     @Test
-    public void testAddCourse(){
+    public void testAddCourse() {
 
         List<Course> courseList = Arrays.asList(
                 new Course("Learn HTML",

@@ -36,7 +36,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Object update(SectionDTO sectionDTO) {
+    public SectionDTO update(SectionDTO sectionDTO) {
        Section section = ModelMapperControl.map(sectionRepository.findById(sectionDTO.getId()), Section.class);
        return ModelMapperControl.map(sectionRepository.save(section), SectionDTO.class);
     }

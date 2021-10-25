@@ -3,8 +3,9 @@ package com.stschools.api;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.CourseDTO;
+import com.stschools.security.CurrentUser;
+import com.stschools.security.UserPrincipal;
 import com.stschools.service.CourseService;
-import com.stschools.util.ObjectMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/course")
+@RequestMapping("/api/v1/course")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class CourseController {
@@ -27,7 +27,7 @@ public class CourseController {
     public final Cloudinary cloudinary;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDTO> getCourse(@PathVariable (name = "id") Long id){
+    public ResponseEntity<?> getCourse(@PathVariable (name = "id") Long id){
         try{
             final CourseDTO courseDto = courseService.findByID(id);
             if(courseDto == null){
@@ -41,9 +41,24 @@ public class CourseController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<CourseDTO>> getCourses(){
+    public ResponseEntity<List<?>> getCourses(){
         try{
             final List<CourseDTO> courses = courseService.getCourses();
+            if(courses == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(courses);
+
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found courses", ex);
+        }
+    }
+
+    @GetMapping("/list/purchased")
+    public ResponseEntity<List<?>> getCoursesByUserID(@CurrentUser UserPrincipal user){
+        try{
+            final List<CourseDTO> courses = courseService.findByUserId(user.getId());
             if(courses == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -65,10 +80,6 @@ public class CourseController {
                                             ) throws IOException {
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
-
-//        Map uploadResult = CloudinaryControl.uploadFile(file);
-
-//        LanguageDTO languageDTO = ObjectMapperControl.objectMapper.readValue(language, LanguageDTO.class);
 
         CourseDTO course = CourseDTO.builder()
                         .name(name)
@@ -96,10 +107,6 @@ public class CourseController {
                                             ) throws IOException {
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
-
-//        Map uploadResult = CloudinaryControl.uploadFile(file);
-
-//        LanguageDTO languageDTO = ObjectMapperControl.objectMapper.readValue(language, LanguageDTO.class);
 
         CourseDTO course = CourseDTO.builder()
                 .id(id)

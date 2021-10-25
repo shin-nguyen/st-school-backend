@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/lecture")
+@RequestMapping("/api/v1/lecture")
 public class LectureController {
     @Autowired
     LectureService lectureService;

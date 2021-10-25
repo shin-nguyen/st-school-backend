@@ -8,5 +8,5 @@ public interface SectionService {
     List<SectionDTO> getAllSectionOfCourse(Long Id);
     SectionDTO save(SectionDTO sectionDTO);
     void deleteById(Long id);
-    Object update(SectionDTO sectionDTO);
+    SectionDTO update(SectionDTO sectionDTO);
 }

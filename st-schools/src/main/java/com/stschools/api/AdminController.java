@@ -23,8 +23,6 @@ public class AdminController {
 //    private final OrderMapper orderMapper;
     private final GraphQLProvider graphQLProvider;
 
-
-
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long userId) {
         return ResponseEntity.ok(userMapper.findUserById(userId));
@@ -33,6 +31,11 @@ public class AdminController {
     @GetMapping("/user/all")
     public ResponseEntity<List<?>> getAllUsers() {
         return ResponseEntity.ok(userMapper.findAllUsers());
+    }
+
+    @GetMapping("/customer/all")
+    public ResponseEntity<List<?>> getAllCustomers() {
+        return ResponseEntity.ok(userMapper.findAllCustomers());
     }
 
     @PostMapping("/graphql/user")

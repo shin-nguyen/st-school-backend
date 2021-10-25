@@ -1,5 +1,6 @@
 package com.stschools.service.impl;
 
+import com.stschools.common.enums.Role;
 import com.stschools.entity.User;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.UserService;
@@ -44,7 +45,6 @@ public class UserServiceImpl implements UserService {
         return dataFetchingEnvironment -> userRepository.findAllByOrderByIdAsc();
     }
 
-
     @Override
     public User updateProfile(String email, User user) {
         User userFromDb = userRepository.findByEmail(email);
@@ -54,5 +54,10 @@ public class UserServiceImpl implements UserService {
         userFromDb.setPhone(user.getPhone());
         userRepository.save(userFromDb);
         return userFromDb;
+    }
+
+    @Override
+    public List<User> findAllCustomers() {
+        return userRepository.findAlLByRoles(Role.USER);
     }
 }

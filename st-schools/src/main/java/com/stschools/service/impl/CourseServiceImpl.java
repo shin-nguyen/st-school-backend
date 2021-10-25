@@ -20,7 +20,13 @@ public class CourseServiceImpl implements CourseService {
     public CourseDTO findByID(Long id) {
         Course course = courseRepository.findCourseById(id);
         return ModelMapperControl.map(course, CourseDTO.class);
-    }           
+    }
+
+    @Override
+    public List<CourseDTO> findByUserId(Long id) {
+        List<Course> courseList = courseRepository.findCoursesByUserId(id);
+        return ModelMapperControl.mapAll(courseList, CourseDTO.class);
+    }
 
     @Override
     public List<CourseDTO> getCourses() {
@@ -50,4 +56,6 @@ public class CourseServiceImpl implements CourseService {
     public void deleteById(Long id) {
         courseRepository.deleteById(id);
     }
+
+
 }

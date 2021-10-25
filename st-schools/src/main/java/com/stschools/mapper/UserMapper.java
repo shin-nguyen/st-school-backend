@@ -48,6 +48,13 @@ public class UserMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<UserDTO> findAllCustomers() {
+        return userService.findAllCustomers()
+                .stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+
     public UserDTO updateProfile(String email, UserDTO userRequest) {
         return convertToResponseDto(userService.updateProfile(email, convertToEntity(userRequest)));
     }

@@ -28,14 +28,14 @@ public class CourseRepositoryTests {
                         "20 Hour",
                         "Eng",
                         96,
-                        "https://cdn2.vectorstock.com/i/1000x1000/58/31/loading-icon-on-black-vector-24545831.jpg"
+                        "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png"
                         ),
                 new Course("Learn CSS",
                         "Start learning CSS with the w3schools fundamentals course. CSS is the language we use to style an HTML document.', 'css.png', 'Learn CSS",
                         "13 Hour",
                         "Eng",
                         90,
-                        "https://cdn2.vectorstock.com/i/1000x1000/58/31/loading-icon-on-black-vector-24545831.jpg"
+                        "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png"
                 )
         );
 
@@ -45,4 +45,10 @@ public class CourseRepositoryTests {
         assertThat(iterable).size().isEqualTo(2);
     }
 
+    @Test
+    public void findCoursesByUserId() {
+        System.out.println(courseRepository.findCoursesByUserId(2L));
+        Iterable<Course> iterable = courseRepository.findCoursesByUserId(2L);
+        assertThat(iterable).size().isEqualTo(2);
+    }
 }

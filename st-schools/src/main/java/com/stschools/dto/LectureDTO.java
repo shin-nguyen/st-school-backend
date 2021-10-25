@@ -12,5 +12,5 @@ public class LectureDTO {
     private String title;
     private String video;
     private Integer position;
-    private Section section;
+//    private SectionDTO section;
 }

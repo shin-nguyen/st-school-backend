@@ -27,4 +27,11 @@ public class Lecture {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Section section;
+
+    public Lecture(String title, String video, Integer position, Section section) {
+        this.title = title;
+        this.video = video;
+        this.position = position;
+        this.section = section;
+    }
 }

@@ -31,13 +31,13 @@ public class SectionRepositoryTest {
         Course course = courseRepository.findCourseById(1L);
 
         List<Section> sectionList = Arrays.asList(
-                new Section("Section1",course),
-                new Section("Section2",course),
-                new Section("Section3",course),
-                new Section("Section4",course),
-                new Section("Section5",course),
-                new Section("Section6",course),
-                new Section("Section7",course)
+                new Section("Giới thiệu",course),
+                new Section("Khởi động",course),
+                new Section("Chuyên mục 1",course),
+                new Section("Chuyên mục 2",course),
+                new Section("Nâng cao",course),
+                new Section("Thực hành",course),
+                new Section("Tổng kết",course)
         );
 
         sectionRepository.saveAll(sectionList);

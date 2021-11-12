@@ -1,8 +1,6 @@
 package com.stschools.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.stschools.entity.Course;
-import com.stschools.entity.Lecture;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +12,10 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SectionDTO {
+public class VideoDTO {
     private Long id;
     private String name;
+    private String source;
     @JsonIgnore
     private CourseDTO course;
-
-    private Collection<LectureDTO> lectures;
 }

@@ -1,17 +1,14 @@
 package com.stschools.api;
 
 import com.stschools.dto.OrderDTO;
-import com.stschools.dto.SectionDTO;
 import com.stschools.dto.UserDTO;
 import com.stschools.mapper.UserMapper;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 

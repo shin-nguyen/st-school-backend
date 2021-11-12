@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "tbl_section")
+@Table(name = "tbl_video")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Section {
+public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,10 +18,8 @@ public class Section {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<Lecture> lectures;
+    @Column(nullable = false, length = 200)
+    private String source;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -29,8 +27,9 @@ public class Section {
     @ToString.Exclude
     private Course course;
 
-    public Section(String name, Course course) {
+    public Video(String name, String source, Course course) {
         this.name = name;
+        this.source = source;
         this.course = course;
     }
 }

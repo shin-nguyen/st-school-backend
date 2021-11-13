@@ -24,9 +24,6 @@ public class Course {
     private String description;
 
     @Column
-    private String totalLength;
-
-    @Column
     private String language;
 
     @Column
@@ -36,35 +33,11 @@ public class Course {
     private String image;
 
     @Transient
-    private Integer sectionTotal;
+    private Integer videoTotal;
 
-    @Transient
-    private Integer lectureTotal;
-
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Section> sections;
-//
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private List<Order> orders = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<CommentCourse> commentCourses;
-//
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<LikeCourse> likeCourses;
-
-    public Course(String name, String description, String totalLength, String language, Integer price, String image) {
+    public Course(String name, String description, String language, Integer price, String image) {
         this.name = name;
         this.description = description;
-        this.totalLength = totalLength;
         this.language = language;
         this.price = price;
         this.image = image;
@@ -75,6 +48,5 @@ public class Course {
         this.name = name;
         this.description = description;
         this.image = image;
-
     }
 }

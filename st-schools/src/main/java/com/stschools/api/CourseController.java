@@ -73,7 +73,6 @@ public class CourseController {
     @PostMapping("/add")
     public ResponseEntity<CourseDTO> create(@RequestParam String name,
                                             @RequestParam String description,
-                                            @RequestParam String totalLength,
                                             @RequestParam String language,
                                             @RequestParam Integer price,
                                             @RequestParam MultipartFile file
@@ -84,7 +83,6 @@ public class CourseController {
         CourseDTO course = CourseDTO.builder()
                         .name(name)
                         .description(description)
-                        .totalLength(totalLength)
                         .language(language)
                         .price(price)
                         .image(uploadResult.get("secure_url").toString())
@@ -100,7 +98,6 @@ public class CourseController {
     public ResponseEntity<CourseDTO> update(@RequestParam Long id,
                                             @RequestParam String name,
                                             @RequestParam String description,
-                                            @RequestParam String totalLength,
                                             @RequestParam String language,
                                             @RequestParam Integer price,
                                             @RequestParam MultipartFile file
@@ -112,7 +109,6 @@ public class CourseController {
                 .id(id)
                 .name(name)
                 .description(description)
-                .totalLength(totalLength)
                 .language(language)
                 .price(price)
                 .image(uploadResult.get("secure_url").toString())

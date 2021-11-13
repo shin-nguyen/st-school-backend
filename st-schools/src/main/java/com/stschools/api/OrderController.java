@@ -1,12 +1,12 @@
 package com.stschools.api;
 
 import com.stschools.dto.OrderDTO;
-import com.stschools.dto.SectionDTO;
+import com.stschools.dto.UserDTO;
+import com.stschools.mapper.UserMapper;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class OrderController {
     private final OrderService orderService;
+    private final UserMapper userMapper;
 
     @GetMapping("/list")
     public ResponseEntity<?> getListOrder(){
@@ -39,6 +40,8 @@ public class OrderController {
     @PostMapping("/add")
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO, @CurrentUser UserPrincipal user){
         try{
+            UserDTO userDTO = userMapper.findUserById(user.getId());
+            orderDTO.setUser(userDTO);
             return ResponseEntity.ok().body(orderService.save(orderDTO));
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't save", ex);

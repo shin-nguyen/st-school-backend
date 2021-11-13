@@ -1,21 +1,33 @@
 package com.stschools.api;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.api.exceptions.ApiException;
+import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
+import com.stschools.dto.UserDTO;
 import com.stschools.entity.Blog;
 import com.stschools.exception.ApiRequestException;
+import com.stschools.exception.InputFieldException;
 import com.stschools.mapper.BlogMapper;
+import com.stschools.payload.blog.BlogRequest;
 import com.stschools.payload.common.GraphQLRequest;
+import com.stschools.security.CurrentUser;
+import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +51,17 @@ public class BlogController {
     @PostMapping("/ids")
     public ResponseEntity<?> getBlogsByIds(@RequestBody List<Long> blogsIds) {
         return ResponseEntity.ok(blogMapper.findBlogsByIds(blogsIds));
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
+                                            @Valid @RequestBody BlogDTO request,
+                                            BindingResult bindingResult) throws ApiException {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(blogMapper.updateBlog(user.getId(), request));
+        }
     }
 
 //    @PostMapping("/search")
@@ -77,5 +100,16 @@ public class BlogController {
     @PostMapping("/graphql/blog")
     public ResponseEntity<ExecutionResult> getBlogByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
+    @PostMapping(value ="/add")
+    public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,
+                                                    @CurrentUser UserPrincipal user,
+                                                BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(blogService.addBlog(blog, user.getId()));
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.stschools.mapper;
 
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
 import com.stschools.service.BlogService;
@@ -42,6 +43,10 @@ public class BlogMapper {
 
     public List<BlogDTO> findAllBlogs() {
         return convertListToResponseDto(blogService.findAllBlogs());
+    }
+
+    public BlogDTO updateBlog(Long id, BlogDTO request) throws ApiException {
+        return convertToResponseDto(blogService.update(convertToEntity(request),id));
     }
 
 //    public List<BlogDTO> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {

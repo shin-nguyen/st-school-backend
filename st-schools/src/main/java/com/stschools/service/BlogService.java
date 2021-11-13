@@ -1,9 +1,12 @@
 package com.stschools.service;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
+import com.stschools.payload.blog.BlogRequest;
 import graphql.schema.DataFetcher;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BlogService {
@@ -28,4 +31,8 @@ public interface BlogService {
 //    Perfume savePerfume(Perfume perfume, MultipartFile file);
 //
     Long deleteBlog(Long blogId);
+
+    Blog update(Blog blog, Long id) throws ApiException;
+
+    BlogDTO addBlog(BlogRequest blog, Long id) throws IOException;
 }

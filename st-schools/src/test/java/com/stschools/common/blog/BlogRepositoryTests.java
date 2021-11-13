@@ -3,9 +3,10 @@ package com.stschools.common.blog;
 import com.stschools.entity.Blog;
 import com.stschools.entity.Course;
 import com.stschools.entity.Topic;
+import com.stschools.entity.User;
 import com.stschools.repository.BlogRepository;
-import com.stschools.repository.CourseRepository;
 import com.stschools.repository.TopicRepository;
+import com.stschools.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,22 +28,30 @@ public class BlogRepositoryTests {
 
     @Autowired
     TopicRepository topicRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     public void testAddBlog() {
         List<Topic> topis = new ArrayList<>();
         topicRepository.findAll().forEach(topis::add);
 
+        User user= userRepository.findByEmail("thongchuthanh2000@gmail.com");
         List<Blog> blogeList = Arrays.asList(
-                new Blog("Title",
-                        "Description",
-                        "Content .........................",
+                new Blog("[Spring Boot] Entity",
+                        "Summarry Spring",
+                        "Github. " ,
                         true,
+                        "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
+                        user,
                         topis),
-                new Blog("Learn CSS",
-                        "Start learning CSS with the w3schools fundamentals course. CSS is the language we use to style an HTML document.', 'css.png', 'Learn CSS",
-                        "13 Hour",
-                        false, topis
+                new Blog("Learn Tiktok",
+                        "Summary",
+                        "Content",
+                        true,
+                        "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
+                        user,
+                        topis
                 )
         );
 

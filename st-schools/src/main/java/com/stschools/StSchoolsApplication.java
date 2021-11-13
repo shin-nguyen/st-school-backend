@@ -1,4 +1,5 @@
 package com.stschools;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

@@ -37,8 +37,11 @@ type Topic {
 type Blog {
     id : Int
     title : String
-    description : String
+    summary : String
     content : String
     status : Boolean
+    createdTime  : String
+    image : String
+    user : User
     topics : [Topic]
 }

@@ -17,13 +17,16 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 150)
+    @Column(nullable = false, length = 2000)
     private String title;
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false, length = 2000)
     private String summary;
 
-    @Column(nullable = false, length = 1500)
+    @Column(nullable = false, length = 10000)
     private String content;
+
+    @Column
+    private String image;
 
     @Column
     private Date createdTime;
@@ -69,7 +72,7 @@ public class Blog {
     @ToString.Exclude
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JoinTable(name = "tbl_blog_topic",
@@ -78,11 +81,13 @@ public class Blog {
     )
     private Collection<Topic> topics;
 
-    public Blog(String title, String summary, String content, Boolean status, List<Topic> topics) {
+    public Blog(String title, String summary, String content, Boolean status,String image,User user, List<Topic> topics) {
         this.title = title;
         this.summary = summary;
         this.content = content;
         this.status = status;
+        this.image = image;
+        this.user = user;
         this.topics = topics;
     }
 }

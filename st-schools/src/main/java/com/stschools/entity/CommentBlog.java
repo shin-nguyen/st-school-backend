@@ -30,7 +30,7 @@ public class CommentBlog {
         this.updateTime = new Date();
     }
 
-    @Column(length = 300,nullable = false)
+    @Column(length = 1000,nullable = false)
     private String content;
 
     @ManyToOne

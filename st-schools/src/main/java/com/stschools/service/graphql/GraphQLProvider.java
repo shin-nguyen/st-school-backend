@@ -1,5 +1,6 @@
 package com.stschools.service.graphql;
 
+import com.stschools.service.BlogService;
 import graphql.GraphQL;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -20,6 +21,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GraphQLProvider {
     private final UserService userService;
+    private final BlogService blogService;
 
     @Value("classpath:graphql/schemas.graphql")
     private Resource resource;
@@ -42,6 +44,8 @@ public class GraphQLProvider {
                 .type("Query",typeWiring -> typeWiring
                         .dataFetcher("user",userService.getUserByQuery())
                         .dataFetcher("users",userService.getAllUsersByQuery())
+                        .dataFetcher("blog",blogService.getBlogByQuery())
+                        .dataFetcher("blogs",blogService.getAllBlogsByQuery())
                 ).build();
     }
 

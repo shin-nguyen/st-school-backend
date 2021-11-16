@@ -9,6 +9,7 @@ type Query {
     blogs: [Blog]
     blogsIds(ids: [ID]): [Blog]
     blog(id: ID): Blog
+    userDashboards : [UserDashboard]
 }
 
 type User {
@@ -44,4 +45,12 @@ type Blog {
     image : String
     user : User
     topics : [Topic]
+}
+
+
+type UserDashboard {
+    firstName: String
+    lastName: String
+    order: Int
+    price: Float
 }

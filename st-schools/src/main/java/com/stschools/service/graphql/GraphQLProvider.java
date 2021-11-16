@@ -46,6 +46,7 @@ public class GraphQLProvider {
                         .dataFetcher("users",userService.getAllUsersByQuery())
                         .dataFetcher("blog",blogService.getBlogByQuery())
                         .dataFetcher("blogs",blogService.getAllBlogsByQuery())
+                      //  .dataFetcher("userDashboards",userService.getAllByDashboards())
                 ).build();
     }
 

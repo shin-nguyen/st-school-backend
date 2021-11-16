@@ -2,6 +2,7 @@ package com.stschools.service.impl;
 
 import com.stschools.common.enums.Role;
 import com.stschools.entity.User;
+import com.stschools.payload.dashboard.UserReponse;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.UserService;
 import graphql.schema.DataFetcher;
@@ -60,4 +61,11 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllCustomers() {
         return userRepository.findAlLByRoles(Role.USER);
     }
+
+    @Override
+    public DataFetcher<List<UserReponse>> getAllByDashboards() {
+        return null;
+    }
+
+
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @Builder
 public class BlogDTO {
     private Long id;
+    @NotBlank
     private String title;
     private String summary;
     private String content;

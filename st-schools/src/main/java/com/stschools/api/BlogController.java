@@ -105,11 +105,11 @@ public class BlogController {
     @PostMapping(value ="/add")
     public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,
                                                     @CurrentUser UserPrincipal user,
-                                                BindingResult bindingResult) throws IOException {
+                                                BindingResult bindingResult) throws IOException, ApiException {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(blogService.addBlog(blog, user.getId()));
+            return ResponseEntity.ok(blogMapper.addBlog(blog, user.getId()));
         }
     }
 }

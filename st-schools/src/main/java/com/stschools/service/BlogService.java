@@ -34,5 +34,5 @@ public interface BlogService {
 
     Blog update(Blog blog, Long id) throws ApiException;
 
-    BlogDTO addBlog(BlogRequest blog, Long id) throws IOException;
+    Blog addBlog(BlogRequest blog, Long id) throws IOException;
 }

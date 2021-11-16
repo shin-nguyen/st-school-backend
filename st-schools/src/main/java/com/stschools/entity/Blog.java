@@ -46,25 +46,25 @@ public class Blog {
 
     private Boolean status;
 
-    @Transient
-    private Integer likeTotal() {
-        return likeBlogs == null ? 0 : likeBlogs.size();
-    }
+//    @Transient
+//    private Integer likeTotal() {
+//        return likeBlogs == null ? 0 : likeBlogs.size();
+//    }
+//
+//    @Transient
+//    private Integer commentTotal() {
+//        return commentBlogs == null ? 0 : commentBlogs.size();
+//    }
 
-    @Transient
-    private Integer commentTotal() {
-        return commentBlogs == null ? 0 : commentBlogs.size();
-    }
-
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<CommentBlog> commentBlogs;
-
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Collection<LikeBlog> likeBlogs;
+//    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<CommentBlog> commentBlogs;
+//
+//    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private Collection<LikeBlog> likeBlogs;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -44,4 +44,10 @@ public class CommentBlog {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Blog blog;
+
+    public CommentBlog(String content, User user, Blog blog) {
+        this.content = content;
+        this.user = user;
+        this.blog = blog;
+    }
 }

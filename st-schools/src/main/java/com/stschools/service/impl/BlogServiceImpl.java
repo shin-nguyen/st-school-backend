@@ -76,7 +76,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog update(Blog blog, Long id) throws ApiException {
-
+    
         Blog blogOld = blogRepository.findBlogById(blog.getId());
 
         if (blogOld == null) {
@@ -90,7 +90,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public BlogDTO addBlog(BlogRequest blog, Long id) throws IOException {
+    public Blog addBlog(BlogRequest blog, Long id) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(blog.getFile().getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + blog.getFile().getOriginalFilename()));
         Blog blogNew = new Blog();
@@ -103,6 +103,8 @@ public class BlogServiceImpl implements BlogService {
         blogNew.setUser(user);
 
         blogNew.setStatus(false);
-        return ModelMapperControl.map(blogRepository.save(blogNew), BlogDTO.class);
+
+
+        return blogRepository.save(blogNew);
     }
 }

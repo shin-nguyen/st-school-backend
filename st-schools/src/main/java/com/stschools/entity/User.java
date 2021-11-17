@@ -53,7 +53,6 @@ public class User {
     }
 
     @Enumerated(EnumType.STRING)
-
     private AuthProvider provider;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

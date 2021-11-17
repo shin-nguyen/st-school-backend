@@ -3,6 +3,8 @@ package com.stschools.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
+import com.stschools.dto.CommentBlogDTO;
+import com.stschools.dto.OrderDTO;
 import com.stschools.entity.Blog;
 import com.stschools.entity.CommentBlog;
 import com.stschools.entity.User;
@@ -12,11 +14,13 @@ import com.stschools.repository.CommentRepository;
 import com.stschools.service.BlogService;
 import com.stschools.service.CommentService;
 import com.stschools.service.UserService;
+import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,6 +78,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentBlog addComment(CommentBlog commentBlog, Long id){
+        User user = userService.findUserById(id);
+        commentBlog.setUser(user);
+
         return commentRepository.save(commentBlog);
+    }
+
+    @Override
+    public Boolean addListComment(Long id, List<CommentBlogDTO> list) {
+       commentRepository.saveAll( ModelMapperControl.mapAll(list,CommentBlog.class));
+        return true;
     }
 }

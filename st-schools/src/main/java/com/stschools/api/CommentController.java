@@ -91,7 +91,17 @@ public class CommentController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(commentMapper.addComment( user.getId(),commentBlogDTO));
+            return ResponseEntity.ok(commentMapper.addComment(user.getId(), commentBlogDTO));
+        }
+    }
+    @PostMapping(value ="/add/all")
+    public ResponseEntity<?> addListComment(@RequestBody List<CommentBlogDTO> list,
+                                                       @CurrentUser UserPrincipal user,
+                                                       BindingResult bindingResult) throws ApiException {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(commentService.addListComment( user.getId(),list));
         }
     }
 }

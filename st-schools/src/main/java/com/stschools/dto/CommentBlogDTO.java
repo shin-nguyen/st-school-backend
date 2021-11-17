@@ -14,8 +14,8 @@ import java.util.Date;
 public class CommentBlogDTO {
     private Long id;
 
-    private Date createdTime;
-    private Date updateTime;
+//    private Date createdTime;
+//    private Date updateTime;
 
     @NotBlank
     private String content;

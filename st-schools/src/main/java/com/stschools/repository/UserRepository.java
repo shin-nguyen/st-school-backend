@@ -1,15 +1,15 @@
 package com.stschools.repository;
 
 import com.stschools.common.enums.Role;
+import com.stschools.entity.Order;
 import com.stschools.entity.User;
 import com.stschools.paging.SearchRepository;
+import com.stschools.payload.dashboard.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface UserRepository extends SearchRepository<User, Long> {
@@ -31,4 +31,12 @@ public interface UserRepository extends SearchRepository<User, Long> {
     User findByPasswordResetCode(String code);
 
     List<User> findAllByRoles(Role role);
+
+
+    @Query(value = """
+           SELECT new com.stschools.payload.dashboard.UserResponse(u.firstName,u.lastName,1,sum(o.course.price) )  from  User u
+            join Order o on o.user.id = u.id 
+            group by u.id order by sum(o.course.price) desc 
+           """)
+    Page<UserResponse> getTopBy5(Pageable pageable);
 }

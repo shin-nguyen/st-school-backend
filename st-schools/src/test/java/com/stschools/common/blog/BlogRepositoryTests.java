@@ -60,4 +60,12 @@ public class BlogRepositoryTests {
         Iterable<Blog> iterable = blogRepository.findAll();
         assertThat(iterable).size().isGreaterThan(0);
     }
+
+    @Test
+    public void testCountById() {
+        Long countById = blogRepository.count();
+        System.out.println(countById);
+
+        assertThat(countById).isNotNull().isGreaterThan(0);
+    }
 }

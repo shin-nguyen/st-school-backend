@@ -1,5 +1,6 @@
 package com.stschools.api;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.entity.User;
 import com.stschools.export_file.users.UserCsvExporter;
 import com.stschools.export_file.users.UserExcelExporter;
@@ -11,14 +12,9 @@ import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,13 +28,28 @@ public class AdminController {
     private final GraphQLProvider graphQLProvider;
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUser(@PathVariable("id") Long userId) {
+    public ResponseEntity<?> getUser(@PathVariable("id") Long userId) throws ApiException {
         return ResponseEntity.ok(userMapper.findUserById(userId));
     }
 
     @GetMapping("/user/all")
     public ResponseEntity<List<?>> getAllUsers() {
         return ResponseEntity.ok(userMapper.findAllUsers());
+    }
+
+    @GetMapping("/dashboard/user")
+    public ResponseEntity<List<?>> getCustomersDashboard() {
+        return ResponseEntity.ok(userService.getAllCustomerByDashboards());
+    }
+
+    @GetMapping("/graphql/dashboard/order")
+    public ResponseEntity<ExecutionResult> getOrdersDashboard(@RequestBody GraphQLRequest request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<?> getDashboard() {
+        return ResponseEntity.ok(userService.getDashboards());
     }
 
     @GetMapping("/customer/all")

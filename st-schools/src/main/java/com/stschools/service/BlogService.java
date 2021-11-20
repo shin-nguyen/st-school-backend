@@ -14,13 +14,9 @@ public interface BlogService {
 
     DataFetcher<List<Blog>> getAllBlogsByQuery();
 
-    DataFetcher<List<Blog>> getAllBlogsByIdsQuery();
-
     Blog findBlogById(Long blogId);
 
     List<Blog> findAllBlogs();
-
-    List<Blog> findBlogsByIds(List<Long> blogsId);
 
 //    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
 //
@@ -34,5 +30,5 @@ public interface BlogService {
 
     Blog update(Blog blog, Long id) throws ApiException;
 
-    Blog addBlog(BlogRequest blog, Long id) throws IOException;
+    Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException;
 }

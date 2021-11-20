@@ -3,6 +3,7 @@ package com.stschools.common.user;
 import com.stschools.common.enums.AuthProvider;
 import com.stschools.common.enums.Role;
 import com.stschools.entity.User;
+import com.stschools.payload.dashboard.UserResponse;
 import com.stschools.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
-import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,6 +62,12 @@ public class UserRepositoryTests {
 		Iterable<User> listUsers = repo.findAll();
 		listUsers.forEach(System.out::println);
 	}
+
+//	@Test
+//	public void testDashboard() {
+//		List<UserResponse> listUsers = repo.getTopBy5();
+//		listUsers.forEach(System.out::println);
+//	}
 
 	@Test
 	public void testListAllUsersByROLE() {

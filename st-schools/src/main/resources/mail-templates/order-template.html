@@ -37,52 +37,44 @@
                         <h3>Order # <span th:text="${order.getId()}" th:remove="tag"></span></h3>
                     </td>
                     <td class="header" align="center">
-                        <img src="https://i.ibb.co/6YNPHCd/LOGO3.jpg" style="width: 180px; border-radius: 5px;"/>
+                        <img src="https://raw.githubusercontent.com/shin-nguyen/st-school-frontend/master/public/kai.jpg" style="width: 180px; border-radius: 5px;"/>
                     </td>
                 </tr>
             </table>
             <hr/>
-            <h3 style="text-align: center">Hello <span th:text="${order.getFirstName()}" th:remove="tag"></span>!</h3>
-            <p style="text-align: center">Thank you for your order in Perfume online store.</p>
+            <h3 style="text-align: center">Hello <span th:text="${order.getUser().getFirstName()}" th:remove="tag"></span>!</h3>
+            <p style="text-align: center">Thank you for your order in ST-SCHOOL.</p>
             <hr/>
             <div class="text-left">
                 <p><b>Your order number is: <span th:text="${order.getId()}" th:remove="tag"></span></b></p>
-                <p><b>Date:</b> <span th:text="${order.getDate()}" th:remove="tag"></span></p>
-                <p><b>Name:</b> <span th:text="${order.getFirstName() + ' ' + order.getLastName()}"
+                <p><b>Date:</b> <span th:text="${order.getCreatedTime()}" th:remove="tag"></span></p>
+                <p><b>Name:</b> <span th:text="${order.getUser().getFirstName() + ' ' + order.getUser().getLastName()}"
                                       th:remove="tag"></span></p>
-                <p><b>Address:</b> <span th:text="${order.getCity() + ' ' + order.getAddress()}" th:remove="tag"></span>
-                </p>
-                <p><b>Post index:</b> <span th:text="${order.getPostIndex()}" th:remove="tag"></span></p>
-                <p><b>Phone:</b> <span th:text="${order.getPhoneNumber()}" th:remove="tag"></span></p>
+<!--                <p><b>Phone:</b> <span th:text="${order.getPhoneNumber()}" th:remove="tag"></span></p>-->
             </div>
-            <th:block th:each="orderItem : ${order.getOrderItems()}">
-                <hr/>
+
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
                     <tr>
                         <td style="width: 95px;" class="content">
-                            <img style="width: 100%; height: auto"
-                                 th:src="@{{path} (path = ${orderItem.getPerfume().getFilename()})}"/>
+<!--                            <img style="width: 100%; height: auto"-->
+<!--                                 th:src="@{{path} (path = ${orderItem.getPerfume().getFilename()})}"/>-->
                         </td>
                         <td style="width: 179px;" class="content">
-                            <p><b th:text="${orderItem.getPerfume().getPerfumer()}"></b><br/>
+                            <p><b th:text="${order.getCourse().getName()}"></b><br/>
                                 <span style="font-size: 14px">
-                                    <span th:text="${orderItem.getPerfume().getPerfumeTitle()}"
+                                    <span th:text="${order.getCourse().getDescription()}"
                                           th:remove="tag"></span><br/>
-                            <span th:text="${orderItem.getPerfume().getType()}" th:remove="tag"></span><br/>
-                            <span th:text="${orderItem.getPerfume().getVolume()}" th:remove="tag"></span> ml.</span>
+                                </span>
                             </p>
                         </td>
                         <td style="width: 54px;" class="content">
-                            <span th:text="${orderItem.getQuantity()}" th:remove="tag"></span> pcs.
-                        </td>
-                        <td style="width: 54px;" class="content">
-                            <span th:text="${orderItem.getPerfume().getPrice()}" th:remove="tag"></span> $
+                            <span th:text="${order.getTotal()}" th:remove="tag"></span> $
                         </td>
                     </tr>
                 </table>
-            </th:block>
+
             <hr/>
-            <h3>Total price: $ <span th:text="${order.getTotalPrice()}" th:remove="tag"></span></h3>
+            <h3>Total price: $ <span th:text="${order.getTotal()}" th:remove="tag"></span></h3>
         </td>
     </tr>
 </table>

@@ -48,11 +48,6 @@ public class BlogController {
         return ResponseEntity.ok(blogMapper.findBlogById(blogId));
     }
 
-    @PostMapping("/ids")
-    public ResponseEntity<?> getBlogsByIds(@RequestBody List<Long> blogsIds) {
-        return ResponseEntity.ok(blogMapper.findBlogsByIds(blogsIds));
-    }
-
     @PutMapping("/edit")
     public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
                                             @Valid @RequestBody BlogDTO request,
@@ -85,11 +80,6 @@ public class BlogController {
             throw new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(blogService.deleteBlog(blogId));
-    }
-
-    @PostMapping("/graphql/ids")
-    public ResponseEntity<ExecutionResult> getBlogsByIdsQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/graphql/blogs")

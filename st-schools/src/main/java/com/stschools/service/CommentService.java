@@ -33,7 +33,7 @@ public interface CommentService {
 
     CommentBlog update(CommentBlog comment, Long id) throws ApiException;
 
-    CommentBlog addComment(CommentBlog comment, Long id);
+    CommentBlog addComment(CommentBlog comment, Long id) throws ApiException;
 
     Boolean addListComment(Long id, List<CommentBlogDTO> list);
 }

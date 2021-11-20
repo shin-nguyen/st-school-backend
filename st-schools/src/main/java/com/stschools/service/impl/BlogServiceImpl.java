@@ -42,16 +42,6 @@ public class BlogServiceImpl implements BlogService {
         return dataFetchingEnvironment -> blogRepository.findAllByOrderByIdAsc();
     }
 
-    @Override
-    public DataFetcher<List<Blog>> getAllBlogsByIdsQuery() {
-        return dataFetchingEnvironment -> {
-            List<String> objects =dataFetchingEnvironment.getArgument("ids");
-            List<Long> blogsId = objects.stream()
-                    .map(Long::parseLong)
-                    .collect(Collectors.toList());
-            return blogRepository.findByIdIn(blogsId);
-        };
-    }
 
     @Override
     public Blog findBlogById(Long blogId) {
@@ -61,11 +51,6 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> findAllBlogs() {
         return blogRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
-    public List<Blog> findBlogsByIds(List<Long> blogsId) {
-        return blogRepository.findByIdIn(blogsId);
     }
 
     @Override
@@ -90,7 +75,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Blog addBlog(BlogRequest blog, Long id) throws IOException {
+    public Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException {
         Map uploadResult = cloudinary.uploader().upload(blog.getFile().getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + blog.getFile().getOriginalFilename()));
         Blog blogNew = new Blog();

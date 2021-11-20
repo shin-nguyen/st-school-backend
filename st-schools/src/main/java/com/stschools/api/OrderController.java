@@ -40,9 +40,7 @@ public class OrderController {
     @PostMapping("/add")
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO, @CurrentUser UserPrincipal user){
         try{
-            UserDTO userDTO = userMapper.findUserById(user.getId());
-            orderDTO.setUser(userDTO);
-            return ResponseEntity.ok().body(orderService.save(orderDTO));
+            return ResponseEntity.ok().body(orderService.save(orderDTO,user.getId()));
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't save", ex);
         }

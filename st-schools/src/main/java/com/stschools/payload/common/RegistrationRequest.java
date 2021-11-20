@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class RegistrationRequest {
 
-//    @NotBlank(message = "Fill captcha.")
-//    private String captcha;
+    @NotBlank(message = "Fill captcha.")
+    private String captcha;
 
     @NotBlank(message = "First name cannot be empty")
     private String firstName;

@@ -14,6 +14,8 @@ public class OAuth2UserFactory {
             return new GoogleOAuth2UserInfo(attributes);
         } else if (registrationId.equalsIgnoreCase(AuthProvider.FACEBOOK.toString())) {
             return new FacebookOAuth2UserInfo(attributes);
+        } else if (registrationId.equalsIgnoreCase(AuthProvider.GITHUB.toString())) {
+            return new GithubOAuth2UserInfo(attributes);
         } else {
             throw new AuthenticationException();
         }

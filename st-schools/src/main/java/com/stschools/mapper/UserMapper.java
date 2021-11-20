@@ -1,5 +1,6 @@
 package com.stschools.mapper;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
 import com.stschools.payload.common.RegistrationRequest;
@@ -32,7 +33,7 @@ public class UserMapper {
         return modelMapper.map(user, UserDTO.class);
     }
 
-    public UserDTO findUserById(Long userId) {
+    public UserDTO findUserById(Long userId) throws ApiException {
         return convertToResponseDto(userService.findUserById(userId));
     }
 

@@ -1,15 +1,23 @@
 package com.stschools.service.impl;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.common.enums.Role;
 import com.stschools.entity.User;
-import com.stschools.payload.dashboard.UserReponse;
+import com.stschools.payload.dashboard.DashboardResponse;
+import com.stschools.payload.dashboard.UserResponse;
+import com.stschools.repository.BlogRepository;
+import com.stschools.repository.CourseRepository;
+import com.stschools.repository.OrderRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.UserService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -17,10 +25,18 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
+    private final OrderRepository orderRepository;
+    private final BlogRepository blogRepository;
+
 
     @Override
-    public User findUserById(Long userId) {
-        return userRepository.findById(userId).get();
+    public User findUserById(Long userId) throws ApiException {
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()){
+            throw new ApiException("Could not find  blog with ID ");
+        }
+        return user.get();
     }
 
     @Override
@@ -63,9 +79,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DataFetcher<List<UserReponse>> getAllByDashboards() {
-        return null;
+    public DashboardResponse getDashboards() {
+        DashboardResponse dashboardResponse = DashboardResponse.builder()
+                .totalBlog(blogRepository.count())
+                .totalOrder(orderRepository.count())
+                .totalCourse(courseRepository.count())
+                .totalIncome(orderRepository.getSumImcome())
+                .build();
+
+      return dashboardResponse;
     }
 
-
+    @Override
+    public List<UserResponse> getAllCustomerByDashboards() {
+        Page<UserResponse> orders = userRepository.getTopBy5(PageRequest.of(0, 5));
+        return orders.getContent();
+    }
 }

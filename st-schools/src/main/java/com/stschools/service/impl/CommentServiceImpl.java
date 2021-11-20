@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentBlog addComment(CommentBlog commentBlog, Long id){
+    public CommentBlog addComment(CommentBlog commentBlog, Long id) throws ApiException {
         User user = userService.findUserById(id);
         commentBlog.setUser(user);
 

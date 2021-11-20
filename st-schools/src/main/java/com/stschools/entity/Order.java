@@ -16,14 +16,14 @@ public class Order {
     private Long id;
 
     @Column
-    private Date createdTime;
+    private String createdTime;
 
     @Transient
     private Integer total;
 
     @PrePersist
     protected void onCreate() {
-        this.createdTime = new Date();
+        this.createdTime = new Date().toString();
     }
 
     @ManyToOne(cascade = CascadeType.REFRESH)
@@ -38,7 +38,7 @@ public class Order {
     @ToString.Exclude
     private Course course;
 
-    public void setTotal() {
-        this.total = this.course.getPrice();
+    public Integer getTotal() {
+        return this.course.getPrice();
     }
 }

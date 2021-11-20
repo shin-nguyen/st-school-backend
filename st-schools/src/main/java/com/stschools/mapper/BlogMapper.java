@@ -39,10 +39,6 @@ public class BlogMapper {
         return convertToResponseDto(blogService.findBlogById(blogId));
     }
 
-    public List<BlogDTO> findBlogsByIds(List<Long> blogsId) {
-        return convertListToResponseDto(blogService.findBlogsByIds(blogsId));
-    }
-
     public List<BlogDTO> findAllBlogs() {
         return convertListToResponseDto(blogService.findAllBlogs());
     }

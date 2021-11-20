@@ -1,14 +1,16 @@
 package com.stschools.service;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.entity.User;
-import com.stschools.payload.dashboard.UserReponse;
+import com.stschools.payload.dashboard.DashboardResponse;
+import com.stschools.payload.dashboard.UserResponse;
 import graphql.schema.DataFetcher;
 
 import java.util.List;
 
 public interface UserService {
 
-    User findUserById(Long userId);
+    User findUserById(Long userId) throws ApiException;
 
     User findUserByEmail(String email);
 
@@ -22,5 +24,7 @@ public interface UserService {
 
     List<User> findAllCustomers();
 
-    DataFetcher<List<UserReponse>> getAllByDashboards();
+    DashboardResponse getDashboards();
+
+    List<UserResponse> getAllCustomerByDashboards();
 }

@@ -59,25 +59,4 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<CommentBlog> commentBlogs;
-//
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<LikeBlog> likeBlogs;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Blog> blogs;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<Order> orders;
-
-}
+    }

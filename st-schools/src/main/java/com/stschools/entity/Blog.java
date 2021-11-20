@@ -29,13 +29,14 @@ public class Blog {
     private String image;
 
     @Column
-    private Date createdTime;
+    private String createdTime;
+
     @Column
     private Date updateTime;
 
     @PrePersist
     protected void onCreate() {
-        this.createdTime = new Date();
+        this.createdTime = new Date().toString();
     }
 
     @PreUpdate

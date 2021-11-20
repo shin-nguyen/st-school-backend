@@ -1,3 +1,5 @@
+
+
 schema {
     query: Query
 }
@@ -7,9 +9,9 @@ type Query {
     user(id: ID): User
 
     blogs: [Blog]
-    blogsIds(ids: [ID]): [Blog]
     blog(id: ID): Blog
-    userDashboards : [UserDashboard]
+
+    orders : [Order]
 }
 
 type User {
@@ -47,10 +49,19 @@ type Blog {
     topics : [Topic]
 }
 
-
-type UserDashboard {
-    firstName: String
-    lastName: String
-    order: Int
-    price: Float
+type Order {
+    id : Int
+    createdTime : String
+    user : User
+    course : Course
 }
+
+type Course {
+    id : Int
+    name : String
+    description : String
+    language : String
+    price : Int
+    image : String
+}
+

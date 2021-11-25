@@ -47,8 +47,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public boolean registerUser(User user) {
         User userFromDb = userRepository.findByEmail(user.getEmail());
-        if (!(userFromDb == null))
-        {return false;}
+        if (!(userFromDb == null)) {
+            return false;
+        }
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.LOCAL);
@@ -93,7 +94,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public boolean sendPasswordResetCode(String email) {
         User user = userRepository.findByEmail(email);
-        if (user == null) {return false;}
+        if (user == null) {
+            return false;
+        }
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 

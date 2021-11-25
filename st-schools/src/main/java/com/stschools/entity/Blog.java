@@ -32,7 +32,7 @@ public class Blog {
     private String createdTime;
 
     @Column
-    private Date updateTime;
+    private String updateTime;
 
     @PrePersist
     protected void onCreate() {
@@ -41,31 +41,11 @@ public class Blog {
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateTime = new Date();
+        this.updateTime = new Date().toString();
     }
 
 
     private Boolean status;
-
-//    @Transient
-//    private Integer likeTotal() {
-//        return likeBlogs == null ? 0 : likeBlogs.size();
-//    }
-//
-//    @Transient
-//    private Integer commentTotal() {
-//        return commentBlogs == null ? 0 : commentBlogs.size();
-//    }
-
-//    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<CommentBlog> commentBlogs;
-//
-//    @OneToMany(mappedBy = "blog", cascade = CascadeType.REFRESH)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<LikeBlog> likeBlogs;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -82,7 +62,16 @@ public class Blog {
     )
     private Collection<Topic> topics;
 
-    public Blog(String title, String summary, String content, Boolean status,String image,User user, List<Topic> topics) {
+    public Blog(Long id, String title, String summary, String content, String image, Boolean status) {
+        this.id = id;
+        this.title = title;
+        this.summary = summary;
+        this.content = content;
+        this.image = image;
+        this.status = status;
+    }
+
+    public Blog(String title, String summary, String content, Boolean status, String image, User user, List<Topic> topics) {
         this.title = title;
         this.summary = summary;
         this.content = content;

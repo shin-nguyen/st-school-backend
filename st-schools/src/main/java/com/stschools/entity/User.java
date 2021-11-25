@@ -36,20 +36,19 @@ public class User {
     private String passwordResetCode;
 
     @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date createdTime;
+    private String createdTime;
+
     @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date updateTime;
+    private String updateTime;
 
     @PrePersist
-    protected void onCreate(){
-        this.createdTime = new Date();
+    protected void onCreate() {
+        this.createdTime = new Date().toString();
     }
 
     @PreUpdate
-    protected void onUpdate(){
-        this.updateTime = new Date();
+    protected void onUpdate() {
+        this.updateTime = new Date().toString();
     }
 
     @Enumerated(EnumType.STRING)

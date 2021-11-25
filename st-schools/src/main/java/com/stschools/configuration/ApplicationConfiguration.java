@@ -1,5 +1,8 @@
 package com.stschools.configuration;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.stschools.common.constants.CloudinaryConstants;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,5 +26,14 @@ public class ApplicationConfiguration {
                 //STRICT
                 .setMatchingStrategy(MatchingStrategies.STRICT);
         return mapper;
+    }
+
+    @Bean
+    public Cloudinary cloudinary() {
+        return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", CloudinaryConstants.CLOUD_NAME,
+                "api_key", CloudinaryConstants.API_KEY,
+                "api_secret", CloudinaryConstants.API_SECRET,
+                "secure", true));
     }
 }

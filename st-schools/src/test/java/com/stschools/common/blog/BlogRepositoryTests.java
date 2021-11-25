@@ -68,4 +68,11 @@ public class BlogRepositoryTests {
 
         assertThat(countById).isNotNull().isGreaterThan(0);
     }
+
+    @Test
+    public void testGetBlogById() {
+        Blog blog = blogRepository.findBlogById(1L);
+        System.out.println(blog);
+        assertThat(blog).isNotNull();
+    }
 }

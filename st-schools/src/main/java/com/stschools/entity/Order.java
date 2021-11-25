@@ -18,13 +18,21 @@ public class Order {
     @Column
     private String createdTime;
 
-    @Transient
-    private Integer total;
+    @Column
+    private String updateTime;
 
     @PrePersist
     protected void onCreate() {
         this.createdTime = new Date().toString();
     }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateTime = new Date().toString();
+    }
+
+    @Transient
+    private Integer total;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")

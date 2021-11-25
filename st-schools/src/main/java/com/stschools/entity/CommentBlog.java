@@ -16,18 +16,19 @@ public class CommentBlog {
     private Long id;
 
     @Column
-    private Date createdTime;
+    private String createdTime;
+
     @Column
-    private Date updateTime;
+    private String updateTime;
 
     @PrePersist
     protected void onCreate() {
-        this.createdTime = new Date();
+        this.createdTime = new Date().toString();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateTime = new Date();
+        this.updateTime = new Date().toString();
     }
 
     @Column(length = 1000,nullable = false)

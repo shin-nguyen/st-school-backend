@@ -15,21 +15,9 @@ import java.util.Date;
 @Builder
 public class OrderDTO {
     private Long id;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date createdTime;
+
+    private String createdTime;
     private Integer total;
     private CourseDTO course;
     private UserDTO user;
-
-    public void setTotal() {
-        this.total = course.getPrice();
-    }
-
-    public Integer getTotal() {
-        return course.getPrice();
-    }
-
-    public void setCreatedTime() {
-        this.createdTime = new Date();
-    }
 }

@@ -23,23 +23,14 @@ public class UserDTO {
     private String password;
     private String firstName;
     private String lastName;
-
     private String avatar;
-//
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    private Date birthday;
-
+    private String birthday;
     private String address;
     private String phone;
     private boolean active;
-
     private String activationCode;
     private String passwordResetCode;
-//
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    private Date createdTime;
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    private Date updateTime;
-
+//    private String createdTime;
+//    private String updateTime;
     private Set<Role> roles;
 }

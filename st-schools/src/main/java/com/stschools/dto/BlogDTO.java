@@ -20,7 +20,7 @@ public class BlogDTO {
     private String title;
     private String summary;
     private String content;
-    private Date createdTime;
+    private String createdTime;
     private Boolean status;
     private String image;
     private Collection<TopicDTO> topics;

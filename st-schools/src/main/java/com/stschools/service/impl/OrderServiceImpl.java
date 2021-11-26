@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
         User user = userService.findUserById(id);
         order.setUser(user);
 
-        if (orderRepository.countByCourseIdAndUserId(order.getCourse().getId(),user.getId())==0){
+        if (orderRepository.countByCourseIdAndUserId(order.getCourse().getId(),user.getId())!=0){
             throw new ApiException("Could not add Order");
         }
         

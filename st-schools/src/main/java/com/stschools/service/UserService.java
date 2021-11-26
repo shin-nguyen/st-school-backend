@@ -5,7 +5,9 @@ import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.UserResponse;
 import graphql.schema.DataFetcher;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -27,4 +29,6 @@ public interface UserService {
     DashboardResponse getDashboards();
 
     List<UserResponse> getAllCustomerByDashboards();
+
+    User updateImage(String email, MultipartFile file) throws IOException;
 }

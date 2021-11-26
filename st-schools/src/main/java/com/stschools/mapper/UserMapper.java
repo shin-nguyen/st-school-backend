@@ -10,6 +10,7 @@ import com.stschools.util.ObjectMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,4 +60,5 @@ public class UserMapper {
     public UserDTO updateProfile(String email, UserDTO userRequest) {
         return convertToResponseDto(userService.updateProfile(email, convertToEntity(userRequest)));
     }
+
 }

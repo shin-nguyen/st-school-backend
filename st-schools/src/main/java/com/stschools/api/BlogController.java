@@ -87,6 +87,11 @@ public class BlogController {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
+//    @PostMapping("/graphql/blogs/my")
+//    public ResponseEntity<ExecutionResult> getAllBlogsOfMyByQuery(@RequestBody GraphQLRequest request) {
+//        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+//    }
+
     @PostMapping("/graphql/blog")
     public ResponseEntity<ExecutionResult> getBlogByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));

@@ -1,7 +1,10 @@
 package com.stschools.service.impl;
 
+import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
+import com.cloudinary.utils.ObjectUtils;
 import com.stschools.common.enums.Role;
+import com.stschools.entity.Blog;
 import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.UserResponse;
@@ -15,8 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -28,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final CourseRepository courseRepository;
     private final OrderRepository orderRepository;
     private final BlogRepository blogRepository;
+    private final Cloudinary cloudinary;
 
 
     @Override
@@ -94,5 +101,15 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> getAllCustomerByDashboards() {
         Page<UserResponse> orders = userRepository.getTopBy5(PageRequest.of(0, 5));
         return orders.getContent();
+    }
+
+    @Override
+    public User updateImage(String email, MultipartFile file) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
+
+        User user = userRepository.findByEmail(email);
+        user.setAvatar(uploadResult.get("secure_url").toString());
+        return userRepository.save(user);
     }
 }

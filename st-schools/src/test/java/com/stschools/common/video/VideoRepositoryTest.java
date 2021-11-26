@@ -37,7 +37,7 @@ public class VideoRepositoryTest {
         );
 
         videoRepository.saveAll(videoList);
-//        Iterable<Video> iterable = videoRepository.findAll();
-//        assertThat(iterable).size().isEqualTo(7);
+        Iterable<Video> iterable = videoRepository.findAll();
+        assertThat(iterable).size().isGreaterThan(0);
     }
 }

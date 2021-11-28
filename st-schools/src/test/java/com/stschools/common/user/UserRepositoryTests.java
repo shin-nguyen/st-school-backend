@@ -63,11 +63,13 @@ public class UserRepositoryTests {
 		listUsers.forEach(System.out::println);
 	}
 
-//	@Test
-//	public void testDashboard() {
-//		List<UserResponse> listUsers = repo.getTopBy5();
-//		listUsers.forEach(System.out::println);
-//	}
+	@Test
+	public void testDashboard() {
+		Pageable pageable = PageRequest.of(0, 5);
+
+		List<UserResponse> listUsers = repo.getTopBy5(pageable).getContent();
+		listUsers.forEach(System.out::println);
+	}
 
 	@Test
 	public void testListAllUsersByROLE() {

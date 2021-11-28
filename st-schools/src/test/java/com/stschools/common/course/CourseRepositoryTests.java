@@ -50,4 +50,14 @@ public class CourseRepositoryTests {
         Iterable<Course> iterable = courseRepository.findCoursesByUserId(2L);
         assertThat(iterable).size().isEqualTo(2);
     }
+
+    @Test
+    public void findCoursesByUserAndOrder() {
+        List<Course> list = courseRepository.findCoursesByNotInOrder(1L);
+        System.out.println(list);
+
+        //Nay tu chinh tham so nha
+        assertThat(list).size().isEqualTo(0);
+    }
+
 }

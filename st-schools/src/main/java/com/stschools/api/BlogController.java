@@ -16,6 +16,7 @@ import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/blogs")
+@Builder
 public class BlogController {
 
     private final BlogMapper blogMapper;
@@ -87,10 +89,11 @@ public class BlogController {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-//    @PostMapping("/graphql/blogs/my")
-//    public ResponseEntity<ExecutionResult> getAllBlogsOfMyByQuery(@RequestBody GraphQLRequest request) {
-//        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
-//    }
+    @PostMapping("/graphql/blogs/me")
+    public ResponseEntity<ExecutionResult> getAllBlogsMeByQuery(@RequestBody GraphQLRequest request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
 
     @PostMapping("/graphql/blog")
     public ResponseEntity<ExecutionResult> getBlogByQuery(@RequestBody GraphQLRequest request) {

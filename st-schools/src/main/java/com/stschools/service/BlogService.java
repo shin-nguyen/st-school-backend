@@ -31,4 +31,6 @@ public interface BlogService {
     Blog update(Blog blog, Long id) throws ApiException;
 
     Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException;
+
+    DataFetcher<List<Blog>> getAllBlogsByMe();
 }

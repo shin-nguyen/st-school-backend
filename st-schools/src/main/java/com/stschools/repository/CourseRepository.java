@@ -19,4 +19,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             FROM Course c join Order o on c.id = o.course.id where o.user.id = ?1
             """)
     List<Course> findCoursesByUserId(Long id);
+
+    @Query("SELECT c FROM Course c where c.id not in (select o.course.id from Order o where o.user.id =?1)")
+    List<Course> findCoursesByNotInOrder(Long id);
 }

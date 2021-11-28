@@ -10,4 +10,7 @@ import java.util.List;
 public interface BlogRepository extends JpaRepository<Blog, Long> {
     Blog findBlogById(Long id);
     List<Blog> findAllByOrderByIdAsc();
+    List<Blog> findAllByStatus(Boolean status);
+    List<Blog> findAllByUserEmail(String email);
+
 }

@@ -40,10 +40,25 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<?>> getCourses(){
+    @GetMapping("/admin/list")
+    public ResponseEntity<List<?>> getCoursesByAdmin(){
         try{
-            final List<CourseDTO> courses = courseService.getCourses();
+            final List<CourseDTO> courses = courseService.getCoursesByAdmin();
+            if(courses == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(courses);
+
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found courses", ex);
+        }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<?>> getCourses(@CurrentUser UserPrincipal user){
+        try{
+            final List<CourseDTO> courses = courseService.getCourses(user.getId());
             if(courses == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

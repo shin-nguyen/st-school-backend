@@ -29,8 +29,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> getCourses() {
+    public List<CourseDTO> getCoursesByAdmin() {
         List<Course> courses = courseRepository.findAll();
+        return ModelMapperControl.mapAll(courses, CourseDTO.class);
+    }
+
+    @Override
+    public List<CourseDTO> getCourses(Long id) {
+        List<Course> courses = courseRepository.findCoursesByNotInOrder(id);
         return ModelMapperControl.mapAll(courses, CourseDTO.class);
     }
 

@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,7 +40,19 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public DataFetcher<List<Blog>> getAllBlogsByQuery() {
-        return dataFetchingEnvironment -> blogRepository.findAllByOrderByIdAsc();
+        return dataFetchingEnvironment -> {
+            String type = dataFetchingEnvironment.getArgument("type");
+            List<Blog> list = new ArrayList<>();
+            if(type =="true"){
+                list = blogRepository.findAllByStatus(true);
+            }else if (type.equals("false")){
+                list = blogRepository.findAllByStatus(false);}
+            else{
+                list = blogRepository.findAllByOrderByIdAsc();
+            }
+
+            return list;
+        };
     }
 
 
@@ -91,5 +104,14 @@ public class BlogServiceImpl implements BlogService {
 
 
         return blogRepository.save(blogNew);
+    }
+
+    @Override
+    public DataFetcher<List<Blog>> getAllBlogsByMe() {
+        return dataFetchingEnvironment -> {
+            String email = dataFetchingEnvironment.getArgument("email");
+            List<Blog> list = blogRepository.findAllByUserEmail(email);
+            return list;
+        };
     }
 }

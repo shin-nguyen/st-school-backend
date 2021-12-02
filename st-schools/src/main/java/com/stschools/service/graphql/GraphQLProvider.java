@@ -1,5 +1,7 @@
 package com.stschools.service.graphql;
 
+import com.stschools.security.CurrentUser;
+import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import com.stschools.service.OrderService;
 import graphql.GraphQL;
@@ -8,6 +10,7 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import com.stschools.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +51,7 @@ public class GraphQLProvider {
                         .dataFetcher("users",userService.getAllUsersByQuery())
                         .dataFetcher("blog",blogService.getBlogByQuery())
                         .dataFetcher("blogs",blogService.getAllBlogsByQuery())
+                        .dataFetcher("blogsOfMe",blogService.getAllBlogsByMe())
                         .dataFetcher("orders",orderService.findAllByCreateDateTop5())
 
                 ).build();

@@ -53,10 +53,21 @@ public class CourseRepositoryTests {
     }
 
     @Test
+
     public void testFindCourseByName(){
         String name = "Learn HTML";
         List<Course> courseList = courseRepository.findCourseByName(name);
         System.out.println(courseList.get(0));
         assertNotNull(courseList.get(0));
     }
+
+    @Test
+    public void findCoursesByUserAndOrder() {
+        List<Course> list = courseRepository.findCoursesByNotInOrder(1L);
+        System.out.println(list);
+
+        //Nay tu chinh tham so nha
+        assertThat(list).size().isEqualTo(0);
+    }
+
 }

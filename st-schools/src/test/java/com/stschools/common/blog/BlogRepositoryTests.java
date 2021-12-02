@@ -48,7 +48,7 @@ public class BlogRepositoryTests {
                 new Blog("Learn Tiktok",
                         "Summary",
                         "Content",
-                        true,
+                        false,
                         "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
                         user,
                         topis
@@ -74,5 +74,12 @@ public class BlogRepositoryTests {
         Blog blog = blogRepository.findBlogById(1L);
         System.out.println(blog);
         assertThat(blog).isNotNull();
+    }
+
+    @Test
+    public void testBlogByStatus() {
+        List<Blog> blogs = blogRepository.findAllByUserEmail("thongchuthanh2000@gmail.com");
+        System.out.println(blogs);
+        assertThat(blogs.size()).isGreaterThan(0);
     }
 }

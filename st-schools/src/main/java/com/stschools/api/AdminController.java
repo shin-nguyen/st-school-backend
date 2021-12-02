@@ -42,7 +42,7 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAllCustomerByDashboards());
     }
 
-    @GetMapping("/graphql/dashboard/order")
+    @PostMapping("/graphql/dashboard/order")
     public ResponseEntity<ExecutionResult> getOrdersDashboard(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
@@ -62,7 +62,7 @@ public class AdminController {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    @PostMapping("/graphql/user/all")
+    @GetMapping("/graphql/user/all")
     public ResponseEntity<ExecutionResult> getAllUsersByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }

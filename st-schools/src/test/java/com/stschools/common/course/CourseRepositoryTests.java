@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -49,5 +50,13 @@ public class CourseRepositoryTests {
         System.out.println(courseRepository.findCoursesByUserId(2L));
         Iterable<Course> iterable = courseRepository.findCoursesByUserId(2L);
         assertThat(iterable).size().isEqualTo(2);
+    }
+
+    @Test
+    public void testFindCourseByName(){
+        String name = "Learn HTML";
+        List<Course> courseList = courseRepository.findCourseByName(name);
+        System.out.println(courseList.get(0));
+        assertNotNull(courseList.get(0));
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
     Course findCourseById(Long id);
+    List<Course> findCourseByName(String name);
 
     @Query("""
             SELECT new Course(c.id, c.name, c.description, c.image)

@@ -13,7 +13,6 @@ public class CourseDTO {
     private Long id;
     private String name;
     private String description;
-    private String totalLength;
     private String language;
     private Integer price;
     private String image;

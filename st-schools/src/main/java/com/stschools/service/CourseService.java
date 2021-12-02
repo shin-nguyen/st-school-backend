@@ -11,5 +11,6 @@ public interface CourseService {
 
     CourseDTO update(CourseDTO course);
     CourseDTO findByID(Long id);
+    CourseDTO findByName(String name);
     List<CourseDTO> findByUserId(Long id);
 }

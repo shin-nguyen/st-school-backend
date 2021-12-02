@@ -1,6 +1,8 @@
 package com.stschools.api;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.api.exceptions.AlreadyExists;
+import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.CourseDTO;
 import com.stschools.security.CurrentUser;
@@ -76,7 +78,8 @@ public class CourseController {
                                             @RequestParam String language,
                                             @RequestParam Integer price,
                                             @RequestParam MultipartFile file
-                                            ) throws IOException {
+                                            ) throws IOException, ApiException {
+
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
@@ -87,6 +90,11 @@ public class CourseController {
                         .price(price)
                         .image(uploadResult.get("secure_url").toString())
                         .build();
+
+        if(courseService.findByName(course.getName()) != null){
+            throw new AlreadyExists("Name Existed");
+        }
+
         try{
             return ResponseEntity.ok().body(courseService.save(course));
         } catch (Exception ex){

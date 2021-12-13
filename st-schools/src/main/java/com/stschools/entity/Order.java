@@ -39,6 +39,12 @@ public class Order {
     @Transient
     private Integer total;
 
+    @Transient
+    private String userName;
+
+    @Transient
+    private String courseName;
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
@@ -55,5 +61,12 @@ public class Order {
         return this.course.getPrice();
     }
 
+    public String getUserName() {
+        return this.user.getLastName();
+    }
+
+    public String getCourseName() {
+        return this.course.getName();
+    }
 
 }

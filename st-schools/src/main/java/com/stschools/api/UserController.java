@@ -1,7 +1,11 @@
 package com.stschools.api;
 
 import com.stschools.dto.UserDTO;
+import com.stschools.entity.User;
 import com.stschools.exception.InputFieldException;
+import com.stschools.export_file.users.UserCsvExporter;
+import com.stschools.export_file.users.UserExcelExporter;
+import com.stschools.export_file.users.UserPdfExporter;
 import com.stschools.mapper.UserMapper;
 import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.security.CurrentUser;
@@ -17,8 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,4 +63,25 @@ public class UserController {
         return ResponseEntity.ok(userService.updateImage(user.getEmail(), file));
     }
 
+    @GetMapping(path = "export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        List<User> listUsers = userService.findAllUsers();
+        UserExcelExporter exporter = new UserExcelExporter();
+        exporter.export(listUsers, response);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportToCSV( HttpServletResponse response) throws IOException {
+        List<User> listUsers = userService.findAllUsers();
+        UserCsvExporter exporter = new UserCsvExporter();
+
+        exporter.export(listUsers, response);
+    }
+
+    @GetMapping("/export/pdf")
+    public void exportToPDF( HttpServletResponse response) throws IOException {
+        List<User> listUsers = userService.findAllUsers();
+        UserPdfExporter exporter = new UserPdfExporter();
+        exporter.export(listUsers, response);
+    }
 }

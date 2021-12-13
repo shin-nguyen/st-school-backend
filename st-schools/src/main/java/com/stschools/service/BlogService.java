@@ -26,11 +26,13 @@ public interface BlogService {
 //
 //    Perfume savePerfume(Perfume perfume, MultipartFile file);
 //
-    Long deleteBlog(Long blogId);
+    Long deleteBlog(Long blogId) throws ApiException;
 
     Blog update(Blog blog, Long id) throws ApiException;
 
     Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException;
 
     DataFetcher<List<Blog>> getAllBlogsByMe();
+
+    Blog updateBlogStatus(Long blogId, String status);
 }

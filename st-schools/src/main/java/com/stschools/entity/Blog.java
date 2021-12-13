@@ -1,6 +1,7 @@
 package com.stschools.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tbl_blog")
+@Where(clause="is_deleted = false")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,9 @@ public class Blog {
     private String content;
 
     @Column
+    private Long view;
+
+    @Column
     private String image;
 
     @Column
@@ -37,6 +42,10 @@ public class Blog {
     @PrePersist
     protected void onCreate() {
         this.createdTime = new Date().toString();
+        this.updateTime = new Date().toString();
+        this.view = 0L;
+        this.isDeleted = false;
+        this.status = false;
     }
 
     @PreUpdate
@@ -46,6 +55,9 @@ public class Blog {
 
 
     private Boolean status;
+
+    private Boolean isDeleted;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -61,15 +73,6 @@ public class Blog {
             inverseJoinColumns = @JoinColumn(name = "topic_id")
     )
     private Collection<Topic> topics;
-
-    public Blog(Long id, String title, String summary, String content, String image, Boolean status) {
-        this.id = id;
-        this.title = title;
-        this.summary = summary;
-        this.content = content;
-        this.image = image;
-        this.status = status;
-    }
 
     public Blog(String title, String summary, String content, Boolean status, String image, User user, List<Topic> topics) {
         this.title = title;

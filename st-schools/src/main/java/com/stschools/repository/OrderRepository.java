@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query("SELECT o FROM Order o ORDER BY o.createdTime DESC")
+    @Query("SELECT o FROM Order o ORDER BY o.id DESC")
     Page<Order> findByTop(Pageable pageable);
 
     @Query("select sum (o.course.price) from Order o")

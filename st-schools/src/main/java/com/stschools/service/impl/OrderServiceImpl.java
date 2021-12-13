@@ -36,24 +36,46 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO save(OrderDTO orderDTO, Long id) throws ApiException {
+    public OrderDTO save(OrderDTO orderDTO) {
         Order order = ModelMapperControl.map(orderDTO, Order.class);
-        User user = userService.findUserById(id);
-        order.setUser(user);
-
-        if (orderRepository.countByCourseIdAndUserId(order.getCourse().getId(),user.getId())!=0){
-            throw new ApiException("Could not add Order");
-        }
-        
+//        return ModelMapperControl.map(orderRepository.save(order), OrderDTO.class);
         Order newOrder = orderRepository.save(order);
-        String subject = "Order #" + order.getId();
-        String template = "order-template";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("order", newOrder);
-        mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
+
+        try{
+            String subject = "Order #" + order.getId();
+            String template = "order-template";
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("order", newOrder);
+            mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
+        } catch (Exception ignored){
+
+        }
 
         return ModelMapperControl.map(newOrder, OrderDTO.class);
     }
+
+//    @Override
+//    public OrderDTO save(OrderDTO orderDTO) throws ApiException {
+//        Order order = ModelMapperControl.map(orderDTO, Order.class);
+//
+//        if (orderRepository.countByCourseIdAndUserId(order.getCourse().getId(),user.getId())!=0){
+//            throw new ApiException("Could not add Order");
+//        }
+//
+//        Order newOrder = orderRepository.save(order);
+//
+//        try{
+//            String subject = "Order #" + order.getId();
+//            String template = "order-template";
+//            Map<String, Object> attributes = new HashMap<>();
+//            attributes.put("order", newOrder);
+//            mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
+//        } catch (Exception ignored){
+//
+//        }
+//
+//        return ModelMapperControl.map(newOrder, OrderDTO.class);
+//    }
 
     @Override
     public void deleteById(Long id) {

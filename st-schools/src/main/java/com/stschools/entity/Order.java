@@ -3,6 +3,7 @@ package com.stschools.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -23,12 +24,16 @@ public class Order {
 
     @PrePersist
     protected void onCreate() {
-        this.createdTime = new Date().toString();
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.createdTime = formatter.format(date);
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateTime = new Date().toString();
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.createdTime = formatter.format(date);
     }
 
     @Transient
@@ -49,4 +54,6 @@ public class Order {
     public Integer getTotal() {
         return this.course.getPrice();
     }
+
+
 }

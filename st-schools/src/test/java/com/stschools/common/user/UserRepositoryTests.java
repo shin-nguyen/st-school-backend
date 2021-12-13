@@ -55,6 +55,44 @@ public class UserRepositoryTests {
 
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
+
+	@Test
+	public void testCreateNewUserWithAdminRole() {
+		User user = new User();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		user.setActive(true);
+		user.setEmail("admin@gmail.com");
+		user.setFirstName("I AM");
+		user.setLastName("ADMIN");
+		user.setAddress("VN");
+		user.setPhone("090909090");
+		user.setRoles(Collections.singleton(Role.ADMIN));
+		user.setProvider(AuthProvider.LOCAL);
+		user.setPassword(passwordEncoder.encode("123456"));
+		User savedUser = repo.save(user);
+
+		assertThat(savedUser.getId()).isGreaterThan(0);
+	}
+
+	@Test
+	public void testCreateNewUserWithUserRole() {
+		User user = new User();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		user.setActive(true);
+		user.setEmail("sinhnguyen27022000@gmail.com");
+		user.setFirstName("Sinh");
+		user.setLastName("Nguyen");
+		user.setAddress("HCM");
+		user.setPhone("001010101");
+		user.setRoles(Collections.singleton(Role.USER));
+		user.setProvider(AuthProvider.LOCAL);
+		user.setPassword(passwordEncoder.encode("123456"));
+		User savedUser = repo.save(user);
+
+		assertThat(savedUser.getId()).isGreaterThan(0);
+	}
 	
 
 	@Test

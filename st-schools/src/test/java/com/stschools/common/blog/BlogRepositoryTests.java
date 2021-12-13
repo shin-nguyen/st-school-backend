@@ -38,17 +38,22 @@ public class BlogRepositoryTests {
 
         User user= userRepository.findByEmail("thongchuthanh2000@gmail.com");
         List<Blog> blogeList = Arrays.asList(
-                new Blog("[Spring Boot] Entity",
-                        "Summarry Spring",
-                        "Github. " ,
+                new Blog("[Spring boot] Spring Cloud",
+                        "Spring Cloud",
+                        "Khi ngày càng có nhiều nhà phát triển Java học Spring Boot và Spring Cloud để phát triển các ứng dụng Java dựa trên đám mây, " +
+                                "bạn có thể mong đợi nhiều sách được viết và phát hành về các chủ đề này. " +
+                                "Hiện tại, chúng ta sẽ thấy một số tài nguyên tốt nhất để học " ,
                         true,
                         "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
                         user,
                         topis),
-                new Blog("Learn Tiktok",
+                new Blog("Hướng dẫn sử dụng @Autowired trong Spring",
                         "Summary",
-                        "Content",
-                        false,
+                        "Tổng quan Bắt đầu với Spring 2.5, framework đã giới thiệu tính năng Dependency Injection theo hướng chú thích. " +
+                                "Chú thích chính của tính năng này là @Autowired. " +
+                                "Nó cho phép Spring resolve và inject các collaborating beans vào bean của chúng ta. " +
+                                "Tham Khảo thêm: Lập trình Front-end và Back-end là gì? Trong hướng",
+                        true,
                         "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
                         user,
                         topis

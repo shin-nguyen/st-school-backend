@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderDTO> getAll();
-    OrderDTO save(OrderDTO orderDTO,Long id) throws ApiException;
+    OrderDTO save(OrderDTO orderDTO) throws ApiException;
     void deleteById(Long id);
 
     DataFetcher<List<Order>> findAllByCreateDateTop5();

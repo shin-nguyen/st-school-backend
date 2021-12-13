@@ -25,7 +25,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO findByName(String name) {
         List<Course> courseList = courseRepository.findCourseByName(name);
-        return ModelMapperControl.map(courseList.get(0), CourseDTO.class);
+        if(!courseList.isEmpty()){
+            return ModelMapperControl.map(courseList.get(0), CourseDTO.class);
+        }
+        return null;
     }
 
     @Override

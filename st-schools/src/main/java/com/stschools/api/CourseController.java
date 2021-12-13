@@ -143,7 +143,6 @@ public class CourseController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public Long delete(@PathVariable (name = "id") Long id){
         try {

@@ -34,7 +34,6 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAll() {
         return ModelMapperControl.mapAll(orderRepository.findAll(), OrderDTO.class);
     }
-
     @Override
     public OrderDTO save(OrderDTO orderDTO, Long id) throws ApiException {
         Order order = ModelMapperControl.map(orderDTO, Order.class);

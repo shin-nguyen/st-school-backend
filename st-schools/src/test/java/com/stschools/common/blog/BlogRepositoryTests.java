@@ -70,6 +70,15 @@ public class BlogRepositoryTests {
     }
 
     @Test
+    public void testCountViewById() {
+        blogRepository.updateView(1L);
+        Long countById = blogRepository.getById(1L).getView();
+        System.out.println(countById);
+
+        assertThat(countById).isNotNull().isGreaterThan(0);
+    }
+
+    @Test
     public void testGetBlogById() {
         Blog blog = blogRepository.findBlogById(1L);
         System.out.println(blog);

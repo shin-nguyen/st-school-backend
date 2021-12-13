@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
-        }
+        }else
         if (user.getActivationCode() != null) {
             throw new LockedException("email not activated");
         }

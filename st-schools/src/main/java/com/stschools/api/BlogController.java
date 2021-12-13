@@ -6,8 +6,15 @@ import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.Blog;
+import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
 import com.stschools.exception.InputFieldException;
+import com.stschools.export_file.blogs.BlogCsvExporter;
+import com.stschools.export_file.blogs.BlogExcelExporter;
+import com.stschools.export_file.blogs.BlogPdfExporter;
+import com.stschools.export_file.users.UserCsvExporter;
+import com.stschools.export_file.users.UserExcelExporter;
+import com.stschools.export_file.users.UserPdfExporter;
 import com.stschools.mapper.BlogMapper;
 import com.stschools.payload.blog.BlogRequest;
 import com.stschools.payload.common.GraphQLRequest;
@@ -24,6 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
@@ -61,27 +69,14 @@ public class BlogController {
         }
     }
 
-//    @PostMapping("/search")
-//    public ResponseEntity<List<PerfumeResponse>> findPerfumesByFilterParams(@RequestBody PerfumeSearchRequest filter) {
-//        return ResponseEntity.ok(blogMapper.filter(filter.getPerfumers(), filter.getGenders(), filter.getPrices(), filter.isSortByPrice()));
-//    }
-//
-//    @PostMapping("/search/gender")
-//    public ResponseEntity<List<PerfumeResponse>> findByPerfumeGender(@RequestBody PerfumeSearchRequest filter) {
-//        return ResponseEntity.ok(blogMapper.findByPerfumeGenderOrderByPriceDesc(filter.getPerfumeGender()));
-//    }
-//
-//    @PostMapping("/search/perfumer")
-//    public ResponseEntity<List<PerfumeResponse>> findByPerfumer(@RequestBody PerfumeSearchRequest filter) {
-//        return ResponseEntity.ok(blogMapper.findByPerfumerOrderByPriceDesc(filter.getPerfumer()));
-//    }
-
     @DeleteMapping("/delete/{blogId}")
-    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId) {
-        if (blogMapper.findBlogById(blogId)==null){
-            throw new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId) throws ApiException {
         return ResponseEntity.ok(blogService.deleteBlog(blogId));
+    }
+
+    @PutMapping("/{id}/{status}")
+    public ResponseEntity<?> updateBlogStatus(@PathVariable("id") Long blogId,@PathVariable("status") String status) {
+        return ResponseEntity.ok(blogService.updateBlogStatus(blogId,status));
     }
 
     @PostMapping("/graphql/blogs")
@@ -109,5 +104,28 @@ public class BlogController {
         } else {
             return ResponseEntity.ok(blogMapper.addBlog(blog, user.getId()));
         }
+    }
+
+
+    @GetMapping(path = "export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        List<Blog> blogs = blogService.findAllBlogs();
+        BlogExcelExporter exporter = new BlogExcelExporter();
+        exporter.export(blogs, response);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportToCSV( HttpServletResponse response) throws IOException {
+        List<Blog> blogs = blogService.findAllBlogs();
+        BlogCsvExporter exporter = new BlogCsvExporter();
+
+        exporter.export(blogs, response);
+    }
+
+    @GetMapping("/export/pdf")
+    public void exportToPDF( HttpServletResponse response) throws IOException {
+        List<Blog> blogs = blogService.findAllBlogs();
+        BlogPdfExporter exporter = new BlogPdfExporter();
+        exporter.export(blogs, response);
     }
 }

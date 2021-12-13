@@ -114,11 +114,11 @@ public class UserPdfExporter extends AbstractExporter {
 			table.addCell(user.getPhone());
 
 			if (user.getCreatedTime() != null)
-				table.addCell(dateFormat.format(user.getCreatedTime()));
+				table.addCell(user.getCreatedTime());
 			else
 				table.addCell("");
 			if (user.getUpdateTime() != null)
-				table.addCell(dateFormat.format(user.getUpdateTime()));
+				table.addCell(user.getUpdateTime());
 			else
 				table.addCell("");
 			table.addCell(user.getAvatar());

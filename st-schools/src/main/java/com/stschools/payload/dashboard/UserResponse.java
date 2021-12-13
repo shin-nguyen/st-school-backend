@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserResponse {
     private String firstName;
     private String  lastName;
-    private Integer order;
+    private long order;
     private long price;
 }

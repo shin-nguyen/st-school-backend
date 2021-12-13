@@ -67,25 +67,15 @@ public class AdminController {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    @GetMapping(path = "export/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
-        List<User> listUsers = userService.findAllUsers();
-        UserExcelExporter exporter = new UserExcelExporter();
-        exporter.export(listUsers, response);
-    }
+    /**
+     *
+     * @param response
+     * @throws IOException
+     */
 
-    @GetMapping("export/csv")
-    public void exportToCSV( HttpServletResponse response) throws IOException {
-        List<User> listUsers = userService.findAllUsers();
-        UserCsvExporter exporter = new UserCsvExporter();
 
-        exporter.export(listUsers, response);
-    }
+    /**
+     *
+     */
 
-    @GetMapping("export/pdf")
-    public void exportToPDF( HttpServletResponse response) throws IOException {
-        List<User> listUsers = userService.findAllUsers();
-        UserPdfExporter exporter = new UserPdfExporter();
-        exporter.export(listUsers, response);
-    }
 }

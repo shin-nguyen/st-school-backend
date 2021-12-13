@@ -2,7 +2,16 @@ package com.stschools.api;
 
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.UserDTO;
+import com.stschools.entity.Blog;
+import com.stschools.entity.Order;
+import com.stschools.export_file.blogs.BlogCsvExporter;
+import com.stschools.export_file.blogs.BlogExcelExporter;
+import com.stschools.export_file.blogs.BlogPdfExporter;
+import com.stschools.export_file.orders.OrderCsvExporter;
+import com.stschools.export_file.orders.OrderExcelExporter;
+import com.stschools.export_file.orders.OrderPdfExporter;
 import com.stschools.mapper.UserMapper;
+import com.stschools.repository.OrderRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.OrderService;
@@ -12,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +33,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class OrderController {
     private final OrderService orderService;
-    private final UserMapper userMapper;
+    private final OrderRepository orderRepository;
 
     @GetMapping("/list")
     public ResponseEntity<?> getListOrder(){
@@ -61,5 +72,29 @@ public class OrderController {
         }  catch (Exception exc) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found", exc);
         }
+    }
+
+
+    @GetMapping(path = "export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        List<Order> orders = orderRepository.findAll();
+        OrderExcelExporter exporter = new OrderExcelExporter();
+        exporter.export(orders, response);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportToCSV( HttpServletResponse response) throws IOException {
+        List<Order> orders = orderRepository.findAll();
+
+        OrderCsvExporter exporter = new OrderCsvExporter();
+        exporter.export(orders, response);
+    }
+
+    @GetMapping("/export/pdf")
+    public void exportToPDF( HttpServletResponse response) throws IOException {
+        List<Order> orders = orderRepository.findAll();
+
+        OrderPdfExporter exporter = new OrderPdfExporter();
+        exporter.export(orders, response);
     }
 }

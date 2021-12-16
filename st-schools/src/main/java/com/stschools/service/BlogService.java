@@ -1,10 +1,10 @@
 package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
 import com.stschools.payload.blog.BlogRequest;
 import graphql.schema.DataFetcher;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,8 +31,10 @@ public interface BlogService {
     Blog update(Blog blog, Long id) throws ApiException;
 
     Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException;
+    List<Blog> addBlog(MultipartFile file) throws IOException, ApiException;
 
     DataFetcher<List<Blog>> getAllBlogsByMe();
 
-    Blog updateBlogStatus(Long blogId, String status);
+    Blog updateBlogStatus(Long blogId);
 }
+

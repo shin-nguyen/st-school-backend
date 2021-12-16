@@ -21,7 +21,8 @@ public class Blog {
 
     @Column(nullable = false, length = 2000)
     private String title;
-    @Column(nullable = false, length = 2000)
+
+    @Column(nullable = true, length = 2000)
     private String summary;
 
     @Column(nullable = false, length = 10000000)
@@ -45,7 +46,6 @@ public class Blog {
         this.updateTime = new Date().toString();
         this.view = 0L;
         this.isDeleted = false;
-        this.status = false;
     }
 
     @PreUpdate

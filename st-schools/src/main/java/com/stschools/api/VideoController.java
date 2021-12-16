@@ -5,18 +5,15 @@ import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.CourseDTO;
 import com.stschools.dto.VideoDTO;
 import com.stschools.service.VideoService;
-import com.stschools.util.MapValidationError;
 import com.stschools.util.ObjectMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

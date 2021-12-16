@@ -1,21 +1,15 @@
 package com.stschools.api;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.dto.CommentBlogDTO;
 import com.stschools.dto.CommentCourseDTO;
-import com.stschools.exception.ApiRequestException;
 import com.stschools.exception.InputFieldException;
-import com.stschools.mapper.CommentMapper;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.CommentCourseService;
-import com.stschools.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 

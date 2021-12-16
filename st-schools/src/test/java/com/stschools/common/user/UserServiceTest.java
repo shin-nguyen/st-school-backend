@@ -2,7 +2,9 @@ package com.stschools.common.user;
 
 import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.common.enums.Role;
+import com.stschools.entity.Blog;
 import com.stschools.entity.User;
+import com.stschools.import_file.blogs.BlogExcelImporter;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.impl.UserServiceImpl;
 import org.junit.Test;
@@ -12,12 +14,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -31,6 +37,8 @@ public class UserServiceTest {
     @MockBean
     private UserRepository userRepository;
 
+    @Autowired
+    BlogExcelImporter blogExcelImporter;
 
     @Test
     public void findUserById() throws ApiException {

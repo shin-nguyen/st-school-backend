@@ -1,20 +1,12 @@
 package com.stschools.api;
 
-import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
-import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
-import com.stschools.dto.UserDTO;
 import com.stschools.entity.Blog;
-import com.stschools.entity.User;
-import com.stschools.exception.ApiRequestException;
 import com.stschools.exception.InputFieldException;
 import com.stschools.export_file.blogs.BlogCsvExporter;
 import com.stschools.export_file.blogs.BlogExcelExporter;
 import com.stschools.export_file.blogs.BlogPdfExporter;
-import com.stschools.export_file.users.UserCsvExporter;
-import com.stschools.export_file.users.UserExcelExporter;
-import com.stschools.export_file.users.UserPdfExporter;
 import com.stschools.mapper.BlogMapper;
 import com.stschools.payload.blog.BlogRequest;
 import com.stschools.payload.common.GraphQLRequest;
@@ -25,18 +17,14 @@ import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
+import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -74,9 +62,9 @@ public class BlogController {
         return ResponseEntity.ok(blogService.deleteBlog(blogId));
     }
 
-    @PutMapping("/{id}/{status}")
-    public ResponseEntity<?> updateBlogStatus(@PathVariable("id") Long blogId,@PathVariable("status") String status) {
-        return ResponseEntity.ok(blogService.updateBlogStatus(blogId,status));
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> updateBlogStatus(@PathVariable("id") Long blogId) {
+        return ResponseEntity.ok(blogService.updateBlogStatus(blogId));
     }
 
     @PostMapping("/graphql/blogs")
@@ -104,6 +92,11 @@ public class BlogController {
         } else {
             return ResponseEntity.ok(blogMapper.addBlog(blog, user.getId()));
         }
+    }
+
+    @PostMapping("/add/file")
+    public ResponseEntity<List<?>> importToExcel(@RequestParam("file") MultipartFile file) throws IOException, ApiException {
+        return ResponseEntity.ok(blogService.addBlog(file));
     }
 
 

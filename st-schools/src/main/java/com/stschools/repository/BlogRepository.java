@@ -16,10 +16,10 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
     List<Blog> findAllByUserEmail(String email);
 
     @Modifying
-    @Query("update Blog b set b.view = b.view + 1")
+    @Query("update Blog b set b.view = b.view + 1 where b.id = ?1")
     void updateView(Long blogId);
 
     @Modifying
-    @Query("update Blog b set b.status = ?1")
+    @Query("update Blog b set b.status = ?2 where b.id = ?1")
     void updateBlogStatus(Long blogId, boolean status);
 }

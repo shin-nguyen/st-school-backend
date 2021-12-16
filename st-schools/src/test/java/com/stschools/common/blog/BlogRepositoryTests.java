@@ -1,7 +1,6 @@
 package com.stschools.common.blog;
 
 import com.stschools.entity.Blog;
-import com.stschools.entity.Course;
 import com.stschools.entity.Topic;
 import com.stschools.entity.User;
 import com.stschools.repository.BlogRepository;
@@ -28,8 +27,11 @@ public class BlogRepositoryTests {
 
     @Autowired
     TopicRepository topicRepository;
+
     @Autowired
     UserRepository userRepository;
+
+
 
     @Test
     public void testAddBlog() {
@@ -65,6 +67,8 @@ public class BlogRepositoryTests {
         Iterable<Blog> iterable = blogRepository.findAll();
         assertThat(iterable).size().isGreaterThan(0);
     }
+
+
 
     @Test
     public void testCountById() {

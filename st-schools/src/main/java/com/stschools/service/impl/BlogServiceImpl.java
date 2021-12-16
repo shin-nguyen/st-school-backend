@@ -3,24 +3,22 @@ package com.stschools.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
-import com.stschools.dto.BlogDTO;
-import com.stschools.dto.CourseDTO;
 import com.stschools.entity.User;
+import com.stschools.import_file.blogs.BlogExcelImporter;
 import com.stschools.payload.blog.BlogRequest;
 import com.stschools.repository.BlogRepository;
 import com.stschools.entity.Blog;
 import com.stschools.service.BlogService;
 import com.stschools.service.UserService;
-import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +27,7 @@ public class BlogServiceImpl implements BlogService {
     private final BlogRepository blogRepository;
     public final Cloudinary cloudinary;
     private final UserService userService;
+    private final BlogExcelImporter blogExcelImporter;
 
     @Override
     public DataFetcher<Blog> getBlogByQuery() {
@@ -60,6 +59,7 @@ public class BlogServiceImpl implements BlogService {
 
 
     @Override
+    @Transactional
     public Blog findBlogById(Long blogId) {
         blogRepository.updateView(blogId);
         return blogRepository.findById(blogId).get();
@@ -117,6 +117,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public List<Blog> addBlog(MultipartFile file) throws IOException {
+        List<Blog> blogs = blogExcelImporter.parseExcelFile(file.getInputStream());
+        return  blogRepository.saveAll(blogs);
+    }
+
+    @Override
     public DataFetcher<List<Blog>> getAllBlogsByMe() {
         return dataFetchingEnvironment -> {
             String email = dataFetchingEnvironment.getArgument("email");
@@ -126,14 +132,16 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Blog updateBlogStatus(Long blogId, String status) {
-        switch (status){
-            case "TRUE":
-                blogRepository.updateBlogStatus(blogId,true);
-            default:
-                blogRepository.updateBlogStatus(blogId,false);
+    @Transactional
+    public Blog updateBlogStatus(Long blogId) {
+        Blog blog = blogRepository.findBlogById(blogId);
+        System.out.println(blogId + (blog.getStatus()?"Hi":"Hu") );
+        if (blog.getStatus()) {
+            blogRepository.updateBlogStatus(blogId, true);
+        }else {
+            blogRepository.updateBlogStatus(blogId, false);
         }
-
-        return blogRepository.findBlogById(blogId);
+        blog.setStatus(!blog.getStatus());
+        return blog;
     }
 }

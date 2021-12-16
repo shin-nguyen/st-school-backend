@@ -1,10 +1,6 @@
 package com.stschools.api;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.entity.User;
-import com.stschools.export_file.users.UserCsvExporter;
-import com.stschools.export_file.users.UserExcelExporter;
-import com.stschools.export_file.users.UserPdfExporter;
 import com.stschools.mapper.UserMapper;
 import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.service.UserService;
@@ -13,8 +9,6 @@ import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 

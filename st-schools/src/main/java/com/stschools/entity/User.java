@@ -3,6 +3,7 @@ package com.stschools.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stschools.common.enums.AuthProvider;
 import com.stschools.common.enums.Role;
+import com.stschools.util.DateTimeControl;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,15 +42,19 @@ public class User {
     @Column
     private String updateTime;
 
+
+
     @PrePersist
     protected void onCreate() {
-        this.createdTime = new Date().toString();
+        this.createdTime = DateTimeControl.formatDate(new Date());
+        this.updateTime = DateTimeControl.formatDate(new Date());
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateTime = new Date().toString();
+        this.updateTime =  DateTimeControl.formatDate(new Date());
     }
+
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;

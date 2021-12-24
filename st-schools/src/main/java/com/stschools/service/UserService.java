@@ -3,6 +3,7 @@ package com.stschools.service;
 import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
+import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
 import graphql.schema.DataFetcher;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,4 +32,9 @@ public interface UserService {
     List<UserResponse> getAllCustomerByDashboards();
 
     User updateImage(String email, MultipartFile file) throws IOException;
+
+    List<GraphResponse> dashboardGraph(Long year);
+
+    int[] dashboardOrder(Long year);
+    int[] dashboardBlog(Long year);
 }

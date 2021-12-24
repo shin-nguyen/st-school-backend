@@ -8,16 +8,15 @@ import com.stschools.security.JwtProvider;
 import com.stschools.security.oauth2.OAuth2UserInfo;
 import com.stschools.service.AuthenticationService;
 import com.stschools.service.MailService;
+import com.stschools.util.DateTimeControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private String hostname;
 
     @Override
+    @Transactional
     public Map<String, String> login(String email) {
         User user = userRepository.findByEmail(email);
         String userRole = user.getRoles().iterator().next().name();

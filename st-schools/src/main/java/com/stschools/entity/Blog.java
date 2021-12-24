@@ -1,5 +1,6 @@
 package com.stschools.entity;
 
+import com.stschools.util.DateTimeControl;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tbl_blog")
-@Where(clause="is_deleted = false")
+@Where(clause = "is_deleted = false")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,22 +43,20 @@ public class Blog {
 
     @PrePersist
     protected void onCreate() {
-        this.createdTime = new Date().toString();
-        this.updateTime = new Date().toString();
+        this.createdTime = DateTimeControl.formatDate(new Date());
+        this.updateTime = DateTimeControl.formatDate(new Date());
         this.view = 0L;
         this.isDeleted = false;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateTime = new Date().toString();
+        this.updateTime =  DateTimeControl.formatDate(new Date());
     }
-
 
     private Boolean status;
 
     private Boolean isDeleted;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")

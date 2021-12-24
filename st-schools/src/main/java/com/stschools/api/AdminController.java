@@ -61,15 +61,9 @@ public class AdminController {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    /**
-     *
-     * @param response
-     * @throws IOException
-     */
-
-
-    /**
-     *
-     */
+    @GetMapping("/dashboard/{year}")
+    public ResponseEntity<?> dashboardBlog(@PathVariable("year") Long year) {
+        return ResponseEntity.ok(userService.dashboardGraph(year));
+    }
 
 }

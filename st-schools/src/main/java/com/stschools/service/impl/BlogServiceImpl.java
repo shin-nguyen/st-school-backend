@@ -17,8 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +48,7 @@ public class BlogServiceImpl implements BlogService {
             String type = dataFetchingEnvironment.getArgument("type");
             List<Blog> list;
 
-            switch (type){
+            switch (type) {
                 case "true":
                     list = blogRepository.findAllByStatus(true);
                     break;
@@ -84,7 +89,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog update(Blog blog, Long id) throws ApiException {
-    
+
         Blog blogOld = blogRepository.findBlogById(blog.getId());
 
         if (blogOld == null) {
@@ -119,7 +124,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> addBlog(MultipartFile file) throws IOException {
         List<Blog> blogs = blogExcelImporter.parseExcelFile(file.getInputStream());
-        return  blogRepository.saveAll(blogs);
+        return blogRepository.saveAll(blogs);
     }
 
     @Override
@@ -135,13 +140,16 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     public Blog updateBlogStatus(Long blogId) {
         Blog blog = blogRepository.findBlogById(blogId);
-        System.out.println(blogId + (blog.getStatus()?"Hi":"Hu") );
         if (blog.getStatus()) {
             blogRepository.updateBlogStatus(blogId, true);
-        }else {
+        } else {
             blogRepository.updateBlogStatus(blogId, false);
         }
         blog.setStatus(!blog.getStatus());
         return blog;
     }
+
+
+
+
 }

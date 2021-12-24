@@ -36,5 +36,6 @@ public interface BlogService {
     DataFetcher<List<Blog>> getAllBlogsByMe();
 
     Blog updateBlogStatus(Long blogId);
+
 }
 

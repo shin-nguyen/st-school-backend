@@ -46,6 +46,7 @@ public class BlogController {
         return ResponseEntity.ok(blogMapper.findBlogById(blogId));
     }
 
+
     @PutMapping("/edit")
     public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
                                             @Valid @RequestBody BlogDTO request,

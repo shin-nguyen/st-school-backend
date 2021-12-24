@@ -5,13 +5,17 @@ import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.common.enums.Role;
 import com.stschools.entity.Blog;
+import com.stschools.entity.Order;
 import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
+import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
 import com.stschools.repository.BlogRepository;
 import com.stschools.repository.CourseRepository;
 import com.stschools.repository.OrderRepository;
 import com.stschools.repository.UserRepository;
+import com.stschools.service.BlogService;
+import com.stschools.service.OrderService;
 import com.stschools.service.UserService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.IntStream;
 
 
 @Service
@@ -35,7 +41,6 @@ public class UserServiceImpl implements UserService {
     private final OrderRepository orderRepository;
     private final BlogRepository blogRepository;
     private final Cloudinary cloudinary;
-
 
     @Override
     public User findUserById(Long userId) throws ApiException {
@@ -111,5 +116,52 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email);
         user.setAvatar(uploadResult.get("secure_url").toString());
         return userRepository.save(user);
+    }
+
+    @Override
+    public int[] dashboardOrder(Long year) {
+        int[] frequency =  IntStream.of(0,0,0,0,0,0,0,0,0,0,0,0).toArray();
+        List<Order> orders = orderRepository.findAll();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        orders.forEach(order -> {
+            Date startDate = null;
+            try {
+                startDate = df.parse(order.getCreatedTime());
+                frequency[startDate.getMonth()]++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        return frequency;
+    }
+
+    @Override
+    public int[] dashboardBlog(Long year) {
+        int[] frequency =  IntStream.of(0,0,0,0,0,0,0,0,0,0,0,0).toArray();
+        List<Blog> blogs = blogRepository.findAll();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        blogs.forEach(blog -> {
+            Date startDate = null;
+            try {
+                startDate = df.parse(blog.getCreatedTime());
+                frequency[startDate.getMonth()]++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        return frequency;
+    }
+
+    @Override
+    public List<GraphResponse> dashboardGraph(Long year) {
+        List<GraphResponse> list = new ArrayList<>();
+
+        GraphResponse orderGraph = new GraphResponse("Order",dashboardOrder(year));
+        GraphResponse blogGraph = new GraphResponse("Blog",dashboardBlog(year));
+        list.add(orderGraph);
+        list.add(blogGraph);
+        return list;
     }
 }

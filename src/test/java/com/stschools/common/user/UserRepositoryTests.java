@@ -25,18 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
 public class UserRepositoryTests {
-
-	private UserRepository repo;
-	private TestEntityManager entityManager;
-	
 	@Autowired
-	public UserRepositoryTests(UserRepository repo, TestEntityManager entityManager) {
-		super();
-		this.repo = repo;
-		this.entityManager = entityManager;
-	}
-	
-	
+	private UserRepository repo;
+
 	@Test
 	public void testCreateNewUserWithOneRole() {
 		User user = new User();

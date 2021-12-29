@@ -27,7 +27,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class OrderController {
     private final OrderService orderService;
     private final OrderRepository orderRepository;

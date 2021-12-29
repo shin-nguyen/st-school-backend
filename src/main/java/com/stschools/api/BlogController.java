@@ -29,7 +29,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/blogs")
-@Builder
 public class BlogController {
 
     private final BlogMapper blogMapper;

@@ -32,9 +32,7 @@ import java.util.List;
 public class UserController {
     private final UserMapper userMapper;
     private final UserService userService;
-
     private final GraphQLProvider graphQLProvider;
-    private final SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo(@CurrentUser UserPrincipal user) {

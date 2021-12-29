@@ -12,7 +12,7 @@
     <artifactId>st-schools</artifactId>
     <version>2.5.4</version>
     <name>st-schools</name>
-    <description>Demo project for Spring Boot</description>
+    <description>ST Schools</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -32,10 +32,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
         </dependency>
 
         <!--security-->
@@ -185,17 +181,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- beans and core-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>5.3.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>5.3.6</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <!--  pdf csv excel-->

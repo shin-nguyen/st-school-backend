@@ -14,18 +14,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.core.io.Resource;
 import graphql.schema.GraphQLSchema;
+import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class GraphQLProvider {
     private final UserService userService;
     private final BlogService blogService;
     private final OrderService orderService;
 
-    @Value("classpath:graphql/schemas.graphql")
+    @Value("classpath:/graphql/schemas.graphql")
     private Resource resource;
 
     @Getter

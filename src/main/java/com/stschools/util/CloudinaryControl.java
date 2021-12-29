@@ -2,6 +2,7 @@ package com.stschools.util;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,8 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class CloudinaryControl {
-    @Autowired
     private static Cloudinary cloudinary;
 
     public static Map uploadFile(MultipartFile file) throws IOException {

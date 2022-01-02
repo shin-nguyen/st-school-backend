@@ -3,15 +3,22 @@ package com.stschools.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
+import com.stschools.dto.BlogDTO;
+import com.stschools.dto.QuizDTO;
+import com.stschools.entity.Quiz;
 import com.stschools.entity.User;
+import com.stschools.exception.ApiRequestException;
 import com.stschools.import_file.blogs.BlogExcelImporter;
 import com.stschools.payload.blog.BlogRequest;
 import com.stschools.repository.BlogRepository;
 import com.stschools.entity.Blog;
+import com.stschools.repository.UserRepository;
 import com.stschools.service.BlogService;
 import com.stschools.service.UserService;
+import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +38,7 @@ public class BlogServiceImpl implements BlogService {
 
     private final BlogRepository blogRepository;
     public final Cloudinary cloudinary;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final BlogExcelImporter blogExcelImporter;
 
     @Override
@@ -65,45 +72,47 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public Blog findBlogById(Long blogId) {
+    public BlogDTO findBlogById(Long blogId) {
         blogRepository.updateView(blogId);
-        return blogRepository.findById(blogId).get();
+
+        Blog blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
+        return ModelMapperControl.map(blog,BlogDTO.class);
     }
 
     @Override
-    public List<Blog> findAllBlogs() {
-        return blogRepository.findAllByOrderByIdAsc();
+    public List<BlogDTO> findAllBlogs() {
+        return ModelMapperControl.mapAll(blogRepository.findAllByOrderByIdAsc(), BlogDTO.class);
     }
 
     @Override
-    public Long deleteBlog(Long blogId) throws ApiException {
-        Blog blogOld = blogRepository.findBlogById(blogId);
+    public Long deleteBlog(Long blogId){
+        Blog blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
 
-        if (blogOld == null) {
-            throw new ApiException("Could not find  blog with ID " + blogId);
-        }
-        blogOld.setIsDeleted(true);
-        blogRepository.save(blogOld);
+        blog.setIsDeleted(true);
+        blogRepository.save(blog);
         return blogId;
     }
 
     @Override
-    public Blog update(Blog blog, Long id) throws ApiException {
+    public BlogDTO update(BlogDTO blog, Long id){
+        Blog blogOld = blogRepository.findById(blog.getId())
+                .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
 
-        Blog blogOld = blogRepository.findBlogById(blog.getId());
-
-        if (blogOld == null) {
-            throw new ApiException("Could not find  blog with ID " + id);
-        }
 
         blogOld.setContent(blog.getContent());
         blogOld.setTitle(blog.getTitle());
-
-        return blogRepository.save(blogOld);
+//
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
+//        blogOld.setUser(user);
+//
+        return ModelMapperControl.map(blogRepository.save(blogOld), BlogDTO.class);
     }
 
     @Override
-    public Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException {
+    public BlogDTO addBlog(BlogRequest blog, Long idUser) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(blog.getFile().getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + blog.getFile().getOriginalFilename()));
         Blog blogNew = new Blog();
@@ -112,19 +121,20 @@ public class BlogServiceImpl implements BlogService {
         blogNew.setContent(blog.getContent());
         blogNew.setSummary("New Summary");
 
-        User user = userService.findUserById(id);
+        User user = userRepository.findById(idUser)
+                .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
         blogNew.setUser(user);
 
         blogNew.setStatus(false);
 
 
-        return blogRepository.save(blogNew);
+        return ModelMapperControl.map(blogRepository.save(blogNew), BlogDTO.class);
     }
 
     @Override
-    public List<Blog> addBlog(MultipartFile file) throws IOException {
+    public List<BlogDTO> addBlog(MultipartFile file) throws IOException {
         List<Blog> blogs = blogExcelImporter.parseExcelFile(file.getInputStream());
-        return blogRepository.saveAll(blogs);
+        return ModelMapperControl.mapAll(blogRepository.saveAll(blogs), BlogDTO.class);
     }
 
     @Override
@@ -138,7 +148,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public Blog updateBlogStatus(Long blogId) {
+    public BlogDTO updateBlogStatus(Long blogId) {
         Blog blog = blogRepository.findBlogById(blogId);
         if (blog.getStatus()) {
             blogRepository.updateBlogStatus(blogId, true);
@@ -146,10 +156,6 @@ public class BlogServiceImpl implements BlogService {
             blogRepository.updateBlogStatus(blogId, false);
         }
         blog.setStatus(!blog.getStatus());
-        return blog;
+        return ModelMapperControl.map(blog, BlogDTO.class);
     }
-
-
-
-
 }

@@ -7,11 +7,11 @@ import com.stschools.export_file.orders.OrderCsvExporter;
 import com.stschools.export_file.orders.OrderExcelExporter;
 import com.stschools.export_file.orders.OrderPdfExporter;
 
-import com.stschools.mapper.UserMapper;
 import com.stschools.repository.OrderRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.OrderService;
+import com.stschools.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,8 @@ import java.util.Map;
 public class OrderController {
     private final OrderService orderService;
     private final OrderRepository orderRepository;
-    private final UserMapper userMapper;
+    private final UserService userService;
+
     @GetMapping("/list")
     public ResponseEntity<?> getListOrder(){
         try {
@@ -47,7 +48,7 @@ public class OrderController {
     @PostMapping("/add")
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO, @CurrentUser UserPrincipal user){
         try{
-            UserDTO userDTO = userMapper.findUserById(user.getId());
+            UserDTO userDTO = userService.findUserById(user.getId());
             orderDTO.setUser(userDTO);
             return ResponseEntity.ok().body(orderService.save(orderDTO));
         }catch (Exception ex){

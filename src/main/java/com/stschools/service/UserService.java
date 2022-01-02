@@ -1,6 +1,7 @@
 package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
+import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
@@ -13,19 +14,19 @@ import java.util.List;
 
 public interface UserService {
 
-    User findUserById(Long userId) throws ApiException;
+    UserDTO findUserById(Long userId) throws ApiException;
 
-    User findUserByEmail(String email);
+    UserDTO findUserByEmail(String email);
 
     DataFetcher<List<User>> getAllUsersByQuery();
 
     DataFetcher<User> getUserByQuery();
 
-    List<User> findAllUsers();
+    List<UserDTO> findAllUsers();
 
-    User updateProfile(String email, User user);
+    UserDTO updateProfile(String email, UserDTO user);
 
-    List<User> findAllCustomers();
+    List<UserDTO> findAllCustomers();
 
     DashboardResponse getDashboards();
 

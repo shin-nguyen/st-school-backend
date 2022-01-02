@@ -1,7 +1,6 @@
 package com.stschools.api;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.mapper.UserMapper;
 import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.service.UserService;
 import com.stschools.service.graphql.GraphQLProvider;
@@ -16,18 +15,17 @@ import java.util.List;
 @RequestMapping("/api/v1/admin")
 public class AdminController {
 
-    private final UserMapper userMapper;
     private final UserService userService;
     private final GraphQLProvider graphQLProvider;
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long userId) throws ApiException {
-        return ResponseEntity.ok(userMapper.findUserById(userId));
+        return ResponseEntity.ok(userService.findUserById(userId));
     }
 
     @GetMapping("/user/all")
     public ResponseEntity<List<?>> getAllUsers() {
-        return ResponseEntity.ok(userMapper.findAllUsers());
+        return ResponseEntity.ok(userService.findAllUsers());
     }
 
     @GetMapping("/dashboard/user")
@@ -47,7 +45,7 @@ public class AdminController {
 
     @GetMapping("/customer/all")
     public ResponseEntity<List<?>> getAllCustomers() {
-        return ResponseEntity.ok(userMapper.findAllCustomers());
+        return ResponseEntity.ok(userService.findAllCustomers());
     }
 
     @PostMapping("/graphql/user")

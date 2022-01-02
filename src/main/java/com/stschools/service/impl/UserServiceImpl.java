@@ -4,9 +4,12 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.common.enums.Role;
+import com.stschools.dto.BlogDTO;
+import com.stschools.dto.UserDTO;
 import com.stschools.entity.Blog;
 import com.stschools.entity.Order;
 import com.stschools.entity.User;
+import com.stschools.exception.ApiRequestException;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
@@ -17,10 +20,12 @@ import com.stschools.repository.UserRepository;
 import com.stschools.service.BlogService;
 import com.stschools.service.OrderService;
 import com.stschools.service.UserService;
+import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,22 +48,20 @@ public class UserServiceImpl implements UserService {
     private final Cloudinary cloudinary;
 
     @Override
-    public User findUserById(Long userId) throws ApiException {
-        Optional<User> user = userRepository.findById(userId);
-        if (!user.isPresent()){
-            throw new ApiException("Could not find  blog with ID ");
-        }
-        return user.get();
+    public UserDTO findUserById(Long userId) throws ApiException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
+        return ModelMapperControl.map(user, UserDTO.class);
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserDTO findUserByEmail(String email) {
+        return ModelMapperControl.map(userRepository.findByEmail(email), UserDTO.class);
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAllByOrderByIdAsc();
+    public List<UserDTO> findAllUsers() {
+        return ModelMapperControl.mapAll(userRepository.findAllByOrderByIdAsc(), UserDTO.class);
     }
 
     @Override
@@ -75,19 +78,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateProfile(String email, User user) {
+    public UserDTO updateProfile(String email, UserDTO user) {
         User userFromDb = userRepository.findByEmail(email);
+
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setAddress(user.getAddress());
         userFromDb.setPhone(user.getPhone());
         userRepository.save(userFromDb);
-        return userFromDb;
+
+        return ModelMapperControl.map(userFromDb, UserDTO.class);
     }
 
     @Override
-    public List<User> findAllCustomers() {
-        return userRepository.findAlLByRoles(Role.USER);
+    public List<UserDTO> findAllCustomers() {
+        return ModelMapperControl.mapAll(userRepository.findAlLByRoles(Role.USER), UserDTO.class);
     }
 
     @Override

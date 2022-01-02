@@ -31,6 +31,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/course")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequiredArgsConstructor
 public class CourseController {
 

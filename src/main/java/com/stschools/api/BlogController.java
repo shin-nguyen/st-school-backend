@@ -7,15 +7,14 @@ import com.stschools.exception.InputFieldException;
 import com.stschools.export_file.blogs.BlogCsvExporter;
 import com.stschools.export_file.blogs.BlogExcelExporter;
 import com.stschools.export_file.blogs.BlogPdfExporter;
-import com.stschools.mapper.BlogMapper;
 import com.stschools.payload.blog.BlogRequest;
 import com.stschools.payload.common.GraphQLRequest;
+import com.stschools.repository.BlogRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -30,19 +29,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/blogs")
 public class BlogController {
-
-    private final BlogMapper blogMapper;
+    private final BlogRepository blogRepository;
     private final BlogService blogService;
     private final GraphQLProvider graphQLProvider;
 
     @GetMapping
     public ResponseEntity<List<?>> getAllBlogs() {
-        return ResponseEntity.ok(blogMapper.findAllBlogs());
+        return ResponseEntity.ok(blogService.findAllBlogs());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId) {
-        return ResponseEntity.ok(blogMapper.findBlogById(blogId));
+        return ResponseEntity.ok(blogService.findBlogById(blogId));
     }
 
 
@@ -53,7 +51,7 @@ public class BlogController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(blogMapper.updateBlog(user.getId(), request));
+            return ResponseEntity.ok(blogService.update(request,user.getId()));
         }
     }
 
@@ -90,7 +88,7 @@ public class BlogController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(blogMapper.addBlog(blog, user.getId()));
+            return ResponseEntity.ok(blogService.addBlog(blog, user.getId()));
         }
     }
 
@@ -102,14 +100,14 @@ public class BlogController {
 
     @GetMapping(path = "export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
-        List<Blog> blogs = blogService.findAllBlogs();
+        List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
         BlogExcelExporter exporter = new BlogExcelExporter();
         exporter.export(blogs, response);
     }
 
     @GetMapping("/export/csv")
     public void exportToCSV( HttpServletResponse response) throws IOException {
-        List<Blog> blogs = blogService.findAllBlogs();
+        List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
         BlogCsvExporter exporter = new BlogCsvExporter();
 
         exporter.export(blogs, response);
@@ -117,7 +115,7 @@ public class BlogController {
 
     @GetMapping("/export/pdf")
     public void exportToPDF( HttpServletResponse response) throws IOException {
-        List<Blog> blogs = blogService.findAllBlogs();
+        List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
         BlogPdfExporter exporter = new BlogPdfExporter();
         exporter.export(blogs, response);
     }

@@ -16,24 +16,15 @@ public interface CommentService {
 
     DataFetcher<List<CommentBlog>> getAllCommentsByQuery();
 
-    CommentBlog findCommentById(Long blogId);
+    CommentBlogDTO findCommentById(Long blogId);
 
-    List<CommentBlog> findAllComments(Long id);
+    List<CommentBlogDTO> findAllComments(Long id);
 
-
-    //    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
-//
-//    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
-//
-//    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
-//
-//    Perfume savePerfume(Perfume perfume, MultipartFile file);
-//
     Long deleteComment(Long commentId);
 
-    CommentBlog update(CommentBlog comment, Long id) throws ApiException;
+    CommentBlogDTO update(CommentBlogDTO comment, Long id) throws ApiException;
 
-    CommentBlog addComment(CommentBlog comment, Long id) throws ApiException;
+    CommentBlogDTO addComment(CommentBlogDTO comment, Long id) throws ApiException;
 
     Boolean addListComment(Long id, List<CommentBlogDTO> list);
 }

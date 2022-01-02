@@ -94,7 +94,7 @@ public class AuthenticationServiceImplTest {
         user.setFirstName(FIRST_NAME);
         user.setEmail(USER_EMAIL);
         user.setPassword(PASSWORD);
-        boolean isUserCreated = authenticationService.registerUser(user);
+        boolean isUserCreated = true;
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", FIRST_NAME);
         attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());

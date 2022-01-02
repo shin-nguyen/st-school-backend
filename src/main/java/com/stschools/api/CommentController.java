@@ -20,10 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1/comments")
 public class CommentController {
     private final CommentService commentService;
-<<<<<<< HEAD
 
-=======
->>>>>>> 4cba097887d17b0eccf17efd17e606cd0ca38b70
     @GetMapping("/{id}")
     public ResponseEntity<?> getComment(@PathVariable("id") Long id) {
         return ResponseEntity.ok(commentService.findCommentById(id));
@@ -53,10 +50,6 @@ public class CommentController {
         return ResponseEntity.ok(commentService.deleteComment(commentId));
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4cba097887d17b0eccf17efd17e606cd0ca38b70
     @PostMapping(value ="/add")
     public ResponseEntity<CommentDTO> registerPost(@RequestBody CommentDTO commentDTO,
                                                    @CurrentUser UserPrincipal user,
@@ -64,21 +57,17 @@ public class CommentController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-<<<<<<< HEAD
-            return ResponseEntity.ok(commentMapper.addComment(user.getId(), commentDTO));
-=======
-            return ResponseEntity.ok(commentService.addComment(commentBlogDTO,user.getId()));
->>>>>>> 4cba097887d17b0eccf17efd17e606cd0ca38b70
+            return ResponseEntity.ok(commentService.addComment(commentDTO,user.getId()));
         }
     }
-    @PostMapping(value ="/add/all")
-    public ResponseEntity<?> addListComment(@RequestBody List<CommentDTO> list,
-                                                       @CurrentUser UserPrincipal user,
-                                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(commentService.addListComment( user.getId(),list));
-        }
-    }
+//    @PostMapping(value ="/add/all")
+//    public ResponseEntity<?> addListComment(@RequestBody List<CommentDTO> list,
+//                                                       @CurrentUser UserPrincipal user,
+//                                                       BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            throw new InputFieldException(bindingResult);
+//        } else {
+//            return ResponseEntity.ok(commentService.addListComment( user.getId(),list));
+//        }
+//    }
 }

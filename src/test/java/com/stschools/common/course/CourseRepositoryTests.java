@@ -27,14 +27,14 @@ public class CourseRepositoryTests {
         List<Course> courseList = Arrays.asList(
                 new Course("Learn HTML",
                         "Start learning HTML with the w3schools fundamentals course. HTML is the standard markup language for creating Web pages.",
-                        "Eng",
-                        96,
+                        "English",
+                        20,
                         "https://res.cloudinary.com/qscloud/image/upload/v1635049180/st-school/images/html.png.png"
                         ),
                 new Course("Learn CSS",
                         "Start learning CSS with the w3schools fundamentals course. CSS is the language we use to style an HTML document.', 'css.png', 'Learn CSS",
-                        "Eng",
-                        90,
+                        "English",
+                        10,
                         "https://res.cloudinary.com/qscloud/image/upload/v1635049169/st-school/images/css.png.png"
                 )
         );

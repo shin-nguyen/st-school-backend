@@ -1,16 +1,7 @@
 package com.stschools.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.stschools.common.enums.AuthProvider;
 import com.stschools.common.enums.Role;
 import lombok.*;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data

@@ -1,11 +1,8 @@
 package com.stschools.mapper;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.dto.BlogDTO;
-import com.stschools.dto.CommentBlogDTO;
-import com.stschools.entity.Blog;
-import com.stschools.entity.CommentBlog;
-import com.stschools.service.BlogService;
+import com.stschools.dto.CommentDTO;
+import com.stschools.entity.Comment;
 import com.stschools.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,34 +18,34 @@ public class CommentMapper {
     private final ModelMapper modelMapper;
     private final CommentService commentService;
 
-    private CommentBlog convertToEntity(CommentBlogDTO commentRequest) {
-        return modelMapper.map(commentRequest, CommentBlog.class);
+    private Comment convertToEntity(CommentDTO commentRequest) {
+        return modelMapper.map(commentRequest, Comment.class);
     }
 
-    CommentBlogDTO convertToResponseDto(CommentBlog commentBlog) {
-        return modelMapper.map(commentBlog, CommentBlogDTO.class);
+    CommentDTO convertToResponseDto(Comment comment) {
+        return modelMapper.map(comment, CommentDTO.class);
     }
 
-    List<CommentBlogDTO> convertListToResponseDto(List<CommentBlog> comments) {
+    List<CommentDTO> convertListToResponseDto(List<Comment> comments) {
         return comments.stream()
                 .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
     }
 
-    public CommentBlogDTO findCommentById(Long blogId) {
+    public CommentDTO findCommentById(Long blogId) {
         return convertToResponseDto(commentService.findCommentById(blogId));
     }
 
 
-    public List<CommentBlogDTO> findAllComments(Long id) {
+    public List<CommentDTO> findAllComments(Long id) {
         return convertListToResponseDto(commentService.findAllComments(id));
     }
 
-    public CommentBlogDTO updateComment(Long id, CommentBlogDTO request) throws ApiException {
+    public CommentDTO updateComment(Long id, CommentDTO request) throws ApiException {
         return convertToResponseDto(commentService.update(convertToEntity(request),id));
     }
 
-    public CommentBlogDTO addComment(Long id, CommentBlogDTO request) throws ApiException {
+    public CommentDTO addComment(Long id, CommentDTO request) throws ApiException {
         return convertToResponseDto(commentService.addComment(convertToEntity(request),id));
     }
 

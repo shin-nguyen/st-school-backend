@@ -1,16 +1,18 @@
 package com.stschools.entity;
 
+import com.stschools.util.DateTimeControl;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "tbl_comment_blog")
+@Table(name = "tbl_comment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentBlog {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,16 +22,6 @@ public class CommentBlog {
 
     @Column
     private String updateTime;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdTime = new Date().toString();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updateTime = new Date().toString();
-    }
 
     @Column(length = 1000,nullable = false)
     private String content;
@@ -46,7 +38,28 @@ public class CommentBlog {
     @ToString.Exclude
     private Blog blog;
 
-    public CommentBlog(String content, User user, Blog blog) {
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<ReplyComment> replies;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdTime = DateTimeControl.formatDate(new Date());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateTime = DateTimeControl.formatDate(new Date());
+    }
+
+    public Comment(String content, User user, Blog blog) {
         this.content = content;
         this.user = user;
         this.blog = blog;

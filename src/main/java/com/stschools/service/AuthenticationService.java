@@ -1,15 +1,18 @@
 package com.stschools.service;
 
+import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
+import com.stschools.payload.auth.AuthenticationResponse;
+import com.stschools.payload.common.RegistrationRequest;
 import com.stschools.security.oauth2.OAuth2UserInfo;
 
 import java.util.Map;
 
 public interface AuthenticationService {
 
-    Map<String, String> login(String email);
+    AuthenticationResponse login(String email);
 
-    boolean registerUser(User user);
+    boolean registerUser(RegistrationRequest user);
 
     User registerOauth2User(String provider, OAuth2UserInfo oAuth2UserInfo);
 
@@ -17,7 +20,7 @@ public interface AuthenticationService {
 
     boolean activateUser(String code);
 
-    User findByPasswordResetCode(String code);
+    UserDTO findByPasswordResetCode(String code);
 
     boolean sendPasswordResetCode(String email);
 

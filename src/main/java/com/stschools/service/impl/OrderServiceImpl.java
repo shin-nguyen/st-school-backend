@@ -93,5 +93,8 @@ public class OrderServiceImpl implements OrderService {
         return dataFetchingEnvironment -> orders.getContent();
     }
 
-
+    @Override
+    public Long countByCourseId(Long id) {
+        return orderRepository.countByCourseId(id);
+    }
 }

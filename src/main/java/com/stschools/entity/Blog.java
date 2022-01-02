@@ -54,8 +54,10 @@ public class Blog {
         this.updateTime =  DateTimeControl.formatDate(new Date());
     }
 
+    @Column
     private Boolean status;
 
+    @Column
     private Boolean isDeleted;
 
     @ManyToOne

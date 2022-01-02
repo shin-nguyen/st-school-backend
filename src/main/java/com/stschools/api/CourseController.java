@@ -6,17 +6,14 @@ import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.CourseDTO;
 import com.stschools.entity.Course;
-import com.stschools.entity.Order;
 import com.stschools.export_file.courses.CourseCsvExporter;
 import com.stschools.export_file.courses.CourseExcelExporter;
 import com.stschools.export_file.courses.CoursePdfExporter;
-import com.stschools.export_file.orders.OrderCsvExporter;
-import com.stschools.export_file.orders.OrderExcelExporter;
-import com.stschools.export_file.orders.OrderPdfExporter;
 import com.stschools.repository.CourseRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.CourseService;
+import com.stschools.util.ObjectMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +28,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/course")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@RequiredArgsConstructor
 public class CourseController {
 
     public final CourseService courseService;
@@ -99,56 +96,39 @@ public class CourseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CourseDTO> create(@RequestParam String name,
-                                            @RequestParam String description,
-                                            @RequestParam String language,
-                                            @RequestParam Integer price,
+    public ResponseEntity<CourseDTO> create(@RequestParam String course,
                                             @RequestParam MultipartFile file
-                                            ) throws IOException, ApiException {
+    ) throws IOException, ApiException {
 
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
-        CourseDTO course = CourseDTO.builder()
-                        .name(name)
-                        .description(description)
-                        .language(language)
-                        .price(price)
-                        .image(uploadResult.get("secure_url").toString())
-                        .build();
+        CourseDTO newCourse = ObjectMapperControl.objectMapper.readValue(course, CourseDTO.class);
+        newCourse.setImage(uploadResult.get("secure_url").toString());
 
-        if(courseService.findByName(course.getName()) != null){
+        if(courseService.findByName(newCourse.getName()) != null){
             throw new AlreadyExists("Name Existed");
         }
 
         try{
-            return ResponseEntity.ok().body(courseService.save(course));
+            return ResponseEntity.ok().body(courseService.save(newCourse));
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't save", ex);
         }
     }
     
     @PutMapping("/update")
-    public ResponseEntity<CourseDTO> update(@RequestParam Long id,
-                                            @RequestParam String name,
-                                            @RequestParam String description,
-                                            @RequestParam String language,
-                                            @RequestParam Integer price,
+    public ResponseEntity<CourseDTO> update(@RequestParam String course,
                                             @RequestParam MultipartFile file
                                             ) throws IOException {
         Map uploadResult = this.cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + file.getOriginalFilename()));
 
-        CourseDTO course = CourseDTO.builder()
-                .id(id)
-                .name(name)
-                .description(description)
-                .language(language)
-                .price(price)
-                .image(uploadResult.get("secure_url").toString())
-                .build();
+        CourseDTO editCourse = ObjectMapperControl.objectMapper.readValue(course, CourseDTO.class);
+        editCourse.setImage(uploadResult.get("secure_url").toString());
+
         try{
-            return ResponseEntity.ok().body(courseService.update(course));
+            return ResponseEntity.ok().body(courseService.update(editCourse));
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't update", ex);
         }
@@ -163,7 +143,6 @@ public class CourseController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't delete", exc);
         }
     }
-
 
     @GetMapping(path = "export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {

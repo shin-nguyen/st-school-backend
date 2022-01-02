@@ -20,4 +20,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Long countByCourseIdAndUserId(Long course, Long user);
 
+    Long countByCourseId(Long id);
 }

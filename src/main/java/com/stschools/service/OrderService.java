@@ -14,4 +14,6 @@ public interface OrderService {
     void deleteById(Long id);
 
     DataFetcher<List<Order>> findAllByCreateDateTop5();
+
+    Long countByCourseId(Long id);
 }

@@ -1,26 +1,18 @@
 package com.stschools.dto;
 
-import com.stschools.entity.Blog;
-import com.stschools.entity.User;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.util.List;
 
 @Data
-public class CommentBlogDTO {
+public class CommentDTO {
     private Long id;
-
     private String createdTime;
     private String updateTime;
-
     @NotBlank
     private String content;
-
     private UserDTO user;
-
     private BlogDTO blog;
+    private CourseDTO course;
+    private List<ReplyCommentDTO> replies;
 }

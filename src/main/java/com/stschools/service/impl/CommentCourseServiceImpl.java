@@ -6,6 +6,7 @@ import com.stschools.entity.CommentCourse;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
 import com.stschools.repository.CommentCourseRepository;
+import com.stschools.repository.UserRepository;
 import com.stschools.service.CommentCourseService;
 import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
@@ -20,7 +21,7 @@ import java.util.List;
 public class CommentCourseServiceImpl implements CommentCourseService {
 
     private final CommentCourseRepository commentRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public CommentCourseDTO findCommentById(Long commentId) {
@@ -56,7 +57,7 @@ public class CommentCourseServiceImpl implements CommentCourseService {
 
     @Override
     public CommentCourseDTO addComment(CommentCourseDTO commentCourseDTO, Long id) throws ApiException {
-        User user = userService.findUserById(id);
+        User user = userRepository.findById(id).get();
         CommentCourse commentCourse =  ModelMapperControl.map(commentCourseDTO, CommentCourse.class);
 
         commentCourse.setUser(user);

@@ -1,6 +1,7 @@
 package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
+import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
 import com.stschools.payload.blog.BlogRequest;
 import graphql.schema.DataFetcher;
@@ -14,28 +15,20 @@ public interface BlogService {
 
     DataFetcher<List<Blog>> getAllBlogsByQuery();
 
-    Blog findBlogById(Long blogId);
+    BlogDTO findBlogById(Long blogId);
 
-    List<Blog> findAllBlogs();
+    List<BlogDTO> findAllBlogs();
 
-//    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
-//
-//    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
-//
-//    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
-//
-//    Perfume savePerfume(Perfume perfume, MultipartFile file);
-//
-    Long deleteBlog(Long blogId) throws ApiException;
+    Long deleteBlog(Long blogId) ;
 
-    Blog update(Blog blog, Long id) throws ApiException;
+    BlogDTO update(BlogDTO blog, Long id) ;
 
-    Blog addBlog(BlogRequest blog, Long id) throws IOException, ApiException;
-    List<Blog> addBlog(MultipartFile file) throws IOException, ApiException;
+    BlogDTO addBlog(BlogRequest blog, Long id) throws IOException;
+    List<BlogDTO> addBlog(MultipartFile file) throws IOException;
 
     DataFetcher<List<Blog>> getAllBlogsByMe();
 
-    Blog updateBlogStatus(Long blogId);
+    BlogDTO updateBlogStatus(Long blogId);
 
 }
 

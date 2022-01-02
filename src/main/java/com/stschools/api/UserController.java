@@ -6,8 +6,8 @@ import com.stschools.exception.InputFieldException;
 import com.stschools.export_file.users.UserCsvExporter;
 import com.stschools.export_file.users.UserExcelExporter;
 import com.stschools.export_file.users.UserPdfExporter;
-import com.stschools.mapper.UserMapper;
 import com.stschools.payload.common.GraphQLRequest;
+import com.stschools.repository.UserRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.UserService;
@@ -15,8 +15,6 @@ import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,15 +28,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
-    private final UserMapper userMapper;
+    private final UserRepository userRepository;
     private final UserService userService;
-
     private final GraphQLProvider graphQLProvider;
-    private final SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo(@CurrentUser UserPrincipal user) {
-        return ResponseEntity.ok(userMapper.findUserByEmail(user.getEmail()));
+        return ResponseEntity.ok(userService.findUserByEmail(user.getEmail()));
     }
 
     @PostMapping("/graphql/info")
@@ -52,7 +48,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(userMapper.updateProfile(user.getEmail(), request));
+            return ResponseEntity.ok(userService.updateProfile(user.getEmail(), request));
         }
     }
 
@@ -65,14 +61,14 @@ public class UserController {
 
     @GetMapping(path = "export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
-        List<User> listUsers = userService.findAllUsers();
+        List<User> listUsers = userRepository.findAll();
         UserExcelExporter exporter = new UserExcelExporter();
         exporter.export(listUsers, response);
     }
 
     @GetMapping("/export/csv")
     public void exportToCSV( HttpServletResponse response) throws IOException {
-        List<User> listUsers = userService.findAllUsers();
+        List<User> listUsers = userRepository.findAll();
         UserCsvExporter exporter = new UserCsvExporter();
 
         exporter.export(listUsers, response);
@@ -80,7 +76,7 @@ public class UserController {
 
     @GetMapping("/export/pdf")
     public void exportToPDF( HttpServletResponse response) throws IOException {
-        List<User> listUsers = userService.findAllUsers();
+        List<User> listUsers = userRepository.findAll();
         UserPdfExporter exporter = new UserPdfExporter();
         exporter.export(listUsers, response);
     }

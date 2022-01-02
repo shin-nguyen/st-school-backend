@@ -1,39 +1,42 @@
 package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.dto.BlogDTO;
-import com.stschools.dto.CommentBlogDTO;
-import com.stschools.entity.Blog;
-import com.stschools.entity.CommentBlog;
-import com.stschools.payload.blog.BlogRequest;
+import com.stschools.dto.CommentDTO;
+import com.stschools.entity.Comment;
 import graphql.schema.DataFetcher;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface CommentService {
-    DataFetcher<CommentBlog> getCommentByQuery();
+    DataFetcher<Comment> getCommentByQuery();
 
-    DataFetcher<List<CommentBlog>> getAllCommentsByQuery();
+    DataFetcher<List<Comment>> getAllCommentsByQuery();
 
-    CommentBlog findCommentById(Long blogId);
+<<<<<<< HEAD
+    Comment findCommentById(Long blogId);
 
-    List<CommentBlog> findAllComments(Long id);
+    List<Comment> findAllComments(Long id);
 
-
-    //    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
-//
-//    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
-//
-//    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
-//
-//    Perfume savePerfume(Perfume perfume, MultipartFile file);
-//
     Long deleteComment(Long commentId);
 
-    CommentBlog update(CommentBlog comment, Long id) throws ApiException;
+    Comment update(Comment comment, Long id) throws ApiException;
 
-    CommentBlog addComment(CommentBlog comment, Long id) throws ApiException;
+    Comment addComment(Comment comment, Long id) throws ApiException;
 
-    Boolean addListComment(Long id, List<CommentBlogDTO> list);
+    Boolean addListComment(Long id, List<CommentDTO> list);
+=======
+    CommentBlogDTO findCommentById(Long blogId);
+
+    List<CommentBlogDTO> findAllComments(Long id);
+
+    Long deleteComment(Long commentId);
+
+    CommentBlogDTO update(CommentBlogDTO comment, Long id) throws ApiException;
+
+    CommentBlogDTO addComment(CommentBlogDTO comment, Long id) throws ApiException;
+>>>>>>> 4cba097887d17b0eccf17efd17e606cd0ca38b70
+
+    ///////////////
+    List<CommentDTO> getCommentsOfCourse(Long id);
+    List<CommentDTO> getCommentsOfBlog(Long id);
 }

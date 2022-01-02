@@ -1,28 +1,26 @@
 package com.stschools.entity;
 
+import com.stschools.util.DateTimeControl;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "tbl_like_blog")
+@Table(name = "tbl_reply_comment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LikeBlog {
+public class ReplyComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    private Date createdTime;
+    private String content;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdTime = new Date();
-    }
-
+    @Column
+    private String createdTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -31,8 +29,13 @@ public class LikeBlog {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "blog_id")
+    @JoinColumn(name = "comment_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Blog blog;
+    private Comment comment;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdTime = DateTimeControl.formatDate(new Date());
+    }
 }

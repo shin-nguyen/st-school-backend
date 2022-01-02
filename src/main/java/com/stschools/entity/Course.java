@@ -3,9 +3,7 @@ package com.stschools.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "tbl_course")
@@ -24,6 +22,9 @@ public class Course {
     private String description;
 
     @Column
+    private String lecturer;
+
+    @Column
     private String language;
 
     @Column
@@ -32,8 +33,26 @@ public class Course {
     @Column
     private String image;
 
-    @Transient
+    @Column
     private Integer videoTotal;
+
+    @Column
+    private Integer subTotal;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Video> videos;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Review> reviews;
 
     public Course(String name, String description, String language, Integer price, String image) {
         this.name = name;

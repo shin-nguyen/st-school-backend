@@ -1,5 +1,3 @@
-
-
 schema {
     query: Query
 }
@@ -7,11 +5,9 @@ schema {
 type Query {
     users: [User]
     user(id: ID): User
-
     blogs(type: String): [Blog]
     blogsOfMe(email: String): [Blog]
     blog(id: ID): Blog
-
     orders : [Order]
 }
 

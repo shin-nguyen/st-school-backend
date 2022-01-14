@@ -1,5 +1,5 @@
 # st-school-backend
-backend of st-school project https://github.com/shin-nguyen/st-school
+backend of st-school project https://github.com/shin-nguyen/st-school-frontend
 Build Status Coverage Status License
 Requirements
 For building and running the application you need:

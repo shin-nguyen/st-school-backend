@@ -30,11 +30,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> findAllComments(Long id) {
-        return ModelMapperControl.mapAll(commentRepository.findAllByBlogId(id), CommentDTO.class);
-    }
-
-    @Override
     public Long deleteComment(Long commentId) {
         return null;
     }
@@ -55,11 +50,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> getCommentsOfCourse(Long id) {
-        return ModelMapperControl.mapAll(commentRepository.findByCourseId(id), CommentDTO.class);
+        return ModelMapperControl.mapAll(commentRepository.findAllByCourseId(id), CommentDTO.class);
     }
 
     @Override
     public List<CommentDTO> getCommentsOfBlog(Long id) {
-        return ModelMapperControl.mapAll(commentRepository.findByBlogId(id), CommentDTO.class);
+        return ModelMapperControl.mapAll(commentRepository.findAllByBlogId(id), CommentDTO.class);
     }
 }

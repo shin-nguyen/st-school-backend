@@ -22,6 +22,6 @@ public class CourseDTO {
     private Integer subTotal;
     private Integer videoTotal;
     private List<VideoDTO> videos;
-    private List<CommentDTO> comments;
-    private List<ReviewDTO> reviews;
+//    private List<CommentDTO> comments;
+//    private List<ReviewDTO> reviews;
 }

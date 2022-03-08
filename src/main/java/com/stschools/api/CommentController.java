@@ -21,14 +21,25 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getComment(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(commentService.findCommentById(id));
+    @GetMapping("/course/{id}")
+    public ResponseEntity<?> getCommentsOfCourse(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(commentService.getCommentsOfCourse(id));
     }
 
-    @GetMapping("/all/{id}")
-    public ResponseEntity<List<?>> getAllComments(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(commentService.findAllComments(id));
+    @GetMapping("/blog/{id}")
+    public ResponseEntity<List<?>> getCommentsOfBlog(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(commentService.getCommentsOfBlog(id));
+    }
+
+    @PostMapping(value ="/add")
+    public ResponseEntity<CommentDTO> registerPost(@RequestBody CommentDTO commentDTO,
+                                                   @CurrentUser UserPrincipal user,
+                                                   BindingResult bindingResult) throws ApiException {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(commentService.addComment(commentDTO,user.getId()));
+        }
     }
 
     @PutMapping("/edit")
@@ -49,25 +60,4 @@ public class CommentController {
         }
         return ResponseEntity.ok(commentService.deleteComment(commentId));
     }
-
-    @PostMapping(value ="/add")
-    public ResponseEntity<CommentDTO> registerPost(@RequestBody CommentDTO commentDTO,
-                                                   @CurrentUser UserPrincipal user,
-                                                   BindingResult bindingResult) throws ApiException {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(commentService.addComment(commentDTO,user.getId()));
-        }
-    }
-//    @PostMapping(value ="/add/all")
-//    public ResponseEntity<?> addListComment(@RequestBody List<CommentDTO> list,
-//                                                       @CurrentUser UserPrincipal user,
-//                                                       BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            throw new InputFieldException(bindingResult);
-//        } else {
-//            return ResponseEntity.ok(commentService.addListComment( user.getId(),list));
-//        }
-//    }
 }

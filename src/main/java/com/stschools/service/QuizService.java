@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.stschools.dto.QuestionDTO;
 import com.stschools.dto.QuizDTO;
-import com.stschools.entity.Quiz;
-import org.springframework.data.domain.Page;
 
 public interface QuizService {
 
@@ -30,4 +28,9 @@ public interface QuizService {
 	List<QuizDTO> getAll();
 
 
+	QuizDTO addQuestion(QuestionDTO question, Long quizId);
+
+	QuizDTO updateQuestion(QuestionDTO request, Long quizId);
+
+	Long deleteQuestionInQuiz(Long quizId,Long questionId);
 }

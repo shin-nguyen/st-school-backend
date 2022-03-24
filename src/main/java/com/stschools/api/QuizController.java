@@ -43,12 +43,42 @@ public class QuizController {
             return ResponseEntity.ok(quizService.add(request, user.getId()));
         }
     }
+    @PostMapping(value ="/{quizId}/question")
+    public ResponseEntity<?> addQuestion(@RequestBody QuestionDTO request,
+                                         @PathVariable(value = "quizId") Long quizId,
+//                                          @CurrentUser UserPrincipal user,
+                                          BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(quizService.addQuestion(request, quizId));
+        }
+    }
 
+    @PutMapping(value ="/{quizId}/question/edit")
+    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO request,
+                                         @PathVariable(value = "quizId") Long quizId,
+//                                          @CurrentUser UserPrincipal user,
+                                         BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(quizService.updateQuestion(request, quizId));
+        }
+    }
 
 
     @DeleteMapping("/delete/{quizId}")
     public ResponseEntity<Long> deleteQuiz(@PathVariable(value = "quizId") Long quizId) {
         return ResponseEntity.ok(quizService.delete(quizId));
+    }
+
+    //Error
+    @DeleteMapping("/{quizId}/question/{questionId}/delete")
+    public ResponseEntity<Long> deleteQuestionInQuiz(
+            @PathVariable(value = "quizId") Long quizId,
+            @PathVariable(value = "questionId") Long questionId) {
+        return ResponseEntity.ok(quizService.deleteQuestionInQuiz(quizId,questionId));
     }
 //    @GetMapping(path = "export/excel")
 //    public void exportToExcel(HttpServletResponse response) throws IOException {

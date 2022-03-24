@@ -15,5 +15,6 @@ import javax.persistence.*;
 public class QuestionDTO {
 	private Long id;
 	private String description;
+	private String correct;
 	private List<Answer> options = new ArrayList<>();
 }

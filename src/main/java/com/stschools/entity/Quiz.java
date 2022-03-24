@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Where(clause = "is_deleted = false")
-
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,31 +31,18 @@ public class Quiz {
     @ToString.Exclude
     private User createBy;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
 
-    //Record
-//    usersParticipated:
-//    {
-//        userId: { type: mongoose.Schema.Types.ObjectID, ref: "User" },
-//        marks:{type:Number},
-//        responses:[],
-//        timeEnded:{type:Number},
-//        timeStarted:{type:Number}
-//    },
 
-//    private List<User> enrolled = new ArrayList<>();
-
-    //    scheduledFor: { type: String },
-//    scheduledForString: { type: String },
     @Column
     private String duration;
     @Column
     private Boolean status;
     @Column
-    private Long quizRestart;
+    private Long restart;
     @Column
     private Boolean isDeleted;
 
@@ -78,16 +64,12 @@ public class Quiz {
         this.updateTime =  DateTimeControl.formatDate(new Date());
     }
 
-    public Quiz(String name, String code, User createBy, String duration, Boolean status, Long quizRestart) {
+    public Quiz(String name, String code, User createBy, String duration, Boolean status, Long restart) {
         this.name = name;
         this.code = code;
         this.createBy = createBy;
         this.duration = duration;
         this.status = status;
-        this.quizRestart = quizRestart;
+        this.restart = restart;
     }
-//    reminderSent: {
-//        type: Boolean,
-//        default: false,
-//    }
 }

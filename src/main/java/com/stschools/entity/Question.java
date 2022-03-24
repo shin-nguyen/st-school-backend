@@ -3,6 +3,7 @@ package com.stschools.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -20,7 +21,6 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Question {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,14 +30,14 @@ public class Question {
 	@Column
 	private String image;
 
-
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private List<Answer> options = new ArrayList<>();
 
+
 	@Column
-	private Long correctAnswer;
+	private String correct;
 
 	@Column
 	private String createdTime;
@@ -55,10 +55,5 @@ public class Question {
 	protected void onUpdate() {
 		this.updateTime =  DateTimeControl.formatDate(new Date());
 	}
-//	correctAnswer: {
-//		type: String,
-//				required: true,
-//	},
-//	to
-//	Answer.correct
+
 }

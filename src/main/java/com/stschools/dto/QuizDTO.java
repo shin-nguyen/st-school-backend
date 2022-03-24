@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.stschools.entity.Question;
 import com.stschools.entity.User;
+import com.stschools.payload.user.UserResponse;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,10 +23,10 @@ public class QuizDTO {
 	private Long id;
 	private String name;
 	private String code;
-	private User createBy;
+	private UserResponse createBy;
 	private String duration;
 	private Boolean status;
 	private Long quizRestart;
-	private List<Question> questions = new ArrayList<>();
+	private List<QuestionDTO> questions = new ArrayList<>();
 
 }

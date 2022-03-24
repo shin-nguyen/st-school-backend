@@ -1,13 +1,15 @@
 package com.stschools.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import com.stschools.dto.QuestionDTO;
 import com.stschools.dto.QuizDTO;
+import com.stschools.entity.Question;
 import com.stschools.entity.Quiz;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
+import com.stschools.repository.AnswerRepository;
+import com.stschools.repository.QuestionRepository;
 import com.stschools.repository.QuizRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.QuizService;
@@ -16,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,8 @@ public class QuizServiceImpl implements QuizService {
     //	private static final int QUIZZES_PER_PAGE = 4;
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
+    private final AnswerRepository answerRepository;
+    private final QuestionRepository questionRepository;
 
 //	@Override
 //	public List<QuizDTO> getAllByUser(Long userId) {
@@ -104,5 +110,50 @@ public class QuizServiceImpl implements QuizService {
         return ModelMapperControl.mapAll(quizRepository.findAll(), QuizDTO.class);
     }
 
+    @Override
+    public QuizDTO addQuestion(QuestionDTO questionNew, Long quizId) {
+        Quiz quizOld = quizRepository.findById(quizId)
+                .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
+
+        Question question = ModelMapperControl.map(questionNew, Question.class);
+        quizOld.getQuestions().add(question);
+
+        return ModelMapperControl.map(quizRepository.save(quizOld), QuizDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public QuizDTO updateQuestion(QuestionDTO questionNew, Long quizId) {
+        Quiz quizOld = quizRepository.findById(quizId)
+                .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
+
+        Question question = ModelMapperControl.map(questionNew, Question.class);
+
+        quizOld.getQuestions().forEach(q ->{
+            if (q.getId().equals(question.getId())){
+                q.setCorrect(question.getCorrect());
+                q.setDescription(question.getDescription());
+                q.setImage(question.getImage());
+                //Remove Ansser in Question Old
+                answerRepository.deleteAll(q.getOptions());
+                q.setOptions(question.getOptions());
+            }
+        });
+
+        return ModelMapperControl.map(quizRepository.save(quizOld), QuizDTO.class);
+    }
+
+    @Override
+    public Long deleteQuestionInQuiz(Long quizId, Long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new ApiRequestException("Question is null!", HttpStatus.BAD_REQUEST));
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
+        quiz.getQuestions().remove(question);
+        quizRepository.save(quiz);
+
+        questionRepository.delete(question);
+        return questionId;
+    }
 
 }

@@ -42,7 +42,7 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/update")
     public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
                                             @Valid @RequestBody CommentDTO request,
                                             BindingResult bindingResult) throws ApiException {
@@ -53,7 +53,7 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/delete/{commentId}")
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<Long> deleteBlog(@PathVariable(value = "commentId") Long commentId) {
         if (commentService.findCommentById(commentId)==null){
             throw new ApiRequestException("Comment is null!", HttpStatus.BAD_REQUEST);

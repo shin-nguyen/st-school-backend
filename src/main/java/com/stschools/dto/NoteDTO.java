@@ -2,10 +2,10 @@ package com.stschools.dto;
 import lombok.Data;
 
 @Data
-public class ReviewDTO {
+public class NoteDTO {
     private Long id;
     private String createdTime;
-    private Integer rate;
+    private String atTime;
     private String content;
     private UserDTO user;
     private CourseDTO course;

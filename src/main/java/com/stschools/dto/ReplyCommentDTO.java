@@ -10,7 +10,7 @@ public class ReplyCommentDTO {
     private Long id;
     private String content;
     private String createdTime;
-    private User user;
+    private UserDTO user;
     @JsonIgnore
-    private Comment comment;
+    private CommentDTO comment;
 }

@@ -54,7 +54,7 @@ public class UserRepositoryTests {
 
 		user.setActive(true);
 		user.setEmail("admin@gmail.com");
-		user.setFirstName("I AM");
+		user.setFirstName("");
 		user.setLastName("ADMIN");
 		user.setAddress("VN");
 		user.setPhone("090909090");

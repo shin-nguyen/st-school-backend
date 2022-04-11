@@ -1,10 +1,5 @@
 package com.stschools.payload.record;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import com.stschools.dto.UserDTO;
 import com.stschools.payload.user.UserResponse;
 import lombok.Data;
 

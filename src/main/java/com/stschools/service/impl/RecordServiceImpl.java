@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.stschools.dto.QuizDTO;
+import com.stschools.dto.RecordDTO;
 import com.stschools.entity.Quiz;
+import com.stschools.entity.Record;
 import com.stschools.entity.User;
+import com.stschools.exception.ApiRequestException;
 import com.stschools.payload.record.RecordResponse;
 import com.stschools.repository.QuizRepository;
 import com.stschools.repository.RecordRepository;
@@ -14,6 +17,7 @@ import com.stschools.service.RecordService;
 import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,6 +57,13 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public List<RecordResponse> listAll(Long quizId) {
 		return ModelMapperControl.mapAll(recordRepository.findAllByQuizId(quizId), RecordResponse.class);
+	}
+
+	@Override
+	public RecordDTO getById(Long recordId) {
+		Record record = recordRepository.findById(recordId)
+				.orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
+		return ModelMapperControl.map(record, RecordDTO.class);
 	}
 
 //	@Override

@@ -18,9 +18,14 @@ import lombok.RequiredArgsConstructor;
 public class RecordController {
 	private final RecordService recordService;
 
-	@GetMapping("/all-user/{quizId}")
-	public ResponseEntity<?> getAll(@PathVariable(value = "quizId") Long quizId){
-		return ResponseEntity.ok().body(recordService.listAll(quizId));
+	@GetMapping("/all-user/{recordId}")
+	public ResponseEntity<?> getAll(@PathVariable(value = "recordId") Long recordId){
+		return ResponseEntity.ok().body(recordService.listAll(recordId));
+	}
+
+	@GetMapping("/{recordId}")
+	public ResponseEntity<?> getRecord(@PathVariable(value = "recordId") Long recordId){
+		return ResponseEntity.ok().body(recordService.getById(recordId));
 	}
 
 }

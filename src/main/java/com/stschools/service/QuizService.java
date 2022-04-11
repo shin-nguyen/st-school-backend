@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.stschools.dto.QuestionDTO;
 import com.stschools.dto.QuizDTO;
+import com.stschools.dto.RecordDTO;
+import com.stschools.entity.Record;
 
 public interface QuizService {
 
@@ -23,7 +25,7 @@ public interface QuizService {
 
 //	Page<Quiz> listByPage(int pageNum, PagingAndSortingHelper helper);
 
-//	QuizDTO update(QuizDTO quizDTO, boolean enabled);
+	QuizDTO updateQuiz(QuizDTO quizDTO);
 
 	List<QuizDTO> getAll();
 
@@ -33,4 +35,6 @@ public interface QuizService {
 	QuizDTO updateQuestion(QuestionDTO request, Long quizId);
 
 	Long deleteQuestionInQuiz(Long quizId,Long questionId);
+
+	RecordDTO submitQuiz(QuizDTO request, Long userId);
 }

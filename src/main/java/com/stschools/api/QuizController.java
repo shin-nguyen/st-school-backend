@@ -43,6 +43,18 @@ public class QuizController {
             return ResponseEntity.ok(quizService.add(request, user.getId()));
         }
     }
+
+    @PutMapping(value ="/update-detail")
+    public ResponseEntity<?> updateDetailQuiz(@RequestBody QuizDTO request,
+                                          @CurrentUser UserPrincipal user,
+                                          BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(quizService.updateQuiz(request));
+        }
+    }
+
     @PostMapping(value ="/{quizId}/question")
     public ResponseEntity<?> addQuestion(@RequestBody QuestionDTO request,
                                          @PathVariable(value = "quizId") Long quizId,
@@ -79,6 +91,13 @@ public class QuizController {
             @PathVariable(value = "quizId") Long quizId,
             @PathVariable(value = "questionId") Long questionId) {
         return ResponseEntity.ok(quizService.deleteQuestionInQuiz(quizId,questionId));
+    }
+
+
+    //Error
+    @PostMapping("/submit")
+    public ResponseEntity<?> submitQuiz(@RequestBody QuizDTO request,@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(quizService.submitQuiz(request,user.getId()));
     }
 //    @GetMapping(path = "export/excel")
 //    public void exportToExcel(HttpServletResponse response) throws IOException {

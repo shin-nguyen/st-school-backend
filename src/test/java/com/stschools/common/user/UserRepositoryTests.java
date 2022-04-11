@@ -41,7 +41,7 @@ public class UserRepositoryTests {
 		user.setPhone("0918948074");
 		user.setRoles(Collections.singleton(Role.ADMIN));
 		user.setProvider(AuthProvider.LOCAL);
-		user.setPassword(passwordEncoder.encode("123456"));
+			user.setPassword(passwordEncoder.encode("123456"));
 		User savedUser = repo.save(user);
 
 		assertThat(savedUser.getId()).isGreaterThan(0);

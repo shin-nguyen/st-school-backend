@@ -16,5 +16,11 @@ public class QuestionDTO {
 	private Long id;
 	private String description;
 	private String correct;
-	private List<Answer> options = new ArrayList<>();
+	private String userSelect;
+	private List<AnswerDTO> options = new ArrayList<>();
+
+	@Override
+	public String toString() {
+		return "{\"id\":" + id +", \"correct\":\"" + correct + "\", \"select\":\""+userSelect + "\", \"description\":\""+description + "\", \"options\":" +options + "}";
+	}
 }

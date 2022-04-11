@@ -50,9 +50,18 @@ public class Record {
 		this.updateTime =  DateTimeControl.formatDate(new Date());
 	}
 
-
+	@Column
 	private Double score;
 
+	@Column(nullable = false, length = 2000)
+	private String jsonQuiz;
+
+	public Record(Quiz quiz, User user, Double score,String jsonQuiz) {
+		this.quiz = quiz;
+		this.user = user;
+		this.score = score;
+		this.jsonQuiz = jsonQuiz;
+	}
 //	@Formula(value = "TIME_TO_SEC(TIMEDIFF(submit_time, start_time))/60")
 //	private double time;
 }

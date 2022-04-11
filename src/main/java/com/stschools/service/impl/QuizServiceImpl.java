@@ -2,16 +2,14 @@ package com.stschools.service.impl;
 
 import java.util.List;
 
+import com.stschools.dto.AnswerDTO;
 import com.stschools.dto.QuestionDTO;
 import com.stschools.dto.QuizDTO;
-import com.stschools.entity.Question;
-import com.stschools.entity.Quiz;
-import com.stschools.entity.User;
+import com.stschools.dto.RecordDTO;
+import com.stschools.entity.*;
+import com.stschools.entity.Record;
 import com.stschools.exception.ApiRequestException;
-import com.stschools.repository.AnswerRepository;
-import com.stschools.repository.QuestionRepository;
-import com.stschools.repository.QuizRepository;
-import com.stschools.repository.UserRepository;
+import com.stschools.repository.*;
 import com.stschools.service.QuizService;
 import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +26,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
     private final AnswerRepository answerRepository;
+    private final RecordRepository recordRepository;
     private final QuestionRepository questionRepository;
 
 //	@Override
@@ -60,6 +59,18 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
         return ModelMapperControl.map(quiz, QuizDTO.class);
+    }
+
+    @Override
+    public QuizDTO updateQuiz(QuizDTO quizDTO) {
+        Quiz quizOld = quizRepository.findById(quizDTO.getId())
+                .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
+
+        Quiz quiz = ModelMapperControl.map(quizDTO, Quiz.class);
+        quizOld.setName(quiz.getName());
+        quizOld.setDuration(quiz.getDuration());
+        quizOld.setStatus(quiz.getStatus());
+        return ModelMapperControl.map(quizRepository.save(quizOld), QuizDTO.class);
     }
 
 //	@Override
@@ -154,6 +165,34 @@ public class QuizServiceImpl implements QuizService {
 
         questionRepository.delete(question);
         return questionId;
+    }
+
+    @Override
+    public RecordDTO submitQuiz(QuizDTO request, Long userId) {
+        Quiz quizOld = quizRepository.findById(request.getId())
+                .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
+
+        double score = 0;
+
+        for (Question q : quizOld.getQuestions()){
+            for (QuestionDTO questionDTO : request.getQuestions()){
+                if (q.getId().equals(questionDTO.getId())){
+                    questionDTO.setCorrect(q.getCorrect());
+                    questionDTO.setDescription(q.getDescription());
+                    questionDTO.setOptions(ModelMapperControl.mapAll(q.getOptions(), AnswerDTO.class));
+
+                    if (q.getCorrect().equals(questionDTO.getUserSelect())){
+                        score++;
+                    }
+                }
+            }
+        }
+
+        Record record = new Record(quizOld,user,score * 100 /quizOld.getQuestions().size(),request.toString());
+        return ModelMapperControl.map(recordRepository.save(record), RecordDTO.class);
     }
 
 }

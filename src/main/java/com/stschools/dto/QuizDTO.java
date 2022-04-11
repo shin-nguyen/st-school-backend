@@ -26,7 +26,11 @@ public class QuizDTO {
 	private UserResponse createBy;
 	private String duration;
 	private Boolean status;
+
+	@Override
+	public String toString() {
+		return questions.toString();
+	}
 	private Long quizRestart;
 	private List<QuestionDTO> questions = new ArrayList<>();
-
 }

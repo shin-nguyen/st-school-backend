@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.stschools.entity.Course;
 import com.stschools.entity.Question;
 import com.stschools.entity.User;
 import com.stschools.payload.user.UserResponse;
@@ -33,4 +34,5 @@ public class QuizDTO {
 	}
 	private Long quizRestart;
 	private List<QuestionDTO> questions = new ArrayList<>();
+	private CourseDTO course;
 }

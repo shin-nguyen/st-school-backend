@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "tbl_order")

@@ -22,6 +22,9 @@ public class Note {
     @Column
     private String atTime;
 
+    @Column
+    private String atVideo;
+
     @Column(length = 500,nullable = false)
     private String content;
 

@@ -36,6 +36,11 @@ public class Quiz {
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Course course;
 
     @Column
     private String duration;

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(value = "/api/v1/note")
@@ -38,6 +39,16 @@ public class NoteController {
             return new ResponseEntity<>(noteService.addNote(noteDTO), HttpStatus.CREATED);
         } catch (Exception exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable (name = "id") Long id){
+        try {
+            noteService.deleteNote(id);
+            return id;
+        }  catch (Exception exc) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't delete", exc);
         }
     }
 

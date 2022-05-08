@@ -3,7 +3,7 @@ package com.stschools.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "tbl_video")
@@ -26,6 +26,11 @@ public class Video {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Course course;
+
+    @ManyToMany(mappedBy = "videos", cascade = CascadeType.REMOVE)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Order> orders;
 
     public Video(String name, String source, Course course) {
         this.name = name;

@@ -15,6 +15,7 @@ public class CourseDTO {
     private String description;
     private String lecturer;
     private String language;
+    private String topic;
     private Integer price;
     private String image;
     private Integer subTotal;

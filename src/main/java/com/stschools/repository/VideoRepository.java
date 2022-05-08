@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface VideoRepository extends JpaRepository<Video, Long> {
     List<Video> findByCourse_Id(Long id);
+    Video findVideoById(Long id);
 }

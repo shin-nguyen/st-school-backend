@@ -2,6 +2,7 @@ package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.OrderDTO;
+import com.stschools.dto.ProgressDTO;
 import com.stschools.entity.Order;
 import graphql.schema.DataFetcher;
 
@@ -16,4 +17,10 @@ public interface OrderService {
     DataFetcher<List<Order>> findAllByCreateDateTop5();
 
     Long countByCourseId(Long id);
+
+    void updateProgress(ProgressDTO progressDTO);
+
+    OrderDTO getOrderByUserAndCourse(Long userId, Long courseId);
+
+    List<OrderDTO> getOrderByUser(Long userId);
 }

@@ -1,7 +1,10 @@
 package com.stschools.api;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.OrderDTO;
+import com.stschools.dto.ProgressDTO;
 import com.stschools.dto.UserDTO;
+import com.stschools.dto.VideoDTO;
 import com.stschools.entity.Order;
 import com.stschools.export_file.orders.OrderCsvExporter;
 import com.stschools.export_file.orders.OrderExcelExporter;
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +27,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/order")
@@ -36,6 +41,33 @@ public class OrderController {
     public ResponseEntity<?> getListOrder(){
         try {
             List<OrderDTO> orders  = orderService.getAll();
+            if(orders == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(orders);
+        } catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not Found",ex);
+        }
+    }
+
+    @GetMapping("/by-course-and-user/{courseId}")
+    public ResponseEntity<OrderDTO> getByUserAndCourse(@PathVariable(name="courseId") Long courseId,
+                                                       @CurrentUser UserPrincipal user){
+        try {
+            OrderDTO order = orderService.getOrderByUserAndCourse(user.getId(), courseId);
+            if(order == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(order);
+        } catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not Found",ex);
+        }
+    }
+
+    @GetMapping("/by-user")
+    public ResponseEntity<?> getListOrderByUser(@CurrentUser UserPrincipal user){
+        try {
+            List<OrderDTO> orders  = orderService.getOrderByUser(user.getId());
             if(orders == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -71,6 +103,12 @@ public class OrderController {
         }  catch (Exception exc) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not Found", exc);
         }
+    }
+
+    @PutMapping("/progress")
+    public void updateProgress(@RequestBody ProgressDTO progressDTO, @CurrentUser UserPrincipal user) {
+        progressDTO.setUserId(user.getId());
+        orderService.updateProgress(progressDTO);
     }
 
 

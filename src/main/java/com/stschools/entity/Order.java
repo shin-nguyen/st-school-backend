@@ -22,6 +22,9 @@ public class Order {
     @Column
     private String updateTime;
 
+    @Column
+    private Double progress;
+
     @PrePersist
     protected void onCreate() {
         Date date = new Date();
@@ -57,9 +60,14 @@ public class Order {
     @ToString.Exclude
     private Course course;
 
-    public Integer getTotal() {
-        return this.course.getPrice();
-    }
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinTable(name = "tbl_progress",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "video_id")
+    )
+    private Set<Video> videos;
 
     public String getUserName() {
         return this.user.getLastName();
@@ -69,4 +77,7 @@ public class Order {
         return this.course.getName();
     }
 
+    public void setTotal(Integer total) {
+        this.total = this.course.getPrice();
+    }
 }

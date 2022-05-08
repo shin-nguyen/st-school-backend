@@ -27,7 +27,9 @@ public class ControllerAspect {
         } else {
             System.out.println("[]");
         }
-        System.out.println(className + methodName + " RESPONSE: " + proceed.toString());
+        if(proceed != null){
+            System.out.println(className + methodName + " RESPONSE: " + proceed.toString());
+        }
         return proceed;
     }
 }

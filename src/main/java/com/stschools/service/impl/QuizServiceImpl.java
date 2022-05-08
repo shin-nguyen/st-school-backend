@@ -28,6 +28,7 @@ public class QuizServiceImpl implements QuizService {
     private final AnswerRepository answerRepository;
     private final RecordRepository recordRepository;
     private final QuestionRepository questionRepository;
+    private final CourseRepository courseRepository;
 
 //	@Override
 //	public List<QuizDTO> getAllByUser(Long userId) {
@@ -48,15 +49,18 @@ public class QuizServiceImpl implements QuizService {
     public QuizDTO add(QuizDTO quizDTO, Long idUser) {
         User user = userRepository.findById(idUser)
                 .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
+        Course course = courseRepository.findById(quizDTO.getCourse().getId())
+                .orElseThrow(() -> new ApiRequestException("Course is null!", HttpStatus.BAD_REQUEST));
         Quiz quiz = ModelMapperControl.map(quizDTO, Quiz.class);
         quiz.setCreateBy(user);
+        quiz.setCourse(course);
         quiz = quizRepository.save(quiz);
         return ModelMapperControl.map(quiz, QuizDTO.class);
     }
 
     @Override
     public QuizDTO getQuiz(Long id) {
-        Quiz quiz = quizRepository.findById(id)
+        Quiz quiz = quizRepository.findQuizByCourseId(id)
                 .orElseThrow(() -> new ApiRequestException("Quiz is null!", HttpStatus.BAD_REQUEST));
         return ModelMapperControl.map(quiz, QuizDTO.class);
     }

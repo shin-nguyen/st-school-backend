@@ -28,6 +28,9 @@ public class Course {
     private String language;
 
     @Column
+    private String topic;
+
+    @Column
     private Integer price;
 
     @Column
@@ -54,10 +57,11 @@ public class Course {
 //    @ToString.Exclude
 //    private Collection<Review> reviews;
 
-    public Course(String name, String description, String language, Integer price, String image) {
+    public Course(String name, String description, String language, String topic, Integer price, String image) {
         this.name = name;
         this.description = description;
         this.language = language;
+        this.topic = topic;
         this.price = price;
         this.image = image;
     }

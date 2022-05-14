@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_comment")
@@ -43,10 +44,10 @@ public class Comment {
     @ToString.Exclude
     private Course course;
 
-//    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private Collection<ReplyComment> replies;
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<ReplyComment> replies;
 
     @PrePersist
     protected void onCreate() {

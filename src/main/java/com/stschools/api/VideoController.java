@@ -50,6 +50,7 @@ public class VideoController {
                 .name(name)
                 .course(ObjectMapperControl.objectMapper.readValue(course, CourseDTO.class))
                 .source(uploadResult.get("secure_url").toString())
+                .duration((Math.round(Double.valueOf(uploadResult.get("duration").toString()) * 1) / 1))
                 .build();
 
         try{

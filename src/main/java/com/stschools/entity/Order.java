@@ -25,6 +25,9 @@ public class Order {
     @Column
     private Double progress;
 
+    @Transient
+    private boolean isComplete;
+
     @PrePersist
     protected void onCreate() {
         Date date = new Date();
@@ -77,7 +80,11 @@ public class Order {
         return this.course.getName();
     }
 
-    public void setTotal(Integer total) {
-        this.total = this.course.getPrice();
+    public Integer getTotal() {
+        return this.course.getPrice();
+    }
+
+    public boolean isComplete() {
+        return this.progress == 100;
     }
 }

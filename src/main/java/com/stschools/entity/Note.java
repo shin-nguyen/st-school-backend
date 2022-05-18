@@ -20,13 +20,14 @@ public class Note {
     private String createdTime;
 
     @Column
-    private String atTime;
+    private String updateTime;
 
     @Column
-    private String atVideo;
+    private String atTime;
 
     @Column(length = 500,nullable = false)
     private String content;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,8 +41,20 @@ public class Note {
     @ToString.Exclude
     private Course course;
 
+    @ManyToOne
+    @JoinColumn(name = "video_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Video video;
+
     @PrePersist
     protected void onCreate() {
         this.createdTime = DateTimeControl.formatDate(new Date());
+        this.updateTime = DateTimeControl.formatDate(new Date());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateTime =  DateTimeControl.formatDate(new Date());
     }
 }

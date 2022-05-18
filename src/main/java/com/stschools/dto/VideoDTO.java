@@ -12,5 +12,6 @@ public class VideoDTO {
     private Long id;
     private String name;
     private String source;
+    private Long duration;
     private CourseDTO course;
 }

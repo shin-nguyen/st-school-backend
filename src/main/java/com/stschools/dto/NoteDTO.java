@@ -5,8 +5,9 @@ import lombok.Data;
 public class NoteDTO {
     private Long id;
     private String createdTime;
+    private String updateTime;
     private String atTime;
-    private String atVideo;
+    private VideoDTO video;
     private String content;
     private UserDTO user;
     private CourseDTO course;

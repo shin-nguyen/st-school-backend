@@ -23,7 +23,7 @@ public class Blog {
     @Column(nullable = false, length = 2000)
     private String title;
 
-    @Column(nullable = true, length = 2000)
+    @Column(length = 2000)
     private String summary;
 
     @Column(nullable = false, length = 10000000)

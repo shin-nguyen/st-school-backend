@@ -1,7 +1,5 @@
 package com.stschools.entity;
 
-import com.stschools.common.enums.AuthProvider;
-import com.stschools.common.enums.Catogory;
 import com.stschools.util.DateTimeControl;
 import lombok.*;
 
@@ -42,13 +40,13 @@ public class Course {
     private String language;
 
     @Column
+    private String topic;
+
+    @Column
     private Integer price;
 
     @Column
     private Integer subPrice;
-
-    @Enumerated(EnumType.STRING)
-    private Catogory category;
 
     @Column
     private String image;
@@ -87,7 +85,6 @@ public class Course {
     @ToString.Exclude
     private Collection<Comment> comments;
 
-    public Course(String name, String description, String language, Integer price, String image,String lecturer,Catogory category) {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -117,10 +114,9 @@ public class Course {
         this.requirements = requirements;
         this.isFor = isFor;
         this.language = language;
+        this.topic = topic;
         this.price = price;
         this.image = image;
-        this.lecturer = lecturer;
-        this.category = category;
     }
 
     public Course(Long id, String name, String about, String description, String lecturer, String requirements, String isFor, String language, String topic, Integer price, String image, Integer subTotal, String createdTime, String updateTime) {

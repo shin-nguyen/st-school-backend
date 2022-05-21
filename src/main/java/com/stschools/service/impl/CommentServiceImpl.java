@@ -2,10 +2,13 @@ package com.stschools.service.impl;
 
 import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.CommentDTO;
+import com.stschools.dto.ReplyCommentDTO;
 import com.stschools.entity.Comment;
+import com.stschools.entity.ReplyComment;
 import com.stschools.entity.User;
 import com.stschools.repository.CommentRepository;
 import com.stschools.exception.ApiRequestException;
+import com.stschools.repository.ReplyCommentRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.CommentService;
 import com.stschools.util.ModelMapperControl;
@@ -20,6 +23,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final ReplyCommentRepository replyCommentRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -56,5 +60,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDTO> getCommentsOfBlog(Long id) {
         return ModelMapperControl.mapAll(commentRepository.findAllByBlogId(id), CommentDTO.class);
+    }
+
+    @Override
+    public CommentDTO replyComment(Long commentId, ReplyCommentDTO replyCommentDTO) {
+        Comment comment = commentRepository.findCommentById(commentId);
+        if( comment != null) {
+            ReplyComment replyComment = ModelMapperControl.map(replyCommentDTO, ReplyComment.class);
+            replyComment.setComment(comment);
+            List<ReplyComment> replyCommentList = comment.getReplies();
+            replyCommentList.add(replyComment);
+            comment.setReplies(replyCommentList);
+            commentRepository.saveAndFlush(comment);
+            return ModelMapperControl.map(commentRepository.findCommentById(commentId), CommentDTO.class);
+        } else {
+            throw new ApiRequestException("Fail to reply comment!", HttpStatus.BAD_REQUEST);
+        }
     }
 }

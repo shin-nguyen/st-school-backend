@@ -2,6 +2,7 @@ package com.stschools.api;
 
 import com.stschools.dto.NoteDTO;
 import com.stschools.dto.UserDTO;
+import com.stschools.entity.Note;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.NoteService;
@@ -37,6 +38,15 @@ public class NoteController {
             UserDTO userDTO = userService.findUserById(user.getId());
             noteDTO.setUser(userDTO);
             return new ResponseEntity<>(noteService.addNote(noteDTO), HttpStatus.CREATED);
+        } catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateNote(@RequestBody NoteDTO noteDTO){
+        try{
+            return new ResponseEntity<>(noteService.updateNote(noteDTO), HttpStatus.OK);
         } catch (Exception exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }

@@ -27,6 +27,7 @@ public class Question {
 
 	@Column(length = 150, nullable = false)
 	private String description;
+
 	@Column
 	private String image;
 
@@ -34,7 +35,6 @@ public class Question {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private List<Answer> options = new ArrayList<>();
-
 
 	@Column
 	private String correct;

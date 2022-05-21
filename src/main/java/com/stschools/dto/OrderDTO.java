@@ -13,9 +13,11 @@ import java.util.Set;
 public class OrderDTO {
     private Long id;
     private String createdTime;
+    private String updateTime;
     private Integer total;
     private Integer progress;
     private CourseDTO course;
     private UserDTO user;
+    private boolean isComplete;
     private Set<VideoDTO> videos;
 }

@@ -2,8 +2,10 @@ package com.stschools.service.impl;
 
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.ProgressDTO;
+import com.stschools.entity.Course;
 import com.stschools.entity.Order;
 import com.stschools.entity.Video;
+import com.stschools.repository.CourseRepository;
 import com.stschools.repository.OrderRepository;
 import com.stschools.repository.VideoRepository;
 import com.stschools.service.OrderService;
@@ -23,6 +25,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final VideoRepository videoRepository;
 
+    private final CourseRepository courseRepository;
+
     private final MailService mailSender;
 
     @Override
@@ -31,9 +35,12 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public OrderDTO save(OrderDTO orderDTO) {
+        Course course = courseRepository.findCourseById(orderDTO.getCourse().getId());
+        course.setSubTotal(course.getSubTotal()+1);
+        courseRepository.saveAndFlush(course);
         orderDTO.setProgress(0);
         Order order = ModelMapperControl.map(orderDTO, Order.class);
-//        return ModelMapperControl.map(orderRepository.save(order), OrderDTO.class);
+        order.setCourse(course);
         Order newOrder = orderRepository.save(order);
 
         try{

@@ -27,7 +27,7 @@ public class VideoRepositoryTest {
 
     @Test
     public void testAddSection(){
-        Course course = courseRepository.findCourseById(1L);
+        Course course = courseRepository.findCourseById(2L);
 
         List<Video> videoList = Arrays.asList(
                 new Video("Environment Settings", "https://res.cloudinary.com/qscloud/video/upload/v1636288871/st-school/videos/C%C3%A0i%20%C4%91%E1%BA%B7t%20m%C3%B4i%20tr%C6%B0%E1%BB%9Dng.mp4.mp4",course),

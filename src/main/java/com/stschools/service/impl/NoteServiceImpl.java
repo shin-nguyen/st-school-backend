@@ -1,5 +1,6 @@
 package com.stschools.service.impl;
 
+import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.NoteDTO;
 import com.stschools.entity.Note;
 import com.stschools.repository.NoteRepository;
@@ -24,6 +25,16 @@ public class NoteServiceImpl implements NoteService {
     public NoteDTO addNote(NoteDTO noteDTO) {
         noteRepository.save(ModelMapperControl.map(noteDTO, Note.class));
         return noteDTO;
+    }
+
+    @Override
+    public NoteDTO updateNote(NoteDTO noteDTO) throws ApiException {
+        Note note = noteRepository.findNoteById(noteDTO.getId());
+        if(note == null){
+            throw new ApiException("Can't find the note!");
+        }
+        note.setContent(noteDTO.getContent());
+        return ModelMapperControl.map(noteRepository.save(note), NoteDTO.class);
     }
 
     @Override

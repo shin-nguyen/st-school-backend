@@ -27,7 +27,7 @@ public class CourseRepositoryTests {
         List<Course> courseList = Arrays.asList(
                 new Course("The Complete 2020 Fullstack Web Developer Course",
                         "Start learning HTML with the ST-schools fundamentals course. HTML is the standard markup language for creating Web pages.",
-                        "English",
+                        "AWS Cloud: Start with AWS Certified Solutions Architect Associate, then move on to AWS Certified Developer Associate and then AWS Certified SysOps Administrator. Afterwards you can either do AWS Certified Solutions Architect Professional or AWS Certified DevOps",
                         "John Purcell",
                         "C# Git",
                         "All Levels",

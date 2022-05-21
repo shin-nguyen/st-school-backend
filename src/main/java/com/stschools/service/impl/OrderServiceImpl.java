@@ -1,7 +1,9 @@
 package com.stschools.service.impl;
 
+import com.stschools.dto.CourseDTO;
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.ProgressDTO;
+import com.stschools.dto.UserDTO;
 import com.stschools.entity.Course;
 import com.stschools.entity.Order;
 import com.stschools.entity.Video;
@@ -98,5 +100,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getOrderByUser(Long userId) {
         return ModelMapperControl.mapAll(orderRepository.findOrderByUserId(userId), OrderDTO.class);
+    }
+
+    @Override
+    public List<OrderDTO> saveAll(List<CourseDTO> courses, UserDTO userDTO) {
+        List<Order> orders= new ArrayList<>();
+        for(Integer i=0;i< courses.size();i++){
+            Course course = courseRepository.findCourseById(courses.get(i).getId());
+
+            course.setSubTotal(course.getSubTotal()+1);
+            courseRepository.saveAndFlush(course);
+            orders.get(i).setCourse(course);
+            orders.get(i).setProgress(0.0);
+        }
+        orders = orderRepository.saveAll(orders);
+
+//        try{
+//            String subject = "Order #" + order.getId();
+//            String template = "order-template";
+//            Map<String, Object> attributes = new HashMap<>();
+//            attributes.put("order", newOrder);
+//            mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
+//        } catch (Exception ignored){
+//
+//        }
+
+        return ModelMapperControl.mapAll(orders, OrderDTO.class);
     }
 }

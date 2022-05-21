@@ -1,8 +1,10 @@
 package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
+import com.stschools.dto.CourseDTO;
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.ProgressDTO;
+import com.stschools.dto.UserDTO;
 import com.stschools.entity.Order;
 import graphql.schema.DataFetcher;
 
@@ -23,4 +25,6 @@ public interface OrderService {
     OrderDTO getOrderByUserAndCourse(Long userId, Long courseId);
 
     List<OrderDTO> getOrderByUser(Long userId);
+
+    List<OrderDTO> saveAll(List<CourseDTO> course, UserDTO userDTO);
 }

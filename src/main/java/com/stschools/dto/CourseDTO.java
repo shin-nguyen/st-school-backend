@@ -18,6 +18,7 @@ public class CourseDTO {
     private String language;
     private String topic;
     private Integer price;
+    private Integer subPrice;
     private String image;
     private Integer subTotal;
     private Integer commentTotal;

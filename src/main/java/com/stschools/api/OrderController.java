@@ -1,10 +1,7 @@
 package com.stschools.api;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.dto.OrderDTO;
-import com.stschools.dto.ProgressDTO;
-import com.stschools.dto.UserDTO;
-import com.stschools.dto.VideoDTO;
+import com.stschools.dto.*;
 import com.stschools.entity.Order;
 import com.stschools.export_file.orders.OrderCsvExporter;
 import com.stschools.export_file.orders.OrderExcelExporter;
@@ -74,6 +71,16 @@ public class OrderController {
             return ResponseEntity.ok().body(orders);
         } catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not Found",ex);
+        }
+    }
+
+    @PostMapping("/adds")
+    public ResponseEntity<?> createOrders(@RequestBody List<CourseDTO>  course, @CurrentUser UserPrincipal user){
+        try{
+            UserDTO userDTO = userService.findUserById(user.getId());
+            return ResponseEntity.ok().body(orderService.saveAll(course,userDTO));
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't save", ex);
         }
     }
 

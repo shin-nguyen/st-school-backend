@@ -38,6 +38,19 @@ public class VideoController {
         }
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<?> getVideos(){
+        try {
+            List<VideoDTO> allVideo = videoService.getAll();
+            if(allVideo == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(allVideo);
+        } catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not Found",ex);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> addVideo(@RequestParam String name,
                                       @RequestParam String course,

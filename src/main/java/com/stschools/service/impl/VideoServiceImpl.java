@@ -24,6 +24,12 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public List<VideoDTO> getAll() {
+        List<Video> videoList = videoRepository.findAll();
+        return ModelMapperControl.mapAll(videoList, VideoDTO.class);
+    }
+
+    @Override
     public VideoDTO save(VideoDTO videoDTO) {
         Video video = ModelMapperControl.map(videoDTO, Video.class);
         return ModelMapperControl.map(videoRepository.save(video), VideoDTO.class);

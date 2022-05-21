@@ -1,5 +1,6 @@
 package com.stschools.dto;
 
+import com.stschools.common.enums.Catogory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +18,10 @@ public class CourseDTO {
     private String language;
     private String topic;
     private Integer price;
+    private Integer subPrice;
     private String image;
     private Integer subTotal;
     private Integer videoTotal;
-//    private List<VideoDTO> videos;
-//    private List<CommentDTO> comments;
-//    private List<ReviewDTO> reviews;
+    private Catogory category;
+
 }

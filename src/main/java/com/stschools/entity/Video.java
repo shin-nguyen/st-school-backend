@@ -20,6 +20,10 @@ public class Video {
 
     @Column(nullable = false, length = 200)
     private String source;
+    
+    @Column(nullable = false, length = 200)
+    private String time;
+
 
     @ManyToOne
     @JoinColumn(name = "course_id")

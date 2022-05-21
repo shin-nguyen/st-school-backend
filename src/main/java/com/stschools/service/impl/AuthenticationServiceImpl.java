@@ -6,6 +6,7 @@ import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
 import com.stschools.payload.auth.AuthenticationResponse;
+import com.stschools.payload.common.RegistrationMobileRequest;
 import com.stschools.payload.common.RegistrationRequest;
 import com.stschools.repository.UserRepository;
 import com.stschools.security.JwtProvider;
@@ -38,6 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse login(String email) {
         User user = userRepository.findByEmail(email);
         String userRole = user.getRoles().iterator().next().name();
+
         String token = jwtProvider.createToken(email, userRole);
 
         AuthenticationResponse response = new AuthenticationResponse();
@@ -61,12 +63,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        String subject = "Activation code";
-        String template = "registration-template";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("firstName", user.getFirstName());
-        attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
-        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
+
+            String subject = "Activation code";
+            String template = "registration-template";
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("firstName", user.getFirstName());
+            attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
+            mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean registerUserMobile(RegistrationMobileRequest registrationRequest) {
+        User user =  ModelMapperControl.map(registrationRequest, User.class);
+        User userFromDb = userRepository.findByEmail(user.getEmail());
+        if (!(userFromDb == null)) {
+            return false;
+        }
+        user.setActivationCode(null);
+        user.setActive(true);
+
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setProvider(AuthProvider.LOCAL);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
         return true;
     }
 

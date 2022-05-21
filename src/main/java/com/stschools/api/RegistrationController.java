@@ -4,6 +4,7 @@ import com.stschools.exception.ApiRequestException;
 import com.stschools.exception.EmailException;
 import com.stschools.exception.InputFieldException;
 import com.stschools.exception.PasswordException;
+import com.stschools.payload.common.RegistrationMobileRequest;
 import com.stschools.payload.common.RegistrationRequest;
 import com.stschools.service.AuthenticationService;
 import com.stschools.util.ControllerUtils;
@@ -39,6 +40,14 @@ public class RegistrationController {
         }
         return ResponseEntity.ok("User successfully registered.");
     }
+
+    @PostMapping("/mobile")
+    public ResponseEntity<String> registration(@RequestBody RegistrationMobileRequest user) {
+
+        authenticationService.registerUserMobile(user);
+        return ResponseEntity.ok("User successfully registered.");
+    }
+
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activateEmailCode(@PathVariable String code) {

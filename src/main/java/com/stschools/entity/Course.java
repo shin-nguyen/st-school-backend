@@ -1,5 +1,7 @@
 package com.stschools.entity;
 
+import com.stschools.common.enums.AuthProvider;
+import com.stschools.common.enums.Catogory;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,10 +30,13 @@ public class Course {
     private String language;
 
     @Column
-    private String topic;
+    private Integer price;
 
     @Column
-    private Integer price;
+    private Integer subPrice;
+
+    @Enumerated(EnumType.STRING)
+    private Catogory category;
 
     @Column
     private String image;
@@ -57,13 +62,14 @@ public class Course {
 //    @ToString.Exclude
 //    private Collection<Review> reviews;
 
-    public Course(String name, String description, String language, String topic, Integer price, String image) {
+    public Course(String name, String description, String language, Integer price, String image,String lecturer,Catogory category) {
         this.name = name;
         this.description = description;
         this.language = language;
-        this.topic = topic;
         this.price = price;
         this.image = image;
+        this.lecturer = lecturer;
+        this.category = category;
     }
 
     public Course(Long id, String name, String description, String image) {

@@ -1,26 +1,39 @@
 package com.stschools.payload.schedule;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class ScheduleEmailRequest {
+public class ScheduleRequest {
     @Email
-    @NotEmpty
     private String email;
 
-    @NotEmpty
     private String subject;
 
-    @NotEmpty
+    private String phoneNumber;
+
+    private String message;
+
     private String body;
 
-    @NotNull
     private LocalDateTime dateTime;
 
-    @NotNull
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     private ZoneId timeZone;
 
     public String getEmail() {

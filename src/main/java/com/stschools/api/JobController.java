@@ -8,9 +8,12 @@ import java.util.UUID;
 import com.stschools.entity.Message;
 import com.stschools.entity.SchedulerJobInfo;
 import com.stschools.job.EmailJob;
-import com.stschools.payload.schedule.ScheduleEmailRequest;
-import com.stschools.payload.schedule.ScheduleEmailResponse;
+import com.stschools.job.SmsJob;
+import com.stschools.payload.schedule.ScheduleRequest;
+import com.stschools.payload.schedule.ScheduleResponse;
+import com.stschools.payload.schedule.SmsRequest;
 import com.stschools.service.SchedulerJobService;
+import com.stschools.service.SmsService;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,9 @@ public class JobController {
 
     @Autowired
     private SchedulerJobService scheduleJobService;
+
+    @Autowired
+    private SmsService smsService;
 
     @Autowired
     private Scheduler scheduler;
@@ -118,52 +124,71 @@ public class JobController {
         return message;
     }
 
-    @PostMapping("/scheduleEmail")
-    public ResponseEntity<ScheduleEmailResponse> scheduleEmail(@Valid @RequestBody ScheduleEmailRequest scheduleEmailRequest) {
+    @PostMapping("/schedule")
+    public ResponseEntity<ScheduleResponse> schedule(@Valid @RequestBody ScheduleRequest scheduleRequest) {
         try {
-            ZonedDateTime dateTime = ZonedDateTime.of(scheduleEmailRequest.getDateTime(), scheduleEmailRequest.getTimeZone());
+            ZonedDateTime dateTime = ZonedDateTime.of(scheduleRequest.getDateTime(), scheduleRequest.getTimeZone());
             if(dateTime.isBefore(ZonedDateTime.now())) {
-                ScheduleEmailResponse scheduleEmailResponse = new ScheduleEmailResponse(false,
+                ScheduleResponse scheduleResponse = new ScheduleResponse(false,
                         "dateTime must be after current time");
-                return ResponseEntity.badRequest().body(scheduleEmailResponse);
+                return ResponseEntity.badRequest().body(scheduleResponse);
             }
 
-            JobDetail jobDetail = buildJobDetail(scheduleEmailRequest);
+            JobDetail jobDetail = buildJobDetail(scheduleRequest);
             Trigger trigger = buildJobTrigger(jobDetail, dateTime);
             scheduler.scheduleJob(jobDetail, trigger);
 
-            ScheduleEmailResponse scheduleEmailResponse = new ScheduleEmailResponse(true,
-                    jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Email Scheduled Successfully!");
-            return ResponseEntity.ok(scheduleEmailResponse);
+            ScheduleResponse scheduleResponse = new ScheduleResponse(true,
+                    jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Scheduled Successfully!");
+            return ResponseEntity.ok(scheduleResponse);
         } catch (SchedulerException ex) {
-            logger.error("Error scheduling email", ex);
+            logger.error("Error scheduling", ex);
 
-            ScheduleEmailResponse scheduleEmailResponse = new ScheduleEmailResponse(false,
-                    "Error scheduling email. Please try later!");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(scheduleEmailResponse);
+            ScheduleResponse scheduleResponse = new ScheduleResponse(false,
+                    "Error scheduling. Please try later!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(scheduleResponse);
         }
     }
 
-    private JobDetail buildJobDetail(ScheduleEmailRequest scheduleEmailRequest) {
+    @PostMapping("/sms")
+    public void sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+        smsService.sendSms(smsRequest);
+    }
+
+    private JobDetail buildJobDetail(ScheduleRequest scheduleRequest) throws SchedulerException {
         JobDataMap jobDataMap = new JobDataMap();
 
-        jobDataMap.put("email", scheduleEmailRequest.getEmail());
-        jobDataMap.put("subject", scheduleEmailRequest.getSubject());
-        jobDataMap.put("body", scheduleEmailRequest.getBody());
+        if(scheduleRequest.getEmail() != null && scheduleRequest.getSubject() != null && scheduleRequest.getBody() != null){
+            jobDataMap.put("email", scheduleRequest.getEmail());
+            jobDataMap.put("subject", scheduleRequest.getSubject());
+            jobDataMap.put("body", scheduleRequest.getBody());
 
-        return JobBuilder.newJob(EmailJob.class)
-                .withIdentity(UUID.randomUUID().toString(), "email-jobs")
-                .withDescription("Send Email Job")
-                .usingJobData(jobDataMap)
-                .storeDurably()
-                .build();
+            return JobBuilder.newJob(EmailJob.class)
+                    .withIdentity(UUID.randomUUID().toString(), "email-jobs")
+                    .withDescription("Send Email Job")
+                    .usingJobData(jobDataMap)
+                    .storeDurably()
+                    .build();
+        } else if(scheduleRequest.getPhoneNumber() != null && scheduleRequest.getMessage() != null){
+            jobDataMap.put("phoneNumber", scheduleRequest.getPhoneNumber());
+            jobDataMap.put("message", scheduleRequest.getMessage());
+
+            return JobBuilder.newJob(SmsJob.class)
+                    .withIdentity(UUID.randomUUID().toString(), "sms-jobs")
+                    .withDescription("Send Sms Job")
+                    .usingJobData(jobDataMap)
+                    .storeDurably()
+                    .build();
+        } else {
+            throw new SchedulerException();
+        }
     }
 
     private Trigger buildJobTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
-                .withIdentity(jobDetail.getKey().getName(), "email-triggers")
-                .withDescription("Send Email Trigger")
+                .withIdentity(jobDetail.getKey().getName(), "schedule-triggers")
+                .withDescription("Schedule Trigger")
                 .startAt(Date.from(startAt.toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
                 .build();

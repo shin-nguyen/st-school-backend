@@ -3,18 +3,18 @@ package com.stschools.payload.schedule;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ScheduleEmailResponse {
+public class ScheduleResponse {
     private boolean success;
     private String jobId;
     private String jobGroup;
     private String message;
 
-    public ScheduleEmailResponse(boolean success, String message) {
+    public ScheduleResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
 
-    public ScheduleEmailResponse(boolean success, String jobId, String jobGroup, String message) {
+    public ScheduleResponse(boolean success, String jobId, String jobGroup, String message) {
         this.success = success;
         this.jobId = jobId;
         this.jobGroup = jobGroup;

@@ -132,7 +132,6 @@ public class SchedulerJobService {
         log.info(">>>>> jobName = [" + scheduleJob.getJobName() + "]" + " created.");
     }
 
-    @SuppressWarnings("unchecked")
     private void scheduleNewJob(SchedulerJobInfo jobInfo) {
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();

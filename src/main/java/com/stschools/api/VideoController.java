@@ -20,11 +20,22 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/video")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class VideoController {
     public final VideoService videoService;
     public final Cloudinary cloudinary;
 
+    @GetMapping("/list")
+    public ResponseEntity<?> getVideos(){
+        try {
+            List<VideoDTO> allVideo = videoService.getAll();
+            if(allVideo == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(allVideo);
+        } catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not Found",ex);
+        }
+    }
     @GetMapping("/list/{id}")
     public ResponseEntity<?> getVideos(@PathVariable(name = "id") Long id){
         try {
@@ -37,6 +48,8 @@ public class VideoController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not Found",ex);
         }
     }
+
+
 
     @PostMapping("/add")
     public ResponseEntity<?> addVideo(@RequestParam String name,

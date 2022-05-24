@@ -43,7 +43,6 @@ public class User {
     private String updateTime;
 
 
-
     @PrePersist
     protected void onCreate() {
         this.createdTime = DateTimeControl.formatDate(new Date());

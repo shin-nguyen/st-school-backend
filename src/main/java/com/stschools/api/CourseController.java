@@ -95,6 +95,21 @@ public class CourseController {
         }
     }
 
+    @GetMapping("/list/promotion")
+    public ResponseEntity<List<?>> getPromotion(){
+        try{
+            final List<CourseDTO> courses = courseService.getPromotionCourses();
+            if(courses == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(courses);
+
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found courses", ex);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<CourseDTO> create(@RequestParam String course,
                                             @RequestParam MultipartFile file

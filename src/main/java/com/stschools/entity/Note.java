@@ -25,7 +25,7 @@ public class Note {
     @Column
     private String atTime;
 
-    @Column(length = 500,nullable = false)
+    @Column(length = 1000,nullable = false)
     private String content;
 
 

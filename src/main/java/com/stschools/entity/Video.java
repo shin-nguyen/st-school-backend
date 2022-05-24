@@ -21,7 +21,7 @@ public class Video {
 
     @Column(nullable = false, length = 200)
     private String source;
-
+    
     @Column
     private Long duration;
 

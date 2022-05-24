@@ -46,6 +46,9 @@ public class Course {
     private Integer price;
 
     @Column
+    private Integer subPrice;
+
+    @Column
     private String image;
 
     @Column

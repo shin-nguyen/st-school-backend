@@ -1,12 +1,17 @@
 package com.stschools.api;
 
+import com.cloudinary.api.exceptions.ApiException;
+import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
 import com.stschools.exception.InputFieldException;
 import com.stschools.export_file.users.UserCsvExporter;
 import com.stschools.export_file.users.UserExcelExporter;
 import com.stschools.export_file.users.UserPdfExporter;
+import com.stschools.payload.blog.BlogRequest;
 import com.stschools.payload.common.GraphQLRequest;
+import com.stschools.payload.user.UserFlutterReponse;
+import com.stschools.payload.user.UserRequest;
 import com.stschools.repository.UserRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
@@ -51,6 +56,18 @@ public class UserController {
             return ResponseEntity.ok(userService.updateProfile(user.getEmail(), request));
         }
     }
+
+    @PostMapping(value ="/edit-image-and-info")
+    public ResponseEntity<UserFlutterReponse> registerPost(@ModelAttribute UserRequest userRequest,
+                                                           @CurrentUser UserPrincipal user,
+                                                           BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(userService.updateImageAndInfo(userRequest, user.getId()));
+        }
+    }
+
 
     @PostMapping("/add-image")
     public ResponseEntity<?> addUserImage(@CurrentUser UserPrincipal user,

@@ -6,6 +6,8 @@ import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
+import com.stschools.payload.user.UserFlutterReponse;
+import com.stschools.payload.user.UserRequest;
 import graphql.schema.DataFetcher;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,4 +40,6 @@ public interface UserService {
 
     int[] dashboardOrder(Long year);
     int[] dashboardBlog(Long year);
+
+    UserFlutterReponse updateImageAndInfo(UserRequest userRequest, Long id) throws IOException;
 }

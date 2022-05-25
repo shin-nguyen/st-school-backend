@@ -33,6 +33,7 @@ public class Order {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         this.createdTime = formatter.format(date);
+        progress  = 0.0;
     }
 
     @PreUpdate

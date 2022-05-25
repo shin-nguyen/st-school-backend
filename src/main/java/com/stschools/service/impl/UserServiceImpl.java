@@ -13,6 +13,8 @@ import com.stschools.exception.ApiRequestException;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
+import com.stschools.payload.user.UserFlutterReponse;
+import com.stschools.payload.user.UserRequest;
 import com.stschools.repository.BlogRepository;
 import com.stschools.repository.CourseRepository;
 import com.stschools.repository.OrderRepository;
@@ -85,6 +87,7 @@ public class UserServiceImpl implements UserService {
         userFromDb.setLastName(user.getLastName());
         userFromDb.setAddress(user.getAddress());
         userFromDb.setPhone(user.getPhone());
+        userFromDb.setAbout(user.getAbout());
         userRepository.save(userFromDb);
 
         return ModelMapperControl.map(userFromDb, UserDTO.class);
@@ -157,6 +160,22 @@ public class UserServiceImpl implements UserService {
             }
         });
         return frequency;
+    }
+
+    @Override
+    public UserFlutterReponse updateImageAndInfo(UserRequest userRequest, Long id) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(userRequest.getAvatar().getBytes(),
+                ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + userRequest.getAvatar().getOriginalFilename()));
+
+        User userFromDb = userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));;
+
+        userFromDb.setAvatar(uploadResult.get("secure_url").toString());
+        userFromDb.setFirstName(userRequest.getFirstName());
+        userFromDb.setLastName(userRequest.getLastName());
+        userFromDb.setAddress(userRequest.getAddress());
+        userFromDb.setPhone(userRequest.getPhone());
+        userFromDb.setAbout(userRequest.getAbout());
+        return ModelMapperControl.map(userRepository.save(userFromDb), UserFlutterReponse.class);
     }
 
     @Override

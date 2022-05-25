@@ -7,6 +7,7 @@ import com.stschools.export_file.orders.OrderCsvExporter;
 import com.stschools.export_file.orders.OrderExcelExporter;
 import com.stschools.export_file.orders.OrderPdfExporter;
 
+import com.stschools.payload.orders.OrdersRequest;
 import com.stschools.repository.OrderRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
@@ -75,10 +76,9 @@ public class OrderController {
     }
 
     @PostMapping("/adds")
-    public ResponseEntity<?> createOrders(@RequestBody List<CourseDTO>  course, @CurrentUser UserPrincipal user){
+    public ResponseEntity<?> createOrders(@RequestBody OrdersRequest ordersRequest, @CurrentUser UserPrincipal user){
         try{
-            UserDTO userDTO = userService.findUserById(user.getId());
-            return ResponseEntity.ok().body(orderService.saveAll(course,userDTO));
+            return ResponseEntity.ok().body(orderService.saveAll(ordersRequest.getCourses(),user.getId()));
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Can't save", ex);
         }

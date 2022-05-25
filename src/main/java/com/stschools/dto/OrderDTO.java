@@ -15,7 +15,7 @@ public class OrderDTO {
     private String createdTime;
     private String updateTime;
     private Integer total;
-    private Integer progress;
+    private Double progress;
     private CourseDTO course;
     private UserDTO user;
     private boolean isComplete;

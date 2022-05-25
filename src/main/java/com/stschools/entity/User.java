@@ -30,6 +30,7 @@ public class User {
     private Date birthday;
 
     private String address;
+    private String about;
     private String phone;
     private boolean active;
 

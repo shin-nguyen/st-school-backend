@@ -1,14 +1,14 @@
 package com.stschools.service.impl;
 
-import com.stschools.dto.CourseDTO;
 import com.stschools.dto.OrderDTO;
 import com.stschools.dto.ProgressDTO;
-import com.stschools.dto.UserDTO;
 import com.stschools.entity.Course;
 import com.stschools.entity.Order;
 import com.stschools.entity.Video;
+import com.stschools.payload.course.CourseRequest;
 import com.stschools.repository.CourseRepository;
 import com.stschools.repository.OrderRepository;
+import com.stschools.repository.UserRepository;
 import com.stschools.repository.VideoRepository;
 import com.stschools.service.OrderService;
 import com.stschools.util.ModelMapperControl;
@@ -29,6 +29,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final CourseRepository courseRepository;
 
+    private final UserRepository userRepository;
+
     private final MailService mailSender;
 
     @Override
@@ -40,7 +42,6 @@ public class OrderServiceImpl implements OrderService {
         Course course = courseRepository.findCourseById(orderDTO.getCourse().getId());
         course.setSubTotal(course.getSubTotal()+1);
         courseRepository.saveAndFlush(course);
-        orderDTO.setProgress(0);
         Order order = ModelMapperControl.map(orderDTO, Order.class);
         order.setCourse(course);
         Order newOrder = orderRepository.save(order);
@@ -103,15 +104,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> saveAll(List<CourseDTO> courses, UserDTO userDTO) {
+    public List<OrderDTO> saveAll(List<CourseRequest> courses, Long userId) {
         List<Order> orders= new ArrayList<>();
-        for(Integer i=0;i< courses.size();i++){
-            Course course = courseRepository.findCourseById(courses.get(i).getId());
-
-            course.setSubTotal(course.getSubTotal()+1);
-            courseRepository.saveAndFlush(course);
-            orders.get(i).setCourse(course);
-            orders.get(i).setProgress(0.0);
+        for (CourseRequest course :courses) {
+            Course courseNew = courseRepository.findCourseById(course.getId());
+            courseNew.setSubTotal(courseNew.getSubTotal()+1);
+            courseRepository.saveAndFlush(courseNew);
+            Order order  =new Order();
+            order.setUser(userRepository.findById(userId).get());
+            order.setCourse(courseNew);
+            orders.add(order);
         }
         orders = orderRepository.saveAll(orders);
 

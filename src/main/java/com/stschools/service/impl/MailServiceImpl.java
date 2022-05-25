@@ -3,7 +3,6 @@ package com.stschools.service.impl;
 import com.stschools.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,7 +22,6 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine thymeleafTemplateEngine;
 
-
     @Value("${spring.mail.username}")
     private String username;
 
@@ -31,7 +29,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@baeldung.com");
+        message.setFrom("${spring.mail.username}");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);

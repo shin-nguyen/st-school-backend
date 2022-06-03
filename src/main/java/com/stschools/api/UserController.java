@@ -42,6 +42,11 @@ public class UserController {
         return ResponseEntity.ok(userService.findUserByEmail(user.getEmail()));
     }
 
+    @GetMapping("/dashboard-progress")
+    public ResponseEntity<?> getDarshboardProgress(@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(userService.getDarshboardProgress(user.getId()));
+    }
+
     @PostMapping("/graphql/info")
     public ResponseEntity<ExecutionResult> getUserInfoByQuery(@RequestBody GraphQLRequest request){
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));

@@ -6,19 +6,18 @@ import com.cloudinary.utils.ObjectUtils;
 import com.stschools.common.enums.Role;
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
+import com.stschools.entity.ActivityProgress;
 import com.stschools.entity.Blog;
 import com.stschools.entity.Order;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
+import com.stschools.payload.activity_progress.ActivityProgressReponse;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
 import com.stschools.payload.user.UserFlutterReponse;
 import com.stschools.payload.user.UserRequest;
-import com.stschools.repository.BlogRepository;
-import com.stschools.repository.CourseRepository;
-import com.stschools.repository.OrderRepository;
-import com.stschools.repository.UserRepository;
+import com.stschools.repository.*;
 import com.stschools.service.BlogService;
 import com.stschools.service.OrderService;
 import com.stschools.service.UserService;
@@ -47,6 +46,7 @@ public class UserServiceImpl implements UserService {
     private final CourseRepository courseRepository;
     private final OrderRepository orderRepository;
     private final BlogRepository blogRepository;
+    private final ActivityProgressRepository activityProgressRepository;
     private final Cloudinary cloudinary;
 
     @Override
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
                 .totalIncome(orderRepository.getSumImcome())
                 .build();
 
-      return dashboardResponse;
+        return dashboardResponse;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int[] dashboardOrder(Long year) {
-        int[] frequency =  IntStream.of(0,0,0,0,0,0,0,0,0,0,0,0).toArray();
+        int[] frequency = IntStream.of(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).toArray();
         List<Order> orders = orderRepository.findAll();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int[] dashboardBlog(Long year) {
-        int[] frequency =  IntStream.of(0,0,0,0,0,0,0,0,0,0,0,0).toArray();
+        int[] frequency = IntStream.of(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0).toArray();
         List<Blog> blogs = blogRepository.findAll();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -167,7 +167,8 @@ public class UserServiceImpl implements UserService {
         Map uploadResult = cloudinary.uploader().upload(userRequest.getAvatar().getBytes(),
                 ObjectUtils.asMap("resource_type", "auto", "public_id", "st-school/images/" + userRequest.getAvatar().getOriginalFilename()));
 
-        User userFromDb = userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));;
+        User userFromDb = userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
+        ;
 
         userFromDb.setAvatar(uploadResult.get("secure_url").toString());
         userFromDb.setFirstName(userRequest.getFirstName());
@@ -179,11 +180,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ActivityProgressReponse getDarshboardProgress(Long userId) {
+        ActivityProgress activityProgress = activityProgressRepository.findByUserId(userId);
+        Double total = activityProgress.getSat() + activityProgress.getFri() +activityProgress.getMon() +activityProgress.getSun() +
+                activityProgress.getThu() +activityProgress.getTue() + activityProgress.getWed();
+
+        activityProgress.setSat(activityProgress.getSat()/total);
+        activityProgress.setFri(activityProgress.getFri()/total);
+        activityProgress.setMon(activityProgress.getMon()/total);
+        activityProgress.setSun(activityProgress.getSun()/total);
+        activityProgress.setThu(activityProgress.getThu()/total);
+        activityProgress.setTue(activityProgress.getTue()/total);
+        activityProgress.setWed(activityProgress.getWed()/total);
+
+        return ModelMapperControl.map(activityProgress, ActivityProgressReponse.class);
+    }
+
+    @Override
     public List<GraphResponse> dashboardGraph(Long year) {
         List<GraphResponse> list = new ArrayList<>();
 
-        GraphResponse orderGraph = new GraphResponse("Order",dashboardOrder(year));
-        GraphResponse blogGraph = new GraphResponse("Blog",dashboardBlog(year));
+        GraphResponse orderGraph = new GraphResponse("Order", dashboardOrder(year));
+        GraphResponse blogGraph = new GraphResponse("Blog", dashboardBlog(year));
         list.add(orderGraph);
         list.add(blogGraph);
         return list;

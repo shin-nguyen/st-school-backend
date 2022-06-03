@@ -4,10 +4,12 @@ import com.stschools.common.enums.AuthProvider;
 import com.stschools.common.enums.Role;
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
+import com.stschools.entity.ActivityProgress;
 import com.stschools.entity.User;
 import com.stschools.payload.auth.AuthenticationResponse;
 import com.stschools.payload.common.RegistrationMobileRequest;
 import com.stschools.payload.common.RegistrationRequest;
+import com.stschools.repository.ActivityProgressRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.security.JwtProvider;
 import com.stschools.security.oauth2.OAuth2UserInfo;
@@ -30,6 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final MailService mailSender;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final ActivityProgressRepository activityProgressRepository;
 
     @Value("${hostname}")
     private String hostname;
@@ -41,6 +44,39 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String userRole = user.getRoles().iterator().next().name();
 
         String token = jwtProvider.createToken(email, userRole);
+
+
+        ActivityProgress activityProgress = activityProgressRepository.findByUserId(user.getId());
+        Calendar rightNow = Calendar.getInstance();
+
+        String value = rightNow.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
+        if (activityProgress == null) {
+            activityProgress = new ActivityProgress(user.getId());
+        }
+        switch (value) {
+            case "Sat":
+                activityProgress.setSat(activityProgress.getSat() + 1);
+                break;
+            case "Sun":
+                activityProgress.setSun(activityProgress.getSun() + 1);
+                break;
+            case "Mon":
+                activityProgress.setMon(activityProgress.getMon() + 1);
+                break;
+            case "Tue":
+                activityProgress.setTue(activityProgress.getTue() + 1);
+                break;
+            case "Wed":
+                activityProgress.setWed(activityProgress.getWed() + 1);
+                break;
+            case "Thu":
+                activityProgress.setThu(activityProgress.getThu() + 1);
+                break;
+            case "Fri":
+                activityProgress.setFri(activityProgress.getFri() + 1);
+                break;
+
+        }
 
         AuthenticationResponse response = new AuthenticationResponse();
         response.setEmail(email);

@@ -39,6 +39,7 @@ public interface UserService {
     List<GraphResponse> dashboardGraph(Long year);
 
     int[] dashboardOrder(Long year);
+
     int[] dashboardBlog(Long year);
 
     UserFlutterReponse updateImageAndInfo(UserRequest userRequest, Long id) throws IOException;

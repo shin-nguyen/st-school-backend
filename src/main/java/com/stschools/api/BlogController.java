@@ -16,6 +16,7 @@ import com.stschools.service.BlogService;
 import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -38,21 +39,32 @@ public class BlogController {
         return ResponseEntity.ok(blogService.findAllBlogs());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId) {
-        return ResponseEntity.ok(blogService.findBlogById(blogId));
+        @GetMapping("/user-love")
+        public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) throws JSONException {
+            return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
+        }
+
+        @GetMapping("/{id}")
+        public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId) {
+            return ResponseEntity.ok(blogService.findBlogById(blogId));
     }
 
 
     @PutMapping("/edit")
     public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
                                             @Valid @RequestBody BlogDTO request,
-                                            BindingResult bindingResult) throws ApiException {
+                                            BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
             return ResponseEntity.ok(blogService.update(request,user.getId()));
         }
+    }
+
+    @PutMapping("/love/{id}")
+    public ResponseEntity<?> updateLoveBlog( @PathVariable("id") Long blogId,
+                                             @CurrentUser UserPrincipal user) throws JSONException {
+            return ResponseEntity.ok(blogService.updateLove(blogId,user.getId()));
     }
 
     @DeleteMapping("/delete/{blogId}")

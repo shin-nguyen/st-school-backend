@@ -42,9 +42,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/mobile")
-    public ResponseEntity<String> registration(@RequestBody RegistrationMobileRequest user) {
+    public ResponseEntity<String> registration(@RequestBody RegistrationMobileRequest user,BindingResult bindingResult) {
 
-        authenticationService.registerUserMobile(user);
+        if (controllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
+            throw new PasswordException("Passwords do not match.");
+        }
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        }
+        if (!authenticationService.registerUserMobile(user)) {
+            throw new EmailException("Email is already used.");
+        }
         return ResponseEntity.ok("User successfully registered.");
     }
 

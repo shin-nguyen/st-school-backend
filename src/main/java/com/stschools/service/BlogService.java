@@ -1,10 +1,11 @@
 package com.stschools.service;
 
-import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.BlogDTO;
+import com.stschools.dto.BlogUserLoveDTO;
 import com.stschools.entity.Blog;
 import com.stschools.payload.blog.BlogRequest;
 import graphql.schema.DataFetcher;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,16 +20,20 @@ public interface BlogService {
 
     List<BlogDTO> findAllBlogs();
 
-    Long deleteBlog(Long blogId) ;
+    List<BlogDTO> getAllBlogsByLove(Long id) throws JSONException;
 
-    BlogDTO update(BlogDTO blog, Long id) ;
+    Long deleteBlog(Long blogId);
+
+    BlogDTO update(BlogDTO blog, Long id);
 
     BlogDTO addBlog(BlogRequest blog, Long id) throws IOException;
+
     List<BlogDTO> addBlog(MultipartFile file) throws IOException;
 
     DataFetcher<List<Blog>> getAllBlogsByMe();
 
     BlogDTO updateBlogStatus(Long blogId);
 
+    List<BlogUserLoveDTO> updateLove(Long blogId, Long id) throws JSONException;
 }
 

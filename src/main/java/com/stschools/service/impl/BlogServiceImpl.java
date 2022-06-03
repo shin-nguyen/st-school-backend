@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
+import com.stschools.dto.BlogUserLoveDTO;
 import com.stschools.dto.QuizDTO;
 import com.stschools.entity.Quiz;
 import com.stschools.entity.User;
@@ -18,6 +19,9 @@ import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +31,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
@@ -83,6 +85,25 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<BlogDTO> findAllBlogs() {
         return ModelMapperControl.mapAll(blogRepository.findAllByOrderByIdAsc(), BlogDTO.class);
+    }
+
+    @Override
+    public List<BlogDTO> getAllBlogsByLove(Long id) throws JSONException {
+        List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
+        for (Blog blog: blogs) {
+            JSONArray userLove = new JSONArray(blog.getUserLove());
+
+            for(int i=0; i < userLove.length(); i++)
+            {
+                JSONObject object = userLove.getJSONObject(i);
+                String idUser = object.getString("id");
+                if (Long.parseLong(idUser) == id)  {
+                    blog.setIsLove(true);
+                }
+            }
+            blog.setRecordLove(userLove.length());
+        }
+        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 
     @Override
@@ -157,5 +178,33 @@ public class BlogServiceImpl implements BlogService {
         }
         blog.setStatus(!blog.getStatus());
         return ModelMapperControl.map(blog, BlogDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public List<BlogUserLoveDTO> updateLove(Long blogId, Long id) throws JSONException {
+        Blog blog = blogRepository.findBlogById(blogId);
+        List<BlogUserLoveDTO> listLove = new ArrayList<>();
+        Boolean status = true;
+
+        JSONArray userLove = new JSONArray(blog.getUserLove());
+        for(int i=0; i < userLove.length(); i++)
+        {
+            JSONObject object = userLove.getJSONObject(i);
+            String idUser = object.getString("id");
+            if (Long.parseLong(idUser) != id)  {
+                listLove.add(new BlogUserLoveDTO(Long.parseLong(idUser)));
+            }else{
+                status = false;
+            }
+        }
+
+        if (status){
+            listLove.add(new BlogUserLoveDTO(id));
+        }
+
+        blog.setUserLove(listLove.toString());
+
+        return listLove;
     }
 }

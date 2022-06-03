@@ -41,9 +41,10 @@ type Blog {
     content : String
     status : Boolean
     createdTime  : String
-    image : String,
-    view :Int,
+    image : String
+    view :Int
     user : User
+    userLove: String
     topics : [Topic]
 }
 

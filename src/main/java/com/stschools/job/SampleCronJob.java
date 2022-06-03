@@ -4,7 +4,6 @@ import java.util.stream.IntStream;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @DisallowConcurrentExecution
 public class SampleCronJob extends QuartzJobBean {
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext context){
         log.info("SampleCronJob Start................");
         IntStream.range(0, 10).forEach(i -> {
             log.info("Counting - {}", i);

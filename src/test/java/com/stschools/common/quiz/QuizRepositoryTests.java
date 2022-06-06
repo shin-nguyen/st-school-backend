@@ -2,10 +2,8 @@ package com.stschools.common.quiz;
 
 
 import com.stschools.entity.Quiz;
-import com.stschools.entity.Topic;
 import com.stschools.entity.User;
 import com.stschools.repository.QuizRepository;
-import com.stschools.repository.TopicRepository;
 import com.stschools.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

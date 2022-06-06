@@ -1,10 +1,8 @@
 package com.stschools.common.blog;
 
 import com.stschools.entity.Blog;
-import com.stschools.entity.Topic;
 import com.stschools.entity.User;
 import com.stschools.repository.BlogRepository;
-import com.stschools.repository.TopicRepository;
 import com.stschools.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +24,12 @@ public class BlogRepositoryTests {
     BlogRepository blogRepository;
 
     @Autowired
-    TopicRepository topicRepository;
-
-    @Autowired
     UserRepository userRepository;
 
 
 
     @Test
     public void testAddBlog() {
-        List<Topic> topis = new ArrayList<>();
-        topicRepository.findAll().forEach(topis::add);
-
         User user= userRepository.findByEmail("thongchuthanh2000@gmail.com");
         List<Blog> blogeList = Arrays.asList(
                 new Blog("[Spring boot] Spring Cloud",
@@ -47,8 +39,7 @@ public class BlogRepositoryTests {
                                 "Hiện tại, chúng ta sẽ thấy một số tài nguyên tốt nhất để học " ,
                         true,
                         "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
-                        user,
-                        topis),
+                        user),
                 new Blog("Hướng dẫn sử dụng @Autowired trong Spring",
                         "Summary",
                         "Tổng quan Bắt đầu với Spring 2.5, framework đã giới thiệu tính năng Dependency Injection theo hướng chú thích. " +
@@ -57,8 +48,7 @@ public class BlogRepositoryTests {
                                 "Tham Khảo thêm: Lập trình Front-end và Back-end là gì? Trong hướng",
                         true,
                         "https://res.cloudinary.com/qscloud/image/upload/v1632104647/st-school/images/java.png.png",
-                        user,
-                        topis
+                        user
                 )
         );
 

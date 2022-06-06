@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -39,32 +40,32 @@ public class BlogController {
         return ResponseEntity.ok(blogService.findAllBlogs());
     }
 
-        @GetMapping("/user-love")
-        public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) throws JSONException {
-            return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
-        }
+    @GetMapping("/user-love")
+    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) throws JSONException {
+        return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
+    }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId) {
-            return ResponseEntity.ok(blogService.findBlogById(blogId));
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId) {
+        return ResponseEntity.ok(blogService.findBlogById(blogId));
     }
 
 
     @PutMapping("/edit")
     public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
                                             @Valid @RequestBody BlogDTO request,
-                                            BindingResult bindingResult){
+                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(blogService.update(request,user.getId()));
+            return ResponseEntity.ok(blogService.update(request, user.getId()));
         }
     }
 
     @PutMapping("/love/{id}")
-    public ResponseEntity<?> updateLoveBlog( @PathVariable("id") Long blogId,
-                                             @CurrentUser UserPrincipal user) throws JSONException {
-            return ResponseEntity.ok(blogService.updateLove(blogId,user.getId()));
+    public ResponseEntity<?> updateLoveBlog(@PathVariable("id") Long blogId,
+                                            @CurrentUser UserPrincipal user) throws JSONException {
+        return ResponseEntity.ok(blogService.updateLove(blogId, user.getId()));
     }
 
     @DeleteMapping("/delete/{blogId}")
@@ -93,9 +94,9 @@ public class BlogController {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    @PostMapping(value ="/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,
-                                                    @CurrentUser UserPrincipal user,
+                                                @CurrentUser UserPrincipal user,
                                                 BindingResult bindingResult) throws IOException, ApiException {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
@@ -118,7 +119,7 @@ public class BlogController {
     }
 
     @GetMapping("/export/csv")
-    public void exportToCSV( HttpServletResponse response) throws IOException {
+    public void exportToCSV(HttpServletResponse response) throws IOException {
         List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
         BlogCsvExporter exporter = new BlogCsvExporter();
 
@@ -126,7 +127,7 @@ public class BlogController {
     }
 
     @GetMapping("/export/pdf")
-    public void exportToPDF( HttpServletResponse response) throws IOException {
+    public void exportToPDF(HttpServletResponse response) throws IOException {
         List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
         BlogPdfExporter exporter = new BlogPdfExporter();
         exporter.export(blogs, response);

@@ -1,9 +1,102 @@
-#twilio:
-#  account_sid: ACd01726b073043c331b81942519ef1c08
-#  auth_token: f788a5f0784b376e1b3f0871c09a0418
-#  trial_number: +12489857288
+hostname: localhost:3000
+
+app:
+    firebase-configuration-file: st-school-b1930-firebase-adminsdk-jnt2n-9747a25e02.json
+
+jwt:
+    expiration: 604800
+    header: Authorization
+    secret: dejavu
+
+
+#logging:
+#    file:
+#        name: st-schools-backend.log
+#    logback:
+#        rollingpolicy:
+#            clean-history-on-start: true
+#            file-name-pattern: st-schools-%d{yyyy-MM-dd}.%i.log
+#            max-file-size: 100KB
+#            max-history: 14
+#            total-size-cap: 1MB
+
+paypal:
+    client:
+        app: AR1X7z6UP9Lkz_ENgRWwnFLbGzhF-QCtXN1RyOV3NR9BalBzXBCXrYL2FON7o-ffL1JwRCc-czuw8JpT
+        secret: EEFcGs0Rb_8cvuxE-pwyVTyy66xKwg12Z8uRBG52bBrou4vQz4XKg33WDUjs_t5GxQFNFIMmkdNfvJzR
+    mode: sandbox
+
+recaptcha:
+    secret: 6Lf9paEcAAAAAI2ZEKbdAzM2Mcx-o7UrXxQ6J46O
+    url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s
+
+spring:
+    datasource:
+        connectionProperties: useUnicode=true;characterEncoding=utf-8;
+        driverClassName: com.mysql.cj.jdbc.Driver
+        password: 1234
+        url: jdbc:mysql://localhost:3306/st_school?createDatabaseIfNotExist=true
+        username: root
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    mail:
+        host: smtp.gmail.com
+        password: Conheogoitinh1*
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+        username: stschools2000@gmail.com
+    quartz:
+        jdbc:
+            schema: classpath:org/quartz/impl/jdbcjobstore/tables_mysql_innodb.sql
+        job-store-type: jdbc
+        properties:
+            org:
+                quartz:
+                    threadPool:
+                        threadCount: 5
+    security:
+        oauth2:
+            client:
+                provider:
+                    facebook:
+                        authorization-uri: https://www.facebook.com/v10.0/dialog/oauth
+                        user-info-uri: https://graph.facebook.com/v10.0/me?fields=email,first_name,last_name,name
+                registration:
+                    facebook:
+                        client-id: 858821448148070
+                        client-secret: 49a6b9c68dea765fee0c715e183526f3
+                        scope: email,public_profile
+                    github:
+                        client-id: 6a269cac68e66f10b5b6
+                        client-secret: 243f50e3490a03ffda42b6c36057a141798dfb0b
+                        scope: user:email,read:user
+                    google:
+                        client-id: 472116824127-f1tk8bq03nq41c086uj3jilu7s2v2dl8.apps.googleusercontent.com
+                        client-secret: hpTPU99ROgijuzXzk08ZvKAa
+                        scope: email,profile
+    servlet:
+        multipart:
+            enabled: true
+            file-size-threshold: 2KB
+            max-file-size: 250MB
+            max-request-size: 275MB
+
 
 twilio:
-  account_sid: ACf1764ff3399bae30ca1ca505de34f898
-  auth_token: 4e3906bc7f4d1e2890f3df4715fc46ed
-  trial_number: +19563046944
+    account_sid: ACf1764ff3399bae30ca1ca505de34f898
+    auth_token: 4e3906bc7f4d1e2890f3df4715fc46ed
+    trial_number: +19563046944
+
+cloudinary:
+    cloud_name: qscloud
+    api_key: '755532214376531'
+    api_secret: Ds8VJAlH5ygnooF7BWcNcSEcbSY

@@ -71,14 +71,14 @@ public class Blog {
     @ToString.Exclude
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JoinTable(name = "tbl_blog_topic",
-            joinColumns = @JoinColumn(name = "blog_id"),
-            inverseJoinColumns = @JoinColumn(name = "topic_id")
-    )
-    private Collection<Topic> topics;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    @JoinTable(name = "tbl_blog_topic",
+//            joinColumns = @JoinColumn(name = "blog_id"),
+//            inverseJoinColumns = @JoinColumn(name = "topic_id")
+//    )
+//    private Collection<Topic> topics;
 
     @Column
     private String userLove;
@@ -89,13 +89,12 @@ public class Blog {
     @Transient
     private Integer recordLove = 0;
 
-    public Blog(String title, String summary, String content, Boolean status, String image, User user, List<Topic> topics) {
+    public Blog(String title, String summary, String content, Boolean status, String image, User user) {
         this.title = title;
         this.summary = summary;
         this.content = content;
         this.status = status;
         this.image = image;
         this.user = user;
-        this.topics = topics;
     }
 }

@@ -2,7 +2,6 @@ package com.stschools.service;
 
 import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.UserDTO;
-import com.stschools.entity.ActivityProgress;
 import com.stschools.entity.User;
 import com.stschools.payload.activity_progress.ActivityProgressReponse;
 import com.stschools.payload.dashboard.DashboardResponse;
@@ -45,6 +44,4 @@ public interface UserService {
     int[] dashboardBlog(Long year);
 
     UserFlutterReponse updateImageAndInfo(UserRequest userRequest, Long id) throws IOException;
-
-    ActivityProgressReponse getDarshboardProgress(Long userId);
 }

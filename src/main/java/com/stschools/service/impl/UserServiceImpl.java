@@ -4,9 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.common.enums.Role;
-import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
-import com.stschools.entity.ActivityProgress;
 import com.stschools.entity.Blog;
 import com.stschools.entity.Order;
 import com.stschools.entity.User;
@@ -18,8 +16,6 @@ import com.stschools.payload.dashboard.UserResponse;
 import com.stschools.payload.user.UserFlutterReponse;
 import com.stschools.payload.user.UserRequest;
 import com.stschools.repository.*;
-import com.stschools.service.BlogService;
-import com.stschools.service.OrderService;
 import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
@@ -46,7 +42,6 @@ public class UserServiceImpl implements UserService {
     private final CourseRepository courseRepository;
     private final OrderRepository orderRepository;
     private final BlogRepository blogRepository;
-    private final ActivityProgressRepository activityProgressRepository;
     private final Cloudinary cloudinary;
 
     @Override
@@ -179,22 +174,6 @@ public class UserServiceImpl implements UserService {
         return ModelMapperControl.map(userRepository.save(userFromDb), UserFlutterReponse.class);
     }
 
-    @Override
-    public ActivityProgressReponse getDarshboardProgress(Long userId) {
-        ActivityProgress activityProgress = activityProgressRepository.findByUserId(userId);
-        Double total = activityProgress.getSat() + activityProgress.getFri() +activityProgress.getMon() +activityProgress.getSun() +
-                activityProgress.getThu() +activityProgress.getTue() + activityProgress.getWed();
-
-        activityProgress.setSat(activityProgress.getSat()/total);
-        activityProgress.setFri(activityProgress.getFri()/total);
-        activityProgress.setMon(activityProgress.getMon()/total);
-        activityProgress.setSun(activityProgress.getSun()/total);
-        activityProgress.setThu(activityProgress.getThu()/total);
-        activityProgress.setTue(activityProgress.getTue()/total);
-        activityProgress.setWed(activityProgress.getWed()/total);
-
-        return ModelMapperControl.map(activityProgress, ActivityProgressReponse.class);
-    }
 
     @Override
     public List<GraphResponse> dashboardGraph(Long year) {

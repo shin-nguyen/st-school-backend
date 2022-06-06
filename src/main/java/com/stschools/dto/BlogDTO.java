@@ -1,6 +1,5 @@
 package com.stschools.dto;
 
-import com.stschools.entity.Topic;
 import com.stschools.payload.user.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor

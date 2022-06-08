@@ -8,6 +8,7 @@ import com.stschools.export_file.orders.OrderExcelExporter;
 import com.stschools.export_file.orders.OrderPdfExporter;
 
 import com.stschools.payload.orders.OrdersRequest;
+import com.stschools.payload.progress.ProgressRequest;
 import com.stschools.repository.OrderRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
@@ -117,7 +118,6 @@ public class OrderController {
         progressDTO.setUserId(user.getId());
         orderService.updateProgress(progressDTO);
     }
-
 
     @GetMapping(path = "export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {

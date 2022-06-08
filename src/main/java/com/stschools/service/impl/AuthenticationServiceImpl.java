@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public boolean registerUser(RegistrationRequest registrationRequest) {
-        User user =  ModelMapperControl.map(registrationRequest, User.class);
+        User user = ModelMapperControl.map(registrationRequest, User.class);
         User userFromDb = userRepository.findByEmail(user.getEmail());
         if (!(userFromDb == null)) {
             return false;
@@ -63,21 +63,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-
-            String subject = "Activation code";
-            String template = "registration-template";
-            Map<String, Object> attributes = new HashMap<>();
-            attributes.put("firstName", user.getFirstName());
-            attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
-            mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
-
+        String subject = "Activation code";
+        String template = "registration-template";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", user.getFirstName());
+        attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
+        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
 
         return true;
     }
 
     @Override
     public boolean registerUserMobile(RegistrationMobileRequest registrationRequest) {
-        User user =  ModelMapperControl.map(registrationRequest, User.class);
+        User user = ModelMapperControl.map(registrationRequest, User.class);
         User userFromDb = userRepository.findByEmail(user.getEmail());
         if (!(userFromDb == null)) {
             return false;

@@ -1,6 +1,7 @@
 package com.stschools.dto;
 
 import com.stschools.entity.Topic;
+import com.stschools.payload.user.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,10 @@ public class BlogDTO {
     private String createdTime;
     private Boolean status;
     private String image;
-    private Collection<TopicDTO> topics;
-    private UserDTO user;
+    private Integer view;
+    private String userLove;
+    private Long recordLove;
+    private Boolean isLove;
+    private UserResponse user;
+    private String topic;
 }

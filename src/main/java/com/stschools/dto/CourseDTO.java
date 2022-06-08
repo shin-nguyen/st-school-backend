@@ -28,7 +28,4 @@ public class CourseDTO {
     private Double duration;
     private String createdTime;
     private String updateTime;
-//    private List<VideoDTO> videos;
-//    private List<CommentDTO> comments;
-//    private List<ReviewDTO> reviews;
 }

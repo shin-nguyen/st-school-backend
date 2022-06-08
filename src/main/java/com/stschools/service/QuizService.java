@@ -9,32 +9,21 @@ import com.stschools.entity.Record;
 
 public interface QuizService {
 
-//	List<QuizDTO> getAllByUser(Long userId);
+    Long delete(Long id);
 
-//	List<QuizDTO> getPopularQuiz();
+    QuizDTO add(QuizDTO quizDTO, Long idUser);
 
-//	List<QuizDTO> getRecommendationQuiz(Long idUser);
+    QuizDTO getQuiz(Long id);
 
-//	List<QuizDTO> searchQuiz(String key);
+    QuizDTO updateQuiz(QuizDTO quizDTO);
 
-	Long delete(Long id);
+    List<QuizDTO> getAll();
 
-	QuizDTO add(QuizDTO quizDTO, Long idUser);
+    QuizDTO addQuestion(QuestionDTO question, Long quizId);
 
-	QuizDTO getQuiz(Long id);
+    QuizDTO updateQuestion(QuestionDTO request, Long quizId);
 
-//	Page<Quiz> listByPage(int pageNum, PagingAndSortingHelper helper);
+    Long deleteQuestionInQuiz(Long quizId, Long questionId);
 
-	QuizDTO updateQuiz(QuizDTO quizDTO);
-
-	List<QuizDTO> getAll();
-
-
-	QuizDTO addQuestion(QuestionDTO question, Long quizId);
-
-	QuizDTO updateQuestion(QuestionDTO request, Long quizId);
-
-	Long deleteQuestionInQuiz(Long quizId,Long questionId);
-
-	RecordDTO submitQuiz(QuizDTO request, Long userId);
+    RecordDTO submitQuiz(QuizDTO request, Long userId);
 }

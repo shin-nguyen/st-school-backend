@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -41,12 +42,16 @@ public class Blog {
     @Column
     private String updateTime;
 
+    @Column
+    private String topic;
+
     @PrePersist
     protected void onCreate() {
         this.createdTime = DateTimeControl.formatDate(new Date());
         this.updateTime = DateTimeControl.formatDate(new Date());
         this.view = 0L;
         this.isDeleted = false;
+        this.userLove ="[]";
     }
 
     @PreUpdate
@@ -74,6 +79,15 @@ public class Blog {
             inverseJoinColumns = @JoinColumn(name = "topic_id")
     )
     private Collection<Topic> topics;
+
+    @Column
+    private String userLove;
+
+    @Transient
+    private Boolean isLove = false;
+
+    @Transient
+    private Integer recordLove = 0;
 
     public Blog(String title, String summary, String content, Boolean status, String image, User user, List<Topic> topics) {
         this.title = title;

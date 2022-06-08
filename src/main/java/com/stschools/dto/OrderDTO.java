@@ -18,6 +18,6 @@ public class OrderDTO {
     private Double progress;
     private CourseDTO course;
     private UserDTO user;
-    private boolean isComplete;
+    private Boolean isComplete;
     private Set<VideoDTO> videos;
 }

@@ -25,14 +25,15 @@ public class Order {
     @Column
     private Double progress;
 
-    @Transient
-    private boolean isComplete;
+    @Column
+    private Boolean isComplete;
 
     @PrePersist
     protected void onCreate() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         this.createdTime = formatter.format(date);
+        this.isComplete = false;
         progress  = 0.0;
     }
 
@@ -83,9 +84,5 @@ public class Order {
 
     public Integer getTotal() {
         return this.course.getPrice();
-    }
-
-    public boolean isComplete() {
-        return this.progress == 100;
     }
 }

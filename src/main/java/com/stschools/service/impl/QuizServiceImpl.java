@@ -29,6 +29,7 @@ public class QuizServiceImpl implements QuizService {
     private final RecordRepository recordRepository;
     private final QuestionRepository questionRepository;
     private final CourseRepository courseRepository;
+    private final OrderRepository orderRepository;
 
 //	@Override
 //	public List<QuizDTO> getAllByUser(Long userId) {
@@ -194,8 +195,10 @@ public class QuizServiceImpl implements QuizService {
                 }
             }
         }
-
         Record record = new Record(quizOld,user,score * 100 /quizOld.getQuestions().size(),request.toString());
+        Order order = orderRepository.findOrderByCourseIdAndUserId(quizOld.getCourse().getId(), userId);
+        order.setIsComplete(score * 100 /quizOld.getQuestions().size() >= 80);
+        orderRepository.save(order);
         return ModelMapperControl.map(recordRepository.save(record), RecordDTO.class);
     }
 

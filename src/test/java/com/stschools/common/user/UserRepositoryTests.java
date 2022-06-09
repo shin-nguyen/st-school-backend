@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(false)
+//@Rollback(false)
 public class UserRepositoryTests {
 	@Autowired
 	private UserRepository repo;

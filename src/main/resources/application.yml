@@ -102,7 +102,7 @@ spring:
           max-request-size: 275MB
 
   profiles:
-      active: dev
+      active: qa
 
 ---
 spring:
@@ -113,7 +113,6 @@ spring:
     config:
         activate:
             on-profile: local
-
 ---
 spring:
     datasource:
@@ -123,4 +122,13 @@ spring:
     config:
         activate:
             on-profile: dev
+---
+spring:
+    datasource:
+        url: jdbc:mysql://st-school-spkt.cbfzvpdpxfmt.us-east-1.rds.amazonaws.com:3306/st_school?createDatabaseIfNotExist=true
+        username: admin
+        password: Conheogoitinh1*
+    config:
+        activate:
+            on-profile: qa
 ---

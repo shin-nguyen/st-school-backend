@@ -263,7 +263,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>st-school</finalName>
+        <finalName>st-schools</finalName>
     </build>
 
 </project>

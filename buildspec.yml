@@ -10,5 +10,5 @@ phases:
       - echo Build completed successfully
 artifacts:
   files:
-    - target/st-school.jar
+    - target/st-schools.jar
   discard-paths: yes

@@ -35,7 +35,7 @@ public class GraphQLProvider {
 
     @PostConstruct
     public void loadSchema() throws IOException{
-        ClassPathResource classPathResource = new ClassPathResource("graphql/schemas.graphql");
+        ClassPathResource classPathResource = new ClassPathResource("/graphql/schemas.graphql");
         InputStream inputStream = classPathResource.getInputStream();
         File somethingFile = File.createTempFile("schemas", ".graphql");
         try {

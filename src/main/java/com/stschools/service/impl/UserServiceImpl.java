@@ -17,7 +17,6 @@ import com.stschools.payload.user.UserRequest;
 import com.stschools.repository.*;
 import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
-import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
     private final Cloudinary cloudinary;
 
     @Override
-    public UserDTO findUserById(Long userId) throws ApiException {
+    public UserDTO findUserById(Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
         return ModelMapperControl.map(user, UserDTO.class);

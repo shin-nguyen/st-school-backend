@@ -1,6 +1,5 @@
 package com.stschools.api;
 
-import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
 import com.stschools.exception.InputFieldException;
@@ -13,7 +12,6 @@ import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +35,7 @@ public class BlogController {
     }
 
     @GetMapping("/user-love")
-    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) throws JSONException {
+    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user){
         return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
     }
 
@@ -60,7 +58,7 @@ public class BlogController {
 
     @PutMapping("/love/{id}")
     public ResponseEntity<?> updateLoveBlog(@PathVariable("id") Long blogId,
-                                            @CurrentUser UserPrincipal user) throws JSONException {
+                                            @CurrentUser UserPrincipal user){
         return ResponseEntity.ok(blogService.updateLove(blogId, user.getId()));
     }
 
@@ -93,7 +91,7 @@ public class BlogController {
     @PostMapping(value = "/add")
     public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,
                                                 @CurrentUser UserPrincipal user,
-                                                BindingResult bindingResult) throws IOException, ApiException {
+                                                BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
@@ -102,7 +100,7 @@ public class BlogController {
     }
 
     @PostMapping("/add/file")
-    public ResponseEntity<List<?>> importToExcel(@RequestParam("file") MultipartFile file) throws IOException, ApiException {
+    public ResponseEntity<List<?>> importToExcel(@RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(blogService.addBlog(file));
     }
 

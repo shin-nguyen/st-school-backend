@@ -13,11 +13,9 @@ import com.stschools.entity.Blog;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.BlogService;
 import com.stschools.util.ModelMapperControl;
-import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +64,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogDTO> getAllBlogsByLove(Long id) throws JSONException {
+    public List<BlogDTO> getAllBlogsByLove(Long id){
         List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
         for (Blog blog: blogs) {
             JSONArray userLove = new JSONArray(blog.getUserLove());
@@ -156,7 +154,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public List<BlogUserLoveDTO> updateLove(Long blogId, Long id) throws JSONException {
+    public List<BlogUserLoveDTO> updateLove(Long blogId, Long id){
         Blog blog = blogRepository.findBlogById(blogId);
         List<BlogUserLoveDTO> listLove = new ArrayList<>();
         Boolean status = true;

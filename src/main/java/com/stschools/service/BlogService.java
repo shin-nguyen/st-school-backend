@@ -2,10 +2,7 @@ package com.stschools.service;
 
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.BlogUserLoveDTO;
-import com.stschools.entity.Blog;
 import com.stschools.payload.blog.BlogRequest;
-import graphql.schema.DataFetcher;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,7 +17,7 @@ public interface BlogService {
 
     List<BlogDTO> findAllBlogs();
 
-    List<BlogDTO> getAllBlogsByLove(Long id) throws JSONException;
+    List<BlogDTO> getAllBlogsByLove(Long id);
 
     Long deleteBlog(Long blogId);
 
@@ -34,6 +31,6 @@ public interface BlogService {
 
     BlogDTO updateBlogStatus(Long blogId);
 
-    List<BlogUserLoveDTO> updateLove(Long blogId, Long id) throws JSONException;
+    List<BlogUserLoveDTO> updateLove(Long blogId, Long id);
 }
 

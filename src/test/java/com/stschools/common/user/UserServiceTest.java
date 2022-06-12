@@ -6,7 +6,7 @@
 //import com.stschools.entity.User;
 //import com.stschools.import_file.blogs.BlogExcelImporter;
 //import com.stschools.repository.UserRepository;
-//import com.stschools.service.impl.UserServiceImpl;
+//import com.stschools.service.impl.VideoServiceImpl.UserServiceImpl;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;

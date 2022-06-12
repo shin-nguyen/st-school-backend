@@ -9,7 +9,6 @@ import com.stschools.entity.Blog;
 import com.stschools.entity.Order;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
-import com.stschools.payload.activity_progress.ActivityProgressReponse;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;

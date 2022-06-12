@@ -1,12 +1,9 @@
 package com.stschools.service.impl;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.BlogUserLoveDTO;
-import com.stschools.dto.QuizDTO;
-import com.stschools.entity.Quiz;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
 import com.stschools.import_file.blogs.BlogExcelImporter;
@@ -15,7 +12,6 @@ import com.stschools.repository.BlogRepository;
 import com.stschools.entity.Blog;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.BlogService;
-import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,31 +36,17 @@ public class BlogServiceImpl implements BlogService {
     private final BlogExcelImporter blogExcelImporter;
 
     @Override
-    public DataFetcher<Blog> getBlogByQuery() {
-        return dataFetchingEnvironment -> {
-            Long blogId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
-            return blogRepository.findById(blogId).get();
-        };
+    public BlogDTO getBlog(Long blogId) {
+        Blog blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
+        return ModelMapperControl.map(blog,BlogDTO.class);
     }
 
     @Override
-    public DataFetcher<List<Blog>> getAllBlogsByQuery() {
-        return dataFetchingEnvironment -> {
-            String type = dataFetchingEnvironment.getArgument("type");
-            List<Blog> list;
-
-            switch (type) {
-                case "true":
-                    list = blogRepository.findAllByStatus(true);
-                    break;
-                case "false":
-                    list = blogRepository.findAllByStatus(false);
-                    break;
-                default:
-                    list = blogRepository.findAllByOrderByIdAsc();
-            }
-            return list;
-        };
+    public List<BlogDTO> getAllBlogs() {
+        List<Blog> blogs = blogRepository.findAll();
+        blogs.stream().filter(blog ->  !blog.getIsDeleted());
+        return  ModelMapperControl.mapAll(blogs,BlogDTO.class);
     }
 
 
@@ -159,12 +137,8 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public DataFetcher<List<Blog>> getAllBlogsByMe() {
-        return dataFetchingEnvironment -> {
-            String email = dataFetchingEnvironment.getArgument("email");
-            List<Blog> list = blogRepository.findAllByUserEmail(email);
-            return list;
-        };
+    public List<BlogDTO> getAllBlogsByMe(Long userId) {
+        return ModelMapperControl.mapAll(blogRepository.findAllByUserId(userId), BlogDTO.class);
     }
 
     @Override

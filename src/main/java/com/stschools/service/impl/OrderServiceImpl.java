@@ -6,13 +6,13 @@ import com.stschools.entity.Course;
 import com.stschools.entity.Order;
 import com.stschools.entity.Video;
 import com.stschools.payload.course.CourseRequest;
+import com.stschools.payload.orders.OrderReponse;
 import com.stschools.repository.CourseRepository;
 import com.stschools.repository.OrderRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.repository.VideoRepository;
 import com.stschools.service.OrderService;
 import com.stschools.util.ModelMapperControl;
-import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,9 +65,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public DataFetcher<List<Order>> findAllByCreateDateTop5() {
+    public List<OrderReponse> findAllByCreateDateTop5() {
         Page<Order> orders = orderRepository.findByTop(PageRequest.of(0, 5));
-        return dataFetchingEnvironment -> orders.getContent();
+        return ModelMapperControl.mapAll(orders.getContent(), OrderReponse.class);
     }
 
     @Override

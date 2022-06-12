@@ -1,10 +1,10 @@
 package com.stschools.api;
 
 import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.payload.common.GraphQLRequest;
+import com.stschools.security.CurrentUser;
+import com.stschools.security.UserPrincipal;
+import com.stschools.service.OrderService;
 import com.stschools.service.UserService;
-import com.stschools.service.graphql.GraphQLProvider;
-import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final GraphQLProvider graphQLProvider;
+    private final OrderService orderService;
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long userId) throws ApiException {
@@ -33,9 +33,9 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAllCustomerByDashboards());
     }
 
-    @PostMapping("/graphql/dashboard/order")
-    public ResponseEntity<ExecutionResult> getOrdersDashboard(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    @PostMapping("/dashboard/order")
+    public ResponseEntity<?> getOrdersDashboard() {
+        return ResponseEntity.ok(orderService.findAllByCreateDateTop5());
     }
 
     @GetMapping("/dashboard")
@@ -48,15 +48,11 @@ public class AdminController {
         return ResponseEntity.ok(userService.findAllCustomers());
     }
 
-    @PostMapping("/graphql/user")
-    public ResponseEntity<ExecutionResult> getUserByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    @PostMapping("/user")
+    public ResponseEntity<?> getUserByUser(@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(userService.getUserById(user.getId()));
     }
 
-    @GetMapping("/graphql/user/all")
-    public ResponseEntity<ExecutionResult> getAllUsersByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
-    }
 
     @GetMapping("/dashboard/{year}")
     public ResponseEntity<?> dashboardBlog(@PathVariable("year") Long year) {

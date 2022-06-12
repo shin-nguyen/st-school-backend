@@ -1,4 +1,4 @@
-package com.stschools.service;
+package com.stschools.service.scheduler;
 
 import java.util.Date;
 import java.util.List;

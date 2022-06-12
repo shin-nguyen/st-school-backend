@@ -21,9 +21,7 @@ public interface UserService {
 
     UserDTO findUserByEmail(String email);
 
-    DataFetcher<List<User>> getAllUsersByQuery();
-
-    DataFetcher<User> getUserByQuery();
+    UserDTO getUserById(Long userId);
 
     List<UserDTO> findAllUsers();
 

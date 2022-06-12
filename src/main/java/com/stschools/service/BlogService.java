@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface BlogService {
-    DataFetcher<Blog> getBlogByQuery();
+    BlogDTO getBlog(Long blogId);
 
-    DataFetcher<List<Blog>> getAllBlogsByQuery();
+    List<BlogDTO> getAllBlogs();
 
     BlogDTO findBlogById(Long blogId);
 
@@ -30,7 +30,7 @@ public interface BlogService {
 
     List<BlogDTO> addBlog(MultipartFile file) throws IOException;
 
-    DataFetcher<List<Blog>> getAllBlogsByMe();
+    List<BlogDTO> getAllBlogsByMe(Long userId);
 
     BlogDTO updateBlogStatus(Long blogId);
 

@@ -8,13 +8,10 @@ import com.stschools.export_file.blogs.BlogCsvExporter;
 import com.stschools.export_file.blogs.BlogExcelExporter;
 import com.stschools.export_file.blogs.BlogPdfExporter;
 import com.stschools.payload.blog.BlogRequest;
-import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.repository.BlogRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
-import com.stschools.service.graphql.GraphQLProvider;
-import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +30,6 @@ import java.util.List;
 public class BlogController {
     private final BlogRepository blogRepository;
     private final BlogService blogService;
-    private final GraphQLProvider graphQLProvider;
 
     @GetMapping
     public ResponseEntity<List<?>> getAllBlogs() {
@@ -69,7 +65,7 @@ public class BlogController {
     }
 
     @DeleteMapping("/delete/{blogId}")
-    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId) throws ApiException {
+    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId){
         return ResponseEntity.ok(blogService.deleteBlog(blogId));
     }
 
@@ -78,20 +74,20 @@ public class BlogController {
         return ResponseEntity.ok(blogService.updateBlogStatus(blogId));
     }
 
-    @PostMapping("/graphql/blogs")
-    public ResponseEntity<ExecutionResult> getAllBlogsByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    @PostMapping("/blogs")
+    public ResponseEntity<?> getAllBlogsByQuery() {
+        return ResponseEntity.ok(blogService.getAllBlogs());
     }
 
-    @PostMapping("/graphql/blogs/me")
-    public ResponseEntity<ExecutionResult> getAllBlogsMeByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    @PostMapping("/blogs/me")
+    public ResponseEntity<?> getAllBlogsMe(@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(blogService.getAllBlogsByMe(user.getId()));
     }
 
 
-    @PostMapping("/graphql/blog")
-    public ResponseEntity<ExecutionResult> getBlogByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    @PostMapping("/blog")
+    public ResponseEntity<?> getBlogByQuery(@PathVariable("id") Long blogId) {
+        return ResponseEntity.ok(blogService.getBlog(blogId));
     }
 
     @PostMapping(value = "/add")

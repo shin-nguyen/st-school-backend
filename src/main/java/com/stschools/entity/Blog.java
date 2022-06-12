@@ -71,15 +71,6 @@ public class Blog {
     @ToString.Exclude
     private User user;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    @JoinTable(name = "tbl_blog_topic",
-//            joinColumns = @JoinColumn(name = "blog_id"),
-//            inverseJoinColumns = @JoinColumn(name = "topic_id")
-//    )
-//    private Collection<Topic> topics;
-
     @Column
     private String userLove;
 

@@ -65,18 +65,8 @@ public class CourseController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<?>> getCourses(@CurrentUser UserPrincipal user){
-        try{
-            final List<CourseDTO> courses = courseService.getCourses(user.getId());
-            if(courses == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return ResponseEntity.ok().body(courses);
-
-        }
-        catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found courses", ex);
-        }
+    public ResponseEntity<?> getCourses(@CurrentUser UserPrincipal user){
+        return ResponseEntity.ok(courseService.getCourses(user.getId()));
     }
 
     @GetMapping("/list/purchased")

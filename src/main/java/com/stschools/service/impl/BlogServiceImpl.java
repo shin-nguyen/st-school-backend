@@ -37,14 +37,14 @@ public class BlogServiceImpl implements BlogService {
     public BlogDTO getBlog(Long blogId) {
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
-        return ModelMapperControl.map(blog,BlogDTO.class);
+        return ModelMapperControl.map(blog, BlogDTO.class);
     }
 
     @Override
     public List<BlogDTO> getAllBlogs() {
         List<Blog> blogs = blogRepository.findAll();
-        blogs.stream().filter(blog ->  !blog.getIsDeleted());
-        return  ModelMapperControl.mapAll(blogs,BlogDTO.class);
+        blogs.stream().filter(blog -> !blog.getIsDeleted());
+        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 
 
@@ -55,7 +55,7 @@ public class BlogServiceImpl implements BlogService {
 
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
-        return ModelMapperControl.map(blog,BlogDTO.class);
+        return ModelMapperControl.map(blog, BlogDTO.class);
     }
 
     @Override
@@ -64,16 +64,15 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogDTO> getAllBlogsByLove(Long id){
+    public List<BlogDTO> getAllBlogsByLove(Long id) {
         List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
-        for (Blog blog: blogs) {
+        for (Blog blog : blogs) {
             JSONArray userLove = new JSONArray(blog.getUserLove());
 
-            for(int i=0; i < userLove.length(); i++)
-            {
+            for (int i = 0; i < userLove.length(); i++) {
                 JSONObject object = userLove.getJSONObject(i);
-                String idUser = object.getString("id");
-                if (Long.parseLong(idUser) == id)  {
+                Long idUser = object.getLong("id");
+                if (idUser == id) {
                     blog.setIsLove(true);
                 }
             }
@@ -83,7 +82,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Long deleteBlog(Long blogId){
+    public Long deleteBlog(Long blogId) {
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
 
@@ -93,7 +92,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public BlogDTO update(BlogDTO blog, Long id){
+    public BlogDTO update(BlogDTO blog, Long id) {
         Blog blogOld = blogRepository.findById(blog.getId())
                 .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
 
@@ -154,24 +153,23 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public List<BlogUserLoveDTO> updateLove(Long blogId, Long id){
+    public List<BlogUserLoveDTO> updateLove(Long blogId, Long id) {
         Blog blog = blogRepository.findBlogById(blogId);
         List<BlogUserLoveDTO> listLove = new ArrayList<>();
         Boolean status = true;
 
         JSONArray userLove = new JSONArray(blog.getUserLove());
-        for(int i=0; i < userLove.length(); i++)
-        {
+        for (int i = 0; i < userLove.length(); i++) {
             JSONObject object = userLove.getJSONObject(i);
-            String idUser = object.getString("id");
-            if (Long.parseLong(idUser) != id)  {
-                listLove.add(new BlogUserLoveDTO(Long.parseLong(idUser)));
-            }else{
+            Long idUser = object.getLong("id");
+            if (idUser != id) {
+                listLove.add(new BlogUserLoveDTO(idUser));
+            } else {
                 status = false;
             }
         }
 
-        if (status){
+        if (status) {
             listLove.add(new BlogUserLoveDTO(id));
         }
 

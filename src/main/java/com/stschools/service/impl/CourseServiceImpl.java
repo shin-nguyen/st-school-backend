@@ -2,19 +2,23 @@ package com.stschools.service.impl;
 
 import com.stschools.dto.CourseDTO;
 import com.stschools.entity.Course;
+import com.stschools.entity.Order;
 import com.stschools.repository.CourseRepository;
+import com.stschools.repository.OrderRepository;
 import com.stschools.service.CourseService;
 import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     public CourseDTO findByID(Long id) {
@@ -25,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO findByName(String name) {
         List<Course> courseList = courseRepository.findCourseByName(name);
-        if(!courseList.isEmpty()){
+        if (!courseList.isEmpty()) {
             return ModelMapperControl.map(courseList.get(0), CourseDTO.class);
         }
         return null;
@@ -33,8 +37,15 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDTO> findByUserId(Long id) {
-        List<Course> courseList = courseRepository.findCoursesByUserId(id);
-        return ModelMapperControl.mapAll(courseList, CourseDTO.class);
+        List<Long> orders = orderRepository.findOrderByUserId(id).stream()
+                .map(Order::getId)
+                .collect(Collectors.toList());
+
+        List<Course> courses = courseRepository.findAll().stream()
+                .filter(course -> orders.contains(course.getId()))
+                .collect(Collectors.toList());
+
+        return ModelMapperControl.mapAll(courses, CourseDTO.class);
     }
 
     @Override
@@ -45,13 +56,23 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDTO> getPromotionCourses() {
-        List<Course> courses = courseRepository.findPromotionCourses();
+        List<Course> courses = courseRepository.findAll().stream().filter(
+                course -> (course.getPrice() > course.getSubPrice() && course.getSubPrice() > 0)
+        ).collect(Collectors.toList());
+
         return ModelMapperControl.mapAll(courses, CourseDTO.class);
     }
 
     @Override
     public List<CourseDTO> getCourses(Long id) {
-        List<Course> courses = courseRepository.findCoursesByNotInOrder(id);
+        List<Long> orders = orderRepository.findOrderByUserId(id).stream()
+                .map(Order::getId)
+                .collect(Collectors.toList());
+
+        List<Course> courses = courseRepository.findAll().stream()
+                .filter(course -> !orders.contains(course.getId()))
+                .collect(Collectors.toList());
+
         return ModelMapperControl.mapAll(courses, CourseDTO.class);
     }
 

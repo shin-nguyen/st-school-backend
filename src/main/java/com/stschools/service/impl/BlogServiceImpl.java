@@ -1,12 +1,9 @@
 package com.stschools.service.impl;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.BlogUserLoveDTO;
-import com.stschools.dto.QuizDTO;
-import com.stschools.entity.Quiz;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
 import com.stschools.import_file.blogs.BlogExcelImporter;
@@ -15,7 +12,6 @@ import com.stschools.repository.BlogRepository;
 import com.stschools.entity.Blog;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.BlogService;
-import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -206,5 +199,23 @@ public class BlogServiceImpl implements BlogService {
         blog.setUserLove(listLove.toString());
 
         return listLove;
+    }
+
+    @Override
+    public List<BlogDTO> getTopNew() {
+        return ModelMapperControl.mapAll(blogRepository.findAll()
+                        .stream()
+                        .sorted(Comparator.comparing(Blog::getId, Comparator.comparing(Math::abs)).reversed())
+                        .limit(3).collect(Collectors.toList())
+                , BlogDTO.class);
+    }
+
+    @Override
+    public List<BlogDTO> getTopView() {
+        return ModelMapperControl.mapAll(blogRepository.findAll()
+                        .stream()
+                        .sorted(Comparator.comparing(Blog::getView, Comparator.comparing(Math::abs)).reversed())
+                        .limit(3).collect(Collectors.toList())
+                , BlogDTO.class);
     }
 }

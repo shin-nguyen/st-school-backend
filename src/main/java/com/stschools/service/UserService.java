@@ -44,4 +44,6 @@ public interface UserService {
     int[] dashboardBlog(Long year);
 
     UserFlutterReponse updateImageAndInfo(UserRequest userRequest, Long id) throws IOException;
+
+    boolean isNewbie(Long id);
 }

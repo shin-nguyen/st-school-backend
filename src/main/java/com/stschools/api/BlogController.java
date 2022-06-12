@@ -17,10 +17,12 @@ import com.stschools.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -43,6 +45,36 @@ public class BlogController {
     @GetMapping("/user-love")
     public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) throws JSONException {
         return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
+    }
+
+    @GetMapping("/top-new")
+    public ResponseEntity<List<?>> getTopNew(){
+        try{
+            final List<BlogDTO> courses = blogService.getTopNew();
+            if(courses == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(courses);
+
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found blogs", ex);
+        }
+    }
+
+    @GetMapping("/top-view")
+    public ResponseEntity<List<?>> getTopView(){
+        try{
+            final List<BlogDTO> courses = blogService.getTopView();
+            if(courses == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return ResponseEntity.ok().body(courses);
+
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found blogs", ex);
+        }
     }
 
     @GetMapping("/{id}")

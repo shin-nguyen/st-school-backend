@@ -8,7 +8,9 @@ import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,28 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDTO> getPromotionCourses() {
         List<Course> courses = courseRepository.findPromotionCourses();
         return ModelMapperControl.mapAll(courses, CourseDTO.class);
+    }
+
+    @Override
+    public List<CourseDTO> getTopNew(Long userId) {
+        List<Course> courseList = (userId == null)? courseRepository.findAll() : courseRepository.findCoursesByNotInOrder(userId);
+        return ModelMapperControl.mapAll(courseList
+                        .stream()
+                        .sorted(Comparator.comparing(Course::getId, Comparator.comparing(Math::abs)).reversed())
+                        .limit(4)
+                        .collect(Collectors.toList())
+        , CourseDTO.class);
+    }
+
+    @Override
+    public List<CourseDTO> getTopHot(Long userId) {
+        List<Course> courseList = (userId == null)? courseRepository.findAll() : courseRepository.findCoursesByNotInOrder(userId);
+        return ModelMapperControl.mapAll(courseList
+                        .stream()
+                        .sorted(Comparator.comparing(Course::getSubTotal, Comparator.comparing(Math::abs)).reversed())
+                        .limit(4)
+                        .collect(Collectors.toList())
+                , CourseDTO.class);
     }
 
     @Override

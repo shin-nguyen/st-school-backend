@@ -1,14 +1,11 @@
 package com.stschools.api;
 
-import com.cloudinary.api.exceptions.ApiException;
-import com.stschools.dto.BlogDTO;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
 import com.stschools.exception.InputFieldException;
 import com.stschools.export_file.users.UserCsvExporter;
 import com.stschools.export_file.users.UserExcelExporter;
 import com.stschools.export_file.users.UserPdfExporter;
-import com.stschools.payload.blog.BlogRequest;
 import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.payload.user.UserFlutterReponse;
 import com.stschools.payload.user.UserRequest;
@@ -96,5 +93,10 @@ public class UserController {
         List<User> listUsers = userRepository.findAll();
         UserPdfExporter exporter = new UserPdfExporter();
         exporter.export(listUsers, response);
+    }
+
+    @GetMapping("/is-newbie")
+    public boolean isNewbie(@CurrentUser UserPrincipal user) {
+        return userService.isNewbie(user.getId());
     }
 }

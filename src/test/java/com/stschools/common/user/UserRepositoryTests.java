@@ -54,9 +54,9 @@ public class UserRepositoryTests {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		user.setActive(true);
-		user.setEmail("admin@gmail.com");
+		user.setEmail("admin1@gmail.com");
 		user.setFirstName("");
-		user.setLastName("ADMIN");
+		user.setLastName("User1");
 		user.setAddress("VN");
 		user.setPhone("090909090");
 		user.setRoles(Collections.singleton(Role.ADMIN));
@@ -76,6 +76,7 @@ public class UserRepositoryTests {
 		user.setEmail("sinhnguyen27022000@gmail.com");
 		user.setFirstName("Sinh");
 		user.setLastName("Nguyen");
+		user.setAvatar("https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg");
 		user.setAddress("HCM");
 		user.setPhone("001010101");
 		user.setRoles(Collections.singleton(Role.USER));

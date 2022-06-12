@@ -174,6 +174,12 @@ public class UserServiceImpl implements UserService {
         return ModelMapperControl.map(userRepository.save(userFromDb), UserFlutterReponse.class);
     }
 
+    @Override
+    public boolean isNewbie(Long id) {
+        List<Order> listOrder = orderRepository.findOrderByUserId(id);
+        return listOrder.isEmpty() || (listOrder.size() == 1 && listOrder.get(0).getVideos().isEmpty());
+    }
+
 
     @Override
     public List<GraphResponse> dashboardGraph(Long year) {

@@ -5,8 +5,8 @@ server:
 
 twilio:
     account_sid: ACf1764ff3399bae30ca1ca505de34f898
-    auth_token: 4e3906bc7f4d1e2890f3df4715fc46ed
-    trial_number: +19563046944
+    auth_token: a719d746cdfc3ecdabb28e479d447f00
+    trial_number: ++19563046944
 
 cloudinary:
     cloud_name: qscloud
@@ -103,25 +103,15 @@ spring:
 
   profiles:
       active: qa
-
 ---
 spring:
     datasource:
-        password: 1234
+        password: 123456
         url: jdbc:mysql://localhost:3306/st_school?createDatabaseIfNotExist=true
         username: root
     config:
         activate:
             on-profile: local
----
-spring:
-    datasource:
-        url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6498507?createDatabaseIfNotExist=true
-        username: sql6498507
-        password: TenrazEM3K
-    config:
-        activate:
-            on-profile: dev
 ---
 spring:
     datasource:

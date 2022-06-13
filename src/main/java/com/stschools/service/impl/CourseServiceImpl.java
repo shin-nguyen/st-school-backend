@@ -66,7 +66,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDTO> getTopNew(Long userId) {
-        List<Course> courseList = (userId == null)? courseRepository.findAll() : courseRepository.findCoursesByNotInOrder(userId);
+        List<Course> courseList = (userId == null)? courseRepository.findAll() : ModelMapperControl.mapAll(this.getCourses(userId), Course.class);
         return ModelMapperControl.mapAll(courseList
                         .stream()
                         .sorted(Comparator.comparing(Course::getId, Comparator.comparing(Math::abs)).reversed())
@@ -77,7 +77,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDTO> getTopHot(Long userId) {
-        List<Course> courseList = (userId == null)? courseRepository.findAll() : courseRepository.findCoursesByNotInOrder(userId);
+        List<Course> courseList = (userId == null)? courseRepository.findAll() : ModelMapperControl.mapAll(this.getCourses(userId), Course.class);
         return ModelMapperControl.mapAll(courseList
                         .stream()
                         .sorted(Comparator.comparing(Course::getSubTotal, Comparator.comparing(Math::abs)).reversed())

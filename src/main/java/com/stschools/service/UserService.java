@@ -1,6 +1,5 @@
 package com.stschools.service;
 
-import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
 import com.stschools.payload.dashboard.DashboardResponse;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDTO findUserById(Long userId) throws ApiException;
+    UserDTO findUserById(Long userId) ;
 
     UserDTO findUserByEmail(String email);
 

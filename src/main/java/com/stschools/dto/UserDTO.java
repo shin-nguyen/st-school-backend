@@ -10,8 +10,8 @@ import java.util.Set;
 @Data
 public class UserDTO {
     private Long id;
-    @Email(message = "needs to be an email")
-    @NotBlank(message = "email is required")
+//    @Email(message = "needs to be an email")
+//    @NotBlank(message = "email is required")
     private String email;
     private String password;
     private String firstName;

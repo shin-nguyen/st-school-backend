@@ -2,7 +2,6 @@ package com.stschools.api;
 
 import com.stschools.dto.NoteDTO;
 import com.stschools.dto.UserDTO;
-import com.stschools.entity.Note;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.NoteService;

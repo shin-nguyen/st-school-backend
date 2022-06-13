@@ -1,13 +1,17 @@
 package com.stschools.service.impl;
 
+import com.stschools.dto.BlogDTO;
 import com.stschools.dto.CourseDTO;
+import com.stschools.entity.Blog;
 import com.stschools.entity.Course;
 import com.stschools.entity.Order;
+import com.stschools.exception.ApiRequestException;
 import com.stschools.repository.CourseRepository;
 import com.stschools.repository.OrderRepository;
 import com.stschools.service.CourseService;
 import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -23,7 +27,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO findByID(Long id) {
-        Course course = courseRepository.findCourseById(id);
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Course is null!", HttpStatus.BAD_REQUEST));
         return ModelMapperControl.map(course, CourseDTO.class);
     }
 

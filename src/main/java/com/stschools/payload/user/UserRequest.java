@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Data
 public class UserRequest implements Serializable {
+    private Long id;
     private String email;
     private String firstName;
     private String lastName;

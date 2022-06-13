@@ -1,7 +1,6 @@
 package com.stschools.service.impl;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.api.exceptions.ApiException;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.common.enums.Role;
 import com.stschools.dto.UserDTO;
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService {
     private final Cloudinary cloudinary;
 
     @Override
-    public UserDTO findUserById(Long userId){
+    public UserDTO findUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
         return ModelMapperControl.map(user, UserDTO.class);

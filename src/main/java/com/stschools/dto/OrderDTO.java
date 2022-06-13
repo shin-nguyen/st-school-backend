@@ -1,4 +1,5 @@
 package com.stschools.dto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,10 @@ import java.util.Set;
 @Builder
 public class OrderDTO {
     private Long id;
+
+    @JsonProperty("vnpay_id")
+    private String vnpayId;
+
     private String createdTime;
     private String updateTime;
     private Integer total;

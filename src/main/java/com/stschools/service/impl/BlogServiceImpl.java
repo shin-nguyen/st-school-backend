@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -176,5 +177,23 @@ public class BlogServiceImpl implements BlogService {
         blog.setUserLove(listLove.toString());
 
         return listLove;
+    }
+
+    @Override
+    public List<BlogDTO> getTopNew() {
+        return ModelMapperControl.mapAll(blogRepository.findAll()
+                        .stream()
+                        .sorted(Comparator.comparing(Blog::getId, Comparator.comparing(Math::abs)).reversed())
+                        .limit(3).collect(Collectors.toList())
+                , BlogDTO.class);
+    }
+
+    @Override
+    public List<BlogDTO> getTopView() {
+        return ModelMapperControl.mapAll(blogRepository.findAll()
+                        .stream()
+                        .sorted(Comparator.comparing(Blog::getView, Comparator.comparing(Math::abs)).reversed())
+                        .limit(3).collect(Collectors.toList())
+                , BlogDTO.class);
     }
 }

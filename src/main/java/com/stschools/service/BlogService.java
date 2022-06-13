@@ -31,6 +31,11 @@ public interface BlogService {
 
     BlogDTO updateBlogStatus(Long blogId);
 
+//    List<BlogUserLoveDTO> updateLove(Long blogId, Long id) throws JSONException;
+
+    List<BlogDTO> getTopNew();
+
+    List<BlogDTO> getTopView();
     List<BlogUserLoveDTO> updateLove(Long blogId, Long id);
 }
 

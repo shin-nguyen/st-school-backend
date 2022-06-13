@@ -22,4 +22,8 @@ public interface CourseService {
     List<CourseDTO> getCoursesByAdmin();
 
     List<CourseDTO> getPromotionCourses();
+
+    List<CourseDTO> getTopNew(Long userId);
+
+    List<CourseDTO> getTopHot(Long userId);
 }

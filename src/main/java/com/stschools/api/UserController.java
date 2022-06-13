@@ -86,4 +86,9 @@ public class UserController {
         UserPdfExporter exporter = new UserPdfExporter();
         exporter.export(listUsers, response);
     }
+
+    @GetMapping("/is-newbie")
+    public boolean isNewbie(@CurrentUser UserPrincipal user) {
+        return userService.isNewbie(user.getId());
+    }
 }

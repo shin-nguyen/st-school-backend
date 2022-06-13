@@ -10,6 +10,7 @@ import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,13 +65,35 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseDTO> getTopNew(Long userId) {
+        List<Course> courseList = (userId == null)? courseRepository.findAll() : ModelMapperControl.mapAll(this.getCourses(userId), Course.class);
+        return ModelMapperControl.mapAll(courseList
+                        .stream()
+                        .sorted(Comparator.comparing(Course::getId, Comparator.comparing(Math::abs)).reversed())
+                        .limit(4)
+                        .collect(Collectors.toList())
+        , CourseDTO.class);
+    }
+
+    @Override
+    public List<CourseDTO> getTopHot(Long userId) {
+        List<Course> courseList = (userId == null)? courseRepository.findAll() : ModelMapperControl.mapAll(this.getCourses(userId), Course.class);
+        return ModelMapperControl.mapAll(courseList
+                        .stream()
+                        .sorted(Comparator.comparing(Course::getSubTotal, Comparator.comparing(Math::abs)).reversed())
+                        .limit(4)
+                        .collect(Collectors.toList())
+                , CourseDTO.class);
+    }
+
+    @Override
     public List<CourseDTO> getCourses(Long id) {
-        List<Long> orders = orderRepository.findOrderByUserId(id).stream()
-                .map(Order::getId)
+        List<Course> courseList = orderRepository.findOrderByUserId(id).stream()
+                .map(Order::getCourse)
                 .collect(Collectors.toList());
 
         List<Course> courses = courseRepository.findAll().stream()
-                .filter(course -> !orders.contains(course.getId()))
+                .filter(course -> !courseList.contains(course))
                 .collect(Collectors.toList());
 
         return ModelMapperControl.mapAll(courses, CourseDTO.class);

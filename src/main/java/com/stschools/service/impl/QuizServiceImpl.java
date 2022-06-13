@@ -197,8 +197,10 @@ public class QuizServiceImpl implements QuizService {
         }
         Record record = new Record(quizOld,user,score * 100 /quizOld.getQuestions().size(),request.toString());
         Order order = orderRepository.findOrderByCourseIdAndUserId(quizOld.getCourse().getId(), userId);
-        order.setIsComplete(score * 100 /quizOld.getQuestions().size() >= 80);
-        orderRepository.save(order);
+        if(!order.getIsComplete()){
+            order.setIsComplete(score * 100 /quizOld.getQuestions().size() >= 80);
+            orderRepository.save(order);
+        }
         return ModelMapperControl.map(recordRepository.save(record), RecordDTO.class);
     }
 

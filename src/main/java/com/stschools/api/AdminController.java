@@ -33,7 +33,7 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAllCustomerByDashboards());
     }
 
-    @PostMapping("/dashboard/order")
+    @GetMapping("/dashboard/order")
     public ResponseEntity<?> getOrdersDashboard() {
         return ResponseEntity.ok(orderService.findAllByCreateDateTop5());
     }
@@ -48,7 +48,7 @@ public class AdminController {
         return ResponseEntity.ok(userService.findAllCustomers());
     }
 
-    @PostMapping("/user")
+    @GetMapping("/user")
     public ResponseEntity<?> getUserByUser(@CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(userService.getUserById(user.getId()));
     }

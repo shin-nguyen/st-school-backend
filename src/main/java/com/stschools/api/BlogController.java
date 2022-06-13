@@ -72,21 +72,11 @@ public class BlogController {
         return ResponseEntity.ok(blogService.updateBlogStatus(blogId));
     }
 
-    @PostMapping("/blogs")
-    public ResponseEntity<?> getAllBlogsByQuery() {
-        return ResponseEntity.ok(blogService.getAllBlogs());
-    }
-
-    @PostMapping("/blogs/me")
+    @GetMapping("/me")
     public ResponseEntity<?> getAllBlogsMe(@CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(blogService.getAllBlogsByMe(user.getId()));
     }
 
-
-    @PostMapping("/blog")
-    public ResponseEntity<?> getBlogByQuery(@PathVariable("id") Long blogId) {
-        return ResponseEntity.ok(blogService.getBlog(blogId));
-    }
 
     @PostMapping(value = "/add")
     public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,

@@ -169,7 +169,7 @@ public class BlogServiceImpl implements BlogService {
         return ModelMapperControl.mapAll(blogRepository.findAll()
                         .stream()
                         .sorted(Comparator.comparing(Blog::getId, Comparator.comparing(Math::abs)).reversed())
-                        .limit(3).collect(Collectors.toList())
+                        .limit(10).collect(Collectors.toList())
                 , BlogDTO.class);
     }
 
@@ -178,7 +178,7 @@ public class BlogServiceImpl implements BlogService {
         return ModelMapperControl.mapAll(blogRepository.findAll()
                         .stream()
                         .sorted(Comparator.comparing(Blog::getView, Comparator.comparing(Math::abs)).reversed())
-                        .limit(3).collect(Collectors.toList())
+                        .limit(10).collect(Collectors.toList())
                 , BlogDTO.class);
     }
 }

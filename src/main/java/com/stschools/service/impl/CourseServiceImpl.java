@@ -70,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
         return ModelMapperControl.mapAll(courseList
                         .stream()
                         .sorted(Comparator.comparing(Course::getId, Comparator.comparing(Math::abs)).reversed())
-                        .limit(4)
+                        .limit(10)
                         .collect(Collectors.toList())
         , CourseDTO.class);
     }
@@ -81,7 +81,7 @@ public class CourseServiceImpl implements CourseService {
         return ModelMapperControl.mapAll(courseList
                         .stream()
                         .sorted(Comparator.comparing(Course::getSubTotal, Comparator.comparing(Math::abs)).reversed())
-                        .limit(4)
+                        .limit(10)
                         .collect(Collectors.toList())
                 , CourseDTO.class);
     }

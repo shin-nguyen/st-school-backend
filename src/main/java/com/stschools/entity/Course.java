@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_course")
@@ -168,5 +169,18 @@ public class Course {
 
     public Integer getRateTotal() {
         return this.reviews != null? this.reviews.size() : 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id.equals(course.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

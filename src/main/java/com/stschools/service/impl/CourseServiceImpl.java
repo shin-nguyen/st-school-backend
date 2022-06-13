@@ -88,12 +88,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDTO> getCourses(Long id) {
-        List<Long> orders = orderRepository.findOrderByUserId(id).stream()
-                .map(Order::getId)
+        List<Course> courseList = orderRepository.findOrderByUserId(id).stream()
+                .map(Order::getCourse)
                 .collect(Collectors.toList());
 
         List<Course> courses = courseRepository.findAll().stream()
-                .filter(course -> !orders.contains(course.getId()))
+                .filter(course -> !courseList.contains(course))
                 .collect(Collectors.toList());
 
         return ModelMapperControl.mapAll(courses, CourseDTO.class);

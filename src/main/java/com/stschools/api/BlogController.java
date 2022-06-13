@@ -12,7 +12,7 @@ import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONException;
+//import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

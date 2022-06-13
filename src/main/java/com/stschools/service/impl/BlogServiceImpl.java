@@ -35,21 +35,6 @@ public class BlogServiceImpl implements BlogService {
     private final BlogExcelImporter blogExcelImporter;
 
     @Override
-    public BlogDTO getBlog(Long blogId) {
-        Blog blog = blogRepository.findById(blogId)
-                .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
-        return ModelMapperControl.map(blog, BlogDTO.class);
-    }
-
-    @Override
-    public List<BlogDTO> getAllBlogs() {
-        List<Blog> blogs = blogRepository.findAll();
-        blogs.stream().filter(blog -> !blog.getIsDeleted());
-        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
-    }
-
-
-    @Override
     @Transactional
     public BlogDTO findBlogById(Long blogId) {
         blogRepository.updateView(blogId);

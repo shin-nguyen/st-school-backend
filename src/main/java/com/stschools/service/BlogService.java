@@ -9,10 +9,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface BlogService {
-    BlogDTO getBlog(Long blogId);
-
-    List<BlogDTO> getAllBlogs();
-
     BlogDTO findBlogById(Long blogId);
 
     List<BlogDTO> findAllBlogs();
@@ -31,11 +27,10 @@ public interface BlogService {
 
     BlogDTO updateBlogStatus(Long blogId);
 
-//    List<BlogUserLoveDTO> updateLove(Long blogId, Long id) throws JSONException;
+    List<BlogUserLoveDTO> updateLove(Long blogId, Long id);
 
     List<BlogDTO> getTopNew();
 
     List<BlogDTO> getTopView();
-    List<BlogUserLoveDTO> updateLove(Long blogId, Long id);
 }
 

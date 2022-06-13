@@ -23,15 +23,11 @@ public interface UserRepository extends SearchRepository<User, Long> {
 
     List<User> findAlLByRoles(Role role);
 
-    Long countById(Long id);
-
     List<User> findAllByOrderByIdAsc();
 
     User findByActivationCode(String code);
 
     User findByPasswordResetCode(String code);
-
-    List<User> findAllByRoles(Role role);
 
     @Query(value = "SELECT new com.stschools.payload.dashboard.UserResponse(u.firstName,u.lastName,count(o.id),sum(o.course.price) )  from  User u join Order o on o.user.id = u.id group by u.id order by sum(o.course.price) desc ")
     Page<UserResponse> getTopBy5(Pageable pageable);

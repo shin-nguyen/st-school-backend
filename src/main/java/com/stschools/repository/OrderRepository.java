@@ -18,8 +18,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select sum (o.course.price) from Order o")
     Long getSumImcome();
 
-    Long countByCourseIdAndUserId(Long course, Long user);
-
     Long countByCourseId(Long id);
 
     Order findOrderByCourseIdAndUserId(Long courseID, Long userID);

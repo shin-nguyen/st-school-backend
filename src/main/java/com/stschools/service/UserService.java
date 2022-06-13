@@ -3,13 +3,11 @@ package com.stschools.service;
 import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.UserDTO;
 import com.stschools.entity.User;
-import com.stschools.payload.activity_progress.ActivityProgressReponse;
 import com.stschools.payload.dashboard.DashboardResponse;
 import com.stschools.payload.dashboard.GraphResponse;
 import com.stschools.payload.dashboard.UserResponse;
 import com.stschools.payload.user.UserFlutterReponse;
 import com.stschools.payload.user.UserRequest;
-import graphql.schema.DataFetcher;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,9 +19,7 @@ public interface UserService {
 
     UserDTO findUserByEmail(String email);
 
-    DataFetcher<List<User>> getAllUsersByQuery();
-
-    DataFetcher<User> getUserByQuery();
+    UserDTO getUserById(Long userId);
 
     List<UserDTO> findAllUsers();
 

@@ -1,6 +1,5 @@
 package com.stschools.api;
 
-import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.BlogDTO;
 import com.stschools.entity.Blog;
 import com.stschools.exception.InputFieldException;
@@ -8,13 +7,10 @@ import com.stschools.export_file.blogs.BlogCsvExporter;
 import com.stschools.export_file.blogs.BlogExcelExporter;
 import com.stschools.export_file.blogs.BlogPdfExporter;
 import com.stschools.payload.blog.BlogRequest;
-import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.repository.BlogRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
-import com.stschools.service.graphql.GraphQLProvider;
-import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
@@ -35,7 +31,6 @@ import java.util.List;
 public class BlogController {
     private final BlogRepository blogRepository;
     private final BlogService blogService;
-    private final GraphQLProvider graphQLProvider;
 
     @GetMapping
     public ResponseEntity<List<?>> getAllBlogs() {
@@ -43,7 +38,7 @@ public class BlogController {
     }
 
     @GetMapping("/user-love")
-    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) throws JSONException {
+    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user){
         return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
     }
 
@@ -96,12 +91,12 @@ public class BlogController {
 
     @PutMapping("/love/{id}")
     public ResponseEntity<?> updateLoveBlog(@PathVariable("id") Long blogId,
-                                            @CurrentUser UserPrincipal user) throws JSONException {
+                                            @CurrentUser UserPrincipal user){
         return ResponseEntity.ok(blogService.updateLove(blogId, user.getId()));
     }
 
     @DeleteMapping("/delete/{blogId}")
-    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId) throws ApiException {
+    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId){
         return ResponseEntity.ok(blogService.deleteBlog(blogId));
     }
 
@@ -110,26 +105,16 @@ public class BlogController {
         return ResponseEntity.ok(blogService.updateBlogStatus(blogId));
     }
 
-    @PostMapping("/graphql/blogs")
-    public ResponseEntity<ExecutionResult> getAllBlogsByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    @GetMapping("/me")
+    public ResponseEntity<?> getAllBlogsMe(@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(blogService.getAllBlogsByMe(user.getId()));
     }
 
-    @PostMapping("/graphql/blogs/me")
-    public ResponseEntity<ExecutionResult> getAllBlogsMeByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
-    }
-
-
-    @PostMapping("/graphql/blog")
-    public ResponseEntity<ExecutionResult> getBlogByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
-    }
 
     @PostMapping(value = "/add")
     public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,
                                                 @CurrentUser UserPrincipal user,
-                                                BindingResult bindingResult) throws IOException, ApiException {
+                                                BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
@@ -138,7 +123,7 @@ public class BlogController {
     }
 
     @PostMapping("/add/file")
-    public ResponseEntity<List<?>> importToExcel(@RequestParam("file") MultipartFile file) throws IOException, ApiException {
+    public ResponseEntity<List<?>> importToExcel(@RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(blogService.addBlog(file));
     }
 

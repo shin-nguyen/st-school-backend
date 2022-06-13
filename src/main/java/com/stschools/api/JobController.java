@@ -12,7 +12,7 @@ import com.stschools.job.SmsJob;
 import com.stschools.payload.schedule.ScheduleRequest;
 import com.stschools.payload.schedule.ScheduleResponse;
 import com.stschools.payload.schedule.SmsRequest;
-import com.stschools.service.SchedulerJobService;
+import com.stschools.service.scheduler.SchedulerJobService;
 import com.stschools.service.SmsService;
 import org.quartz.*;
 import org.slf4j.Logger;

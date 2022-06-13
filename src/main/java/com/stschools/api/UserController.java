@@ -6,15 +6,12 @@ import com.stschools.exception.InputFieldException;
 import com.stschools.export_file.users.UserCsvExporter;
 import com.stschools.export_file.users.UserExcelExporter;
 import com.stschools.export_file.users.UserPdfExporter;
-import com.stschools.payload.common.GraphQLRequest;
 import com.stschools.payload.user.UserFlutterReponse;
 import com.stschools.payload.user.UserRequest;
 import com.stschools.repository.UserRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.UserService;
-import com.stschools.service.graphql.GraphQLProvider;
-import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -32,17 +29,12 @@ import java.util.List;
 public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
-    private final GraphQLProvider graphQLProvider;
 
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo(@CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(userService.findUserByEmail(user.getEmail()));
     }
 
-    @PostMapping("/graphql/info")
-    public ResponseEntity<ExecutionResult> getUserInfoByQuery(@RequestBody GraphQLRequest request){
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
-    }
     @PutMapping("/edit")
     public ResponseEntity<?> updateUserInfo(@CurrentUser UserPrincipal user,
                                                        @Valid @RequestBody UserDTO request,

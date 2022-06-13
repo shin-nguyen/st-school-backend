@@ -70,6 +70,13 @@
             <version>0.9.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -109,17 +116,6 @@
             <version>2.5.5</version>
         </dependency>
 
-        <!-- graphql -->
-        <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>graphql-spring-boot-starter</artifactId>
-            <version>5.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>graphql-java-tools</artifactId>
-            <version>5.2.4</version>
-        </dependency>
         <!-- AOP -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -263,6 +259,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>st-schools</finalName>
     </build>
 
 </project>

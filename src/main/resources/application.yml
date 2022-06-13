@@ -1,5 +1,3 @@
-hostname: localhost:3000
-
 server:
     port: 8080
 
@@ -45,9 +43,9 @@ recaptcha:
 
 
 spring:
-#  datasource:
-#      connectionProperties: useUnicode=true;characterEncoding=utf-8;
-#      driverClassName: com.mysql.cj.jdbc.Driver
+  datasource:
+      connectionProperties: useUnicode=true;characterEncoding=utf-8;
+      driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
       hibernate:
           ddl-auto: update
@@ -113,15 +111,9 @@ spring:
     config:
         activate:
             on-profile: local
----
-spring:
-    datasource:
-        url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6498507?createDatabaseIfNotExist=true
-        username: sql6498507
-        password: TenrazEM3K
-    config:
-        activate:
-            on-profile: dev
+
+hostname: localhost:3000
+urlapp: localhost:8080
 ---
 spring:
     datasource:
@@ -131,4 +123,6 @@ spring:
     config:
         activate:
             on-profile: qa
+hostname: st-school-client.herokuapp.com
+urlapp: st-school-server.herokuapp.com
 ---

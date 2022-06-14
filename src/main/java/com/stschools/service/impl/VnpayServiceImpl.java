@@ -100,7 +100,10 @@ public class VnpayServiceImpl implements VnpayService {
                     .vnpayId(vnpTransactionNo)
                     .user(user)
                     .build();
-            Order newOrder = orderRepository.save(order);
+            if (orderRepository.findOrderByCourseIdAndUserId(courseId, user.getId()) != null) {
+                throw new ApiRequestException("Order exits", HttpStatus.BAD_REQUEST);
+            }
+            orderRepository.save(order);
 //            try{
 //
 //                String subject = "Order #" + order.getId();
@@ -114,7 +117,7 @@ public class VnpayServiceImpl implements VnpayService {
             return responses;
 
         } catch (Exception ex) {
-            responses = "<div><h1 style=\" text-align: center;	\">THANH TOÁN THÀNH CÔNG</h1></div>" + button;
+            responses = "<div><h1 style=\" text-align: center;	\">THANH TOÁN THẤT BẠI</h1></div>" + button;
             return responses;
         }
 

@@ -11,6 +11,7 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,9 @@ public class Order {
 
     @Column
     private Boolean isComplete;
+
+    @Column
+    private String vnpayId;
 
     @PrePersist
     protected void onCreate() {

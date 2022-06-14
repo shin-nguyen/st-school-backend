@@ -44,6 +44,7 @@ public class OrderServiceImpl implements OrderService {
         courseRepository.saveAndFlush(course);
         Order order = ModelMapperControl.map(orderDTO, Order.class);
         order.setCourse(course);
+
         Order newOrder = orderRepository.save(order);
 
         try{

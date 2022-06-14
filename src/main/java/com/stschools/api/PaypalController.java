@@ -1,23 +1,15 @@
 package com.stschools.api;
 
-import com.stschools.dto.QuizDTO;
-import com.stschools.exception.InputFieldException;
-import com.stschools.payload.orders.OrdersRequest;
-import com.stschools.security.CurrentUser;
-import com.stschools.security.UserPrincipal;
-import com.stschools.service.paypal.PaypalService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import org.springframework.web.server.ResponseStatusException;
+import com.stschools.service.paypal.PaypalService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @CrossOrigin(origins = "*")

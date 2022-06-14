@@ -1,4 +1,4 @@
-package com.stschools.payment.vnpay;
+package com.stschools.configuration;
 
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Component
-public class VnPayConfig {
+public class VnpaySha256Config {
 
     public static String generateQueryUrl(Map<String, String> vnp_Params, String vnp_SupChecksumt)
             throws UnsupportedEncodingException {

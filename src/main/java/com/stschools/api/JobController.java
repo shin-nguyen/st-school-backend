@@ -1,10 +1,5 @@
 package com.stschools.api;
 
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 import com.stschools.entity.Message;
 import com.stschools.entity.SchedulerJobInfo;
 import com.stschools.job.EmailJob;
@@ -12,8 +7,9 @@ import com.stschools.job.SmsJob;
 import com.stschools.payload.schedule.ScheduleRequest;
 import com.stschools.payload.schedule.ScheduleResponse;
 import com.stschools.payload.schedule.SmsRequest;
-import com.stschools.service.scheduler.SchedulerJobService;
 import com.stschools.service.SmsService;
+import com.stschools.service.scheduler.SchedulerJobService;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import javax.validation.Valid;
+import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController

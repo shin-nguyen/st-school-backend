@@ -1,6 +1,15 @@
 server:
   port: 8080
 
+vnpay:
+  version: 2
+  command: pay
+  tmn_code : F14VUCZZ
+  bank_code : NCB
+  cur_code : VND
+  locale: vn
+  sup_check: QRXINORZNIQWXKWHYLEKENHXHAGNJTMT
+
 twilio:
   account_sid: ACf1764ff3399bae30ca1ca505de34f898
   auth_token: a719d746cdfc3ecdabb28e479d447f00

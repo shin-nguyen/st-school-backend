@@ -37,38 +37,27 @@ public class BlogController {
     }
 
     @GetMapping("/user-love")
-    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user){
+    public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
     }
 
     @GetMapping("/top-new")
-    public ResponseEntity<List<?>> getTopNew(){
-        try{
+    public ResponseEntity<List<?>> getTopNew() {
+        try {
             final List<BlogDTO> courses = blogService.getTopNew();
-            if(courses == null){
+            if (courses == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return ResponseEntity.ok().body(courses);
 
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found blogs", ex);
         }
     }
 
     @GetMapping("/top-view")
-    public ResponseEntity<List<?>> getTopView(){
-        try{
-            final List<BlogDTO> courses = blogService.getTopView();
-            if(courses == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return ResponseEntity.ok().body(courses);
-
-        }
-        catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found blogs", ex);
-        }
+    public ResponseEntity<List<?>> getTopView() {
+        return ResponseEntity.ok().body(blogService.getTopView());
     }
 
     @GetMapping("/{id}")
@@ -90,12 +79,12 @@ public class BlogController {
 
     @PutMapping("/love/{id}")
     public ResponseEntity<?> updateLoveBlog(@PathVariable("id") Long blogId,
-                                            @CurrentUser UserPrincipal user){
+                                            @CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(blogService.updateLove(blogId, user.getId()));
     }
 
     @DeleteMapping("/delete/{blogId}")
-    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId){
+    public ResponseEntity<Long> deleteBlog(@PathVariable(value = "blogId") Long blogId) {
         return ResponseEntity.ok(blogService.deleteBlog(blogId));
     }
 

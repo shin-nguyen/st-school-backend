@@ -1,11 +1,9 @@
 package com.stschools.api;
 
 
-import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.dto.QuestionDTO;
 import com.stschools.dto.QuizDTO;
 import com.stschools.exception.InputFieldException;
-import com.stschools.payload.blog.BlogRequest;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.QuizService;
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController

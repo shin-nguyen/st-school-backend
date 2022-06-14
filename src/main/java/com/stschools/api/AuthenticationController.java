@@ -1,6 +1,5 @@
 package com.stschools.api;
 
-import com.stschools.security.UserPrincipal;
 import com.stschools.dto.UserDTO;
 import com.stschools.exception.ApiRequestException;
 import com.stschools.exception.InputFieldException;
@@ -9,6 +8,7 @@ import com.stschools.exception.PasswordException;
 import com.stschools.payload.auth.AuthenticationRequest;
 import com.stschools.payload.auth.AuthenticationResponse;
 import com.stschools.payload.common.PasswordResetRequest;
+import com.stschools.security.UserPrincipal;
 import com.stschools.service.AuthenticationService;
 import com.stschools.util.ControllerUtils;
 import lombok.RequiredArgsConstructor;

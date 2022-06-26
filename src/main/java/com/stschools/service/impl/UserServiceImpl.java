@@ -16,9 +16,12 @@ import com.stschools.payload.user.UserRequest;
 import com.stschools.repository.*;
 import com.stschools.service.UserService;
 import com.stschools.util.ModelMapperControl;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +31,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -98,8 +102,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponse> getAllCustomerByDashboards() {
-        Page<UserResponse> orders = userRepository.getTopBy5(PageRequest.of(0, 5));
-        return orders.getContent();
+        List<Order> orders = orderRepository.findAll();
+        Map<User, Integer> resultSum =orders.stream().collect(
+                Collectors.groupingBy(Order::getUser,Collectors.summingInt(Order::getTotal))
+        );
+        Map<User, Long> resultCount =orders.stream().collect(
+                Collectors.groupingBy(Order::getUser,Collectors.counting())
+        );
+
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (Map.Entry<User, Integer> entry : resultSum.entrySet()) {
+            UserResponse userResponse = UserResponse.builder()
+                    .firstName(entry.getKey().getFirstName())
+                    .lastName(entry.getKey().getLastName())
+                    .price(entry.getValue())
+                    .order(resultCount.get(entry.getKey()))
+                    .build();
+            userResponses.add(userResponse);
+        }
+
+        return  userResponses.stream()
+                .sorted(Comparator.comparingInt(UserResponse::getPrice))
+                .limit(5).collect(Collectors.toList());
     }
 
     @Override

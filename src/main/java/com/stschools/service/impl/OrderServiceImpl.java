@@ -72,11 +72,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long countByCourseId(Long id) {
-        return orderRepository.countByCourseId(id);
-    }
-
-    @Override
     public void updateProgress(ProgressDTO progressDTO) {
         Order order = progressDTO.getOrderId() == null ?
                 orderRepository.findOrderByCourseIdAndUserId(progressDTO.getCourseId(), progressDTO.getUserId())

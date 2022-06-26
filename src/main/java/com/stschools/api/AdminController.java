@@ -23,7 +23,7 @@ public class AdminController {
     private final OrderService orderService;
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUser(@PathVariable("id") Long userId) throws ApiException {
+    public ResponseEntity<?> getUser(@PathVariable("id") Long userId){
         return ResponseEntity.ok(userService.findUserById(userId));
     }
 
@@ -56,7 +56,6 @@ public class AdminController {
     public ResponseEntity<?> getUserByUser(@CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(userService.getUserById(user.getId()));
     }
-
 
     @GetMapping("/dashboard/{year}")
     public ResponseEntity<?> dashboardBlog(@PathVariable("year") Long year) {

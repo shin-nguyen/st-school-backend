@@ -17,8 +17,6 @@ public interface OrderService {
 
     List<OrderReponse> findAllByCreateDateTop5();
 
-    Long countByCourseId(Long id);
-
     void updateProgress(ProgressDTO progressDTO);
 
     OrderDTO getOrderByUserAndCourse(Long userId, Long courseId);

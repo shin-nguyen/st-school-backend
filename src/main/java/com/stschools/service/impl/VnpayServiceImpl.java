@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,7 +54,8 @@ public class VnpayServiceImpl implements VnpayService {
         String vnp_ReturnUrl = "https://" + urlapp + "/api/v1/pay-vn/submit?" + "course_Id=" + courseId
                 + "&email=" + user.getEmail() + "&callback=" + link;
 
-        String vnpTxnRef = courseId + "-" + DateTimeControl.formatDate(new Date());
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+        String vnpTxnRef = courseId + "-" + dateFormat.format(new Date());
 
         // Tạo mã map links
         Map<String, String> vnpParams = new HashMap<>();

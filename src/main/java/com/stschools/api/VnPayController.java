@@ -37,7 +37,7 @@ public class VnPayController {
     }
 
 
-    @PostMapping(value = "/get-code")
+    @GetMapping(value = "/get-code")
     public String createStringQuery(
             @RequestParam(name = "vnp_IpAddr", required = false, defaultValue = "null") String vnpIpAddr,
             @RequestParam(name = "vnp_OrderInfo", required = false, defaultValue = "null") String vnpOrderInfo,

@@ -31,7 +31,7 @@ public class Quiz {
     @ToString.Exclude
     private User createBy;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
@@ -42,10 +42,10 @@ public class Quiz {
 
     @Column
     private String duration;
+
     @Column
     private Boolean status;
-    @Column
-    private Long restart;
+
     @Column
     private Boolean isDeleted;
 
@@ -64,15 +64,6 @@ public class Quiz {
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateTime =  DateTimeControl.formatDate(new Date());
-    }
-
-    public Quiz(String name, String code, User createBy, String duration, Boolean status, Long restart) {
-        this.name = name;
-        this.code = code;
-        this.createBy = createBy;
-        this.duration = duration;
-        this.status = status;
-        this.restart = restart;
+        this.updateTime = DateTimeControl.formatDate(new Date());
     }
 }

@@ -1,6 +1,5 @@
 package com.stschools.api;
 
-import com.cloudinary.api.exceptions.ApiException;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.OrderService;

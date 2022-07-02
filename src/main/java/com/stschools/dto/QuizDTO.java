@@ -21,18 +21,19 @@ import javax.persistence.*;
 
 @Data
 public class QuizDTO {
-	private Long id;
-	private String name;
-	private String code;
-	private UserResponse createBy;
-	private String duration;
-	private Boolean status;
+    private Long id;
+    private String name;
+    private String code;
+    private UserResponse createBy;
+    private String duration;
+    private Boolean status;
 
-	@Override
-	public String toString() {
-		return questions.toString();
-	}
-	private Long quizRestart;
-	private List<QuestionDTO> questions = new ArrayList<>();
-	private CourseDTO course;
+
+    @Override
+    public String toString() {
+        return questions.toString();
+    }
+
+    private List<QuestionDTO> questions = new ArrayList<>();
+    private CourseDTO course;
 }

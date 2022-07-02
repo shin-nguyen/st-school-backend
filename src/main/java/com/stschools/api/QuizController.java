@@ -3,7 +3,12 @@ package com.stschools.api;
 
 import com.stschools.dto.QuestionDTO;
 import com.stschools.dto.QuizDTO;
+import com.stschools.entity.Quiz;
 import com.stschools.exception.InputFieldException;
+import com.stschools.export_file.quizzes.QuizCsvExporter;
+import com.stschools.export_file.quizzes.QuizExcelExporter;
+import com.stschools.export_file.quizzes.QuizPdfExporter;
+import com.stschools.repository.QuizRepository;
 import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.QuizService;
@@ -12,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,8 +27,10 @@ import java.util.List;
 public class QuizController {
     private final QuizService quizService;
 
+    private final QuizRepository quizRepository;
+
     @GetMapping("/all")
-    public ResponseEntity<List<?>> getAllQuizzes() {
+    public ResponseEntity<?> getAllQuizzes() {
         return ResponseEntity.ok(quizService.getAll());
     }
 
@@ -43,7 +52,6 @@ public class QuizController {
 
     @PutMapping(value ="/update-detail")
     public ResponseEntity<?> updateDetailQuiz(@RequestBody QuizDTO request,
-                                          @CurrentUser UserPrincipal user,
                                           BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
@@ -55,7 +63,6 @@ public class QuizController {
     @PostMapping(value ="/{quizId}/question")
     public ResponseEntity<?> addQuestion(@RequestBody QuestionDTO request,
                                          @PathVariable(value = "quizId") Long quizId,
-//                                          @CurrentUser UserPrincipal user,
                                           BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
@@ -67,7 +74,6 @@ public class QuizController {
     @PutMapping(value ="/{quizId}/question/edit")
     public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO request,
                                          @PathVariable(value = "quizId") Long quizId,
-//                                          @CurrentUser UserPrincipal user,
                                          BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
@@ -96,25 +102,26 @@ public class QuizController {
     public ResponseEntity<?> submitQuiz(@RequestBody QuizDTO request,@CurrentUser UserPrincipal user) {
         return ResponseEntity.ok(quizService.submitQuiz(request,user.getId()));
     }
-//    @GetMapping(path = "export/excel")
-//    public void exportToExcel(HttpServletResponse response) throws IOException {
-//        List<User> listUsers = userService.findAllUsers();
-//        UserExcelExporter exporter = new UserExcelExporter();
-//        exporter.export(listUsers, response);
-//    }
-//
-//    @GetMapping("/export/csv")
-//    public void exportToCSV( HttpServletResponse response) throws IOException {
-//        List<User> listUsers = userService.findAllUsers();
-//        UserCsvExporter exporter = new UserCsvExporter();
-//
-//        exporter.export(listUsers, response);
-//    }
-//
-//    @GetMapping("/export/pdf")
-//    public void exportToPDF( HttpServletResponse response) throws IOException {
-//        List<User> listUsers = userService.findAllUsers();
-//        UserPdfExporter exporter = new UserPdfExporter();
-//        exporter.export(listUsers, response);
-//    }
+
+    @GetMapping(path = "export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        List<Quiz> quizzes = quizRepository.findAll();
+        QuizExcelExporter exporter = new QuizExcelExporter();
+        exporter.export(quizzes, response);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportToCSV( HttpServletResponse response) throws IOException {
+        List<Quiz> quizzes = quizRepository.findAll();
+        QuizCsvExporter exporter = new QuizCsvExporter();
+
+        exporter.export(quizzes, response);
+    }
+
+    @GetMapping("/export/pdf")
+    public void exportToPDF( HttpServletResponse response) throws IOException {
+        List<Quiz> quizzes = quizRepository.findAll();
+        QuizPdfExporter exporter = new QuizPdfExporter();
+        exporter.export(quizzes, response);
+    }
 }

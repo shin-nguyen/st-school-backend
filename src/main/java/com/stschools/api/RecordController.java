@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecordController {
 	private final RecordService recordService;
 
-	@GetMapping("/all-user/{recordId}")
-	public ResponseEntity<?> getAll(@PathVariable(value = "recordId") Long recordId){
-		return ResponseEntity.ok().body(recordService.listAll(recordId));
+	@GetMapping("/all-user/{quizId}")
+	public ResponseEntity<?> getAll(@PathVariable(value = "quizId") Long quizId){
+		return ResponseEntity.ok().body(recordService.listAll(quizId));
 	}
 
 	@GetMapping("/{recordId}")

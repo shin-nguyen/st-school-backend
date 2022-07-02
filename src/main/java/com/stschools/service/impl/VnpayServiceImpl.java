@@ -11,6 +11,7 @@ import com.stschools.repository.OrderRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.MailService;
 import com.stschools.service.VnpayService;
+import com.stschools.util.DateTimeControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -38,13 +39,12 @@ public class VnpayServiceImpl implements VnpayService {
     private String urlapp;
 
     @Override
-    public String getCode(String vnpIpAddr, String vnpOrderInfo, String vnpOrderType, Long courseId, Long userId, String link) throws UnsupportedEncodingException {
+    public String getCode(String vnpIpAddr, String vnpOrderInfo, String vnpOrderType, Long courseId, String email, String link) throws UnsupportedEncodingException {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ApiRequestException("Course is null!", HttpStatus.BAD_REQUEST));
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
+        User user = userRepository.findByEmail(email);
 
 
         Integer vnpAmount = course.getPrice();
@@ -53,7 +53,7 @@ public class VnpayServiceImpl implements VnpayService {
         String vnp_ReturnUrl = "https://" + urlapp + "/api/v1/pay-vn/submit?" + "course_Id=" + courseId
                 + "&email=" + user.getEmail() + "&callback=" + link;
 
-        String vnpTxnRef = courseId + "-" + user.getEmail();
+        String vnpTxnRef = courseId + "-" + DateTimeControl.formatDate(new Date());
 
         // Tạo mã map links
         Map<String, String> vnpParams = new HashMap<>();

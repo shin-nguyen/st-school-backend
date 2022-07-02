@@ -43,9 +43,10 @@ public class VnPayController {
             @RequestParam(name = "vnp_OrderInfo", required = false, defaultValue = "null") String vnpOrderInfo,
             @RequestParam(name = "vnp_OrderType", required = false, defaultValue = "null") String vnpOrderType,
             @RequestParam(name = "course_Id") Long courseId,
+            @RequestParam(name = "email") String email,
             @RequestParam(name = "callback") String callback,
             @CurrentUser UserPrincipal user
     ) throws UnsupportedEncodingException {
-        return vnpayService.getCode(vnpIpAddr, vnpOrderInfo, vnpOrderType, courseId, user.getId(), callback);
+        return vnpayService.getCode(vnpIpAddr, vnpOrderInfo, vnpOrderType, courseId, email, callback);
     }
 }

@@ -100,9 +100,16 @@ public class VnpayServiceImpl implements VnpayService {
                     .vnpayId(vnpTransactionNo)
                     .user(user)
                     .build();
-            if (orderRepository.findOrderByCourseIdAndUserId(courseId, user.getId()) != null) {
+
+            Order orderOfDb = orderRepository.findAll().stream()
+                    .filter(o -> (o.getCourse().getId() == courseId)
+                            && (o.getUser().getId() == user.getId())).findFirst()
+                    .orElseThrow(() -> new ApiRequestException("User or Order is null!", HttpStatus.BAD_REQUEST));
+
+            if (orderOfDb != null) {
                 throw new ApiRequestException("Order exits", HttpStatus.BAD_REQUEST);
             }
+
             orderRepository.save(order);
 //            try{
 //

@@ -31,11 +31,6 @@ public class QuizServiceImpl implements QuizService {
     private final CourseRepository courseRepository;
     private final OrderRepository orderRepository;
 
-//	@Override
-//	public List<QuizDTO> getAllByUser(Long userId) {
-//		return ModelMapperControl.mapAll(quizRepository.findByUser(userId), QuizDTO.class);
-//	}
-
     @Override
     public Long delete(Long quizId){
         Quiz quizOld = quizRepository.findById(quizId)
@@ -196,7 +191,12 @@ public class QuizServiceImpl implements QuizService {
             }
         }
         Record record = new Record(quizOld,user,score * 100 /quizOld.getQuestions().size(),request.toString());
-        Order order = orderRepository.findOrderByCourseIdAndUserId(quizOld.getCourse().getId(), userId);
+
+        Order order = orderRepository.findAll().stream()
+                .filter(o -> (o.getCourse().getId() == quizOld.getCourse().getId())
+                && (o.getUser().getId() == userId)).findFirst()
+                .orElseThrow(() -> new ApiRequestException("User or Order is null!", HttpStatus.BAD_REQUEST));
+
         if(!order.getIsComplete()){
             order.setIsComplete(score * 100 /quizOld.getQuestions().size() >= 80);
             orderRepository.save(order);

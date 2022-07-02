@@ -5,6 +5,7 @@ import com.stschools.dto.ProgressDTO;
 import com.stschools.entity.Course;
 import com.stschools.entity.Order;
 import com.stschools.entity.Video;
+import com.stschools.exception.ApiRequestException;
 import com.stschools.payload.course.CourseRequest;
 import com.stschools.payload.orders.OrderReponse;
 import com.stschools.repository.CourseRepository;
@@ -16,8 +17,10 @@ import com.stschools.util.ModelMapperControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.stschools.service.MailService;
+
 import java.util.*;
 
 @Service
@@ -37,23 +40,24 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAll() {
         return ModelMapperControl.mapAll(orderRepository.findAll(), OrderDTO.class);
     }
+
     @Override
     public OrderDTO save(OrderDTO orderDTO) {
         Course course = courseRepository.findCourseById(orderDTO.getCourse().getId());
-        course.setSubTotal(course.getSubTotal()+1);
+        course.setSubTotal(course.getSubTotal() + 1);
         courseRepository.saveAndFlush(course);
         Order order = ModelMapperControl.map(orderDTO, Order.class);
         order.setCourse(course);
 
         Order newOrder = orderRepository.save(order);
 
-        try{
+        try {
             String subject = "Order #" + order.getId();
             String template = "order-template";
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("order", newOrder);
             mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
@@ -71,27 +75,38 @@ public class OrderServiceImpl implements OrderService {
         return ModelMapperControl.mapAll(orders.getContent(), OrderReponse.class);
     }
 
+    private Order findOrderByCourseIdAndUserId(Long courseId, Long userId) {
+        Order order = orderRepository.findAll().stream()
+                .filter(o -> (o.getCourse().getId() == courseId)
+                        && (o.getUser().getId() == userId)).findFirst()
+                .orElseThrow(() -> new ApiRequestException("User or Order is null!", HttpStatus.BAD_REQUEST));
+
+        return order;
+    }
+
     @Override
     public void updateProgress(ProgressDTO progressDTO) {
         Order order = progressDTO.getOrderId() == null ?
-                orderRepository.findOrderByCourseIdAndUserId(progressDTO.getCourseId(), progressDTO.getUserId())
+                findOrderByCourseIdAndUserId(progressDTO.getCourseId(), progressDTO.getUserId())
                 : orderRepository.getById(progressDTO.getOrderId());
         List<Video> listVideo = videoRepository.findByCourse_Id(progressDTO.getCourseId());
-        if(order != null && !order.getVideos().contains(progressDTO.getVideo())) {
+        if (order != null && !order.getVideos().contains(progressDTO.getVideo())) {
             Set<Video> videos = order.getVideos();
             Video video = videoRepository.findVideoById(progressDTO.getVideo().getId());
-            if(video != null) {
+            if (video != null) {
                 videos.add(video);
                 order.setVideos(videos);
             }
         }
-        order.setProgress((double) Math.round((double)order.getVideos().size()/ listVideo.size()*100));
+        order.setProgress((double) Math.round((double) order.getVideos().size() / listVideo.size() * 100));
         orderRepository.save(order);
     }
 
     @Override
     public OrderDTO getOrderByUserAndCourse(Long userId, Long courseId) {
-        return ModelMapperControl.map(orderRepository.findOrderByCourseIdAndUserId(courseId, userId), OrderDTO.class);
+        return ModelMapperControl.map(
+                findOrderByCourseIdAndUserId(courseId, userId)
+                , OrderDTO.class);
     }
 
     @Override
@@ -101,12 +116,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> saveAll(List<CourseRequest> courses, Long userId) {
-        List<Order> orders= new ArrayList<>();
-        for (CourseRequest course :courses) {
+        List<Order> orders = new ArrayList<>();
+        for (CourseRequest course : courses) {
             Course courseNew = courseRepository.findCourseById(course.getId());
-            courseNew.setSubTotal(courseNew.getSubTotal()+1);
+            courseNew.setSubTotal(courseNew.getSubTotal() + 1);
             courseRepository.saveAndFlush(courseNew);
-            Order order  =new Order();
+            Order order = new Order();
             order.setUser(userRepository.findById(userId).get());
             order.setCourse(courseNew);
             orders.add(order);

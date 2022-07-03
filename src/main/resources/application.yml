@@ -4,9 +4,9 @@ server:
 vnpay:
   version: 2
   command: pay
-  tmn_code : F14VUCZZ
-  bank_code : NCB
-  cur_code : VND
+  tmn_code: F14VUCZZ
+  bank_code: NCB
+  cur_code: VND
   locale: vn
   sup_check: QRXINORZNIQWXKWHYLEKENHXHAGNJTMT
 
@@ -61,7 +61,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   mail:
     host: smtp.gmail.com
-    password: Conheogoitinh1*
+    password: ijgroiwnskjqiyaz
     port: 587
     properties:
       mail:
@@ -111,9 +111,9 @@ spring:
 ---
 spring:
   datasource:
-    password: 1234
     url: jdbc:mysql://localhost:3306/st_school?createDatabaseIfNotExist=true
     username: root
+    password: 1234
   config:
     activate:
       on-profile: local

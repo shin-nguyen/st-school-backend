@@ -63,11 +63,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
+        String linkHttp = "http://";
+        if (!hostname.contains("localhost")){
+            linkHttp = "https://";
+        }
+
         String subject = "Activation code";
         String template = "registration-template";
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", user.getFirstName());
-        attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
+        attributes.put("registrationUrl", linkHttp + hostname + "/activate/" + user.getActivationCode());
         mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
 
         return true;
@@ -124,11 +129,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
+        String linkHttp = "http://";
+        if (!hostname.contains("localhost")){
+            linkHttp = "https://";
+        }
+
         String subject = "Password reset";
         String template = "password-reset-template";
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", user.getFirstName());
-        attributes.put("resetUrl", "http://" + hostname + "/reset/" + user.getPasswordResetCode());
+        attributes.put("resetUrl", linkHttp + hostname + "/reset/" + user.getPasswordResetCode());
         mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
         return true;
     }

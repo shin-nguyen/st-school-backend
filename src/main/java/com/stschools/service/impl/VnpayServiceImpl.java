@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -105,26 +106,28 @@ public class VnpayServiceImpl implements VnpayService {
 
             Order orderOfDb = orderRepository.findAll().stream()
                     .filter(o -> (o.getCourse().getId() == courseId)
-                            && (o.getUser().getId() == user.getId())).findFirst()
-                    .orElseThrow(() -> new ApiRequestException("User or Order is null!", HttpStatus.BAD_REQUEST));
+                            && (o.getUser().getId() == user.getId())).findFirst().orElse(
+                                    null
+                    );
 
             if (orderOfDb != null) {
                 throw new ApiRequestException("Order exits", HttpStatus.BAD_REQUEST);
             }
 
-            orderRepository.save(order);
-//            try{
-//
-//                String subject = "Order #" + order.getId();
-//                String template = "order-template";
-//                Map<String, Object> attributes = new HashMap<>();
-//                attributes.put("order", newOrder);
-//                mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
-//            }
+            try{
+                Order newOrder = orderRepository.save(order);
 
+                String subject = "Order #" + order.getId();
+                String template = "order-template";
+                Map<String, Object> attributes = new HashMap<>();
+                attributes.put("order", newOrder);
+                mailSender.sendMessageHtml(order.getUser().getEmail(), subject, template, attributes);
+            }
+            catch (Exception ex){
+
+            }
 
             return responses;
-
         } catch (Exception ex) {
             responses = "<div><h1 style=\" text-align: center;	\">THANH TOÁN THẤT BẠI</h1></div>" + button;
             return responses;

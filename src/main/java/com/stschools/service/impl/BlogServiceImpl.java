@@ -4,12 +4,12 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.stschools.dto.BlogDTO;
 import com.stschools.dto.BlogUserLoveDTO;
+import com.stschools.entity.Blog;
 import com.stschools.entity.User;
 import com.stschools.exception.ApiRequestException;
 import com.stschools.import_file.blogs.BlogExcelImporter;
 import com.stschools.payload.blog.BlogRequest;
 import com.stschools.repository.BlogRepository;
-import com.stschools.entity.Blog;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.BlogService;
 import com.stschools.util.ModelMapperControl;
@@ -22,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,34 +39,38 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public BlogDTO findBlogById(Long blogId) {
+    public BlogDTO findBlogById(Long blogId, Long userId) {
         blogRepository.updateView(blogId);
 
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
+        filterLove(blog, userId);
         return ModelMapperControl.map(blog, BlogDTO.class);
     }
 
-    @Override
-    public List<BlogDTO> findAllBlogs() {
-        return ModelMapperControl.mapAll(blogRepository.findAllByOrderByIdAsc(), BlogDTO.class);
+    private void filterLove(Blog blog, Long user) {
+        JSONArray userLove = new JSONArray(blog.getUserLove());
+
+        for (int i = 0; i < userLove.length(); i++) {
+            JSONObject object = userLove.getJSONObject(i);
+            long idUser = object.getLong("id");
+            if (idUser == user) {
+                blog.setLove(true);
+            }
+        }
+        blog.setRecordLove(userLove.length());
+    }
+
+    private void filtersLove(List<Blog> blogs, Long userId) {
+        for (Blog blog : blogs) {
+            filterLove(blog, userId);
+        }
     }
 
     @Override
-    public List<BlogDTO> getAllBlogsByLove(Long id) {
+    public List<BlogDTO> getAllBlogsByLove(Long userId) {
         List<Blog> blogs = blogRepository.findAllByOrderByIdAsc();
-        for (Blog blog : blogs) {
-            JSONArray userLove = new JSONArray(blog.getUserLove());
-
-            for (int i = 0; i < userLove.length(); i++) {
-                JSONObject object = userLove.getJSONObject(i);
-                Long idUser = object.getLong("id");
-                if (idUser == id) {
-                    blog.setIsLove(true);
-                }
-            }
-            blog.setRecordLove(userLove.length());
-        }
+        filtersLove(blogs, userId);
         return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 
@@ -78,18 +85,14 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public BlogDTO update(BlogDTO blog, Long id) {
+    public BlogDTO update(BlogDTO blog, Long userId) {
         Blog blogOld = blogRepository.findById(blog.getId())
                 .orElseThrow(() -> new ApiRequestException("Blog is null!", HttpStatus.BAD_REQUEST));
 
-
         blogOld.setContent(blog.getContent());
         blogOld.setTitle(blog.getTitle());
-//
-//        User user = userRepository.findById(id)
-//                .orElseThrow(() -> new ApiRequestException("User is null!", HttpStatus.BAD_REQUEST));
-//        blogOld.setUser(user);
-//
+
+        filterLove(blogOld, userId);
         return ModelMapperControl.map(blogRepository.save(blogOld), BlogDTO.class);
     }
 
@@ -108,8 +111,6 @@ public class BlogServiceImpl implements BlogService {
         blogNew.setUser(user);
 
         blogNew.setStatus(false);
-
-
         return ModelMapperControl.map(blogRepository.save(blogNew), BlogDTO.class);
     }
 
@@ -121,33 +122,32 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<BlogDTO> getAllBlogsByMe(Long userId) {
-        return ModelMapperControl.mapAll(blogRepository.findAllByUserId(userId), BlogDTO.class);
+        List<Blog> blogs
+                = blogRepository.findAllByUserId(userId);
+        filtersLove(blogs, userId);
+        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 
     @Override
     @Transactional
     public BlogDTO updateBlogStatus(Long blogId) {
         Blog blog = blogRepository.findBlogById(blogId);
-        if (blog.getStatus()) {
-            blogRepository.updateBlogStatus(blogId, true);
-        } else {
-            blogRepository.updateBlogStatus(blogId, false);
-        }
+        blogRepository.updateBlogStatus(blogId, blog.getStatus());
         blog.setStatus(!blog.getStatus());
         return ModelMapperControl.map(blog, BlogDTO.class);
     }
 
     @Override
     @Transactional
-    public List<BlogUserLoveDTO> updateLove(Long blogId, Long id) {
+    public BlogDTO updateLove(Long blogId, Long id) {
         Blog blog = blogRepository.findBlogById(blogId);
         List<BlogUserLoveDTO> listLove = new ArrayList<>();
-        Boolean status = true;
+        boolean status = true;
 
         JSONArray userLove = new JSONArray(blog.getUserLove());
         for (int i = 0; i < userLove.length(); i++) {
             JSONObject object = userLove.getJSONObject(i);
-            Long idUser = object.getLong("id");
+            long idUser = object.getLong("id");
             if (idUser != id) {
                 listLove.add(new BlogUserLoveDTO(idUser));
             } else {
@@ -159,26 +159,32 @@ public class BlogServiceImpl implements BlogService {
             listLove.add(new BlogUserLoveDTO(id));
         }
 
+        blog.setRecordLove(listLove.size());
         blog.setUserLove(listLove.toString());
+        blog.setLove(status);
 
-        return listLove;
+        return ModelMapperControl.map(blogRepository.save(blog), BlogDTO.class);
     }
 
     @Override
-    public List<BlogDTO> getTopNew() {
-        return ModelMapperControl.mapAll(blogRepository.findAll()
-                        .stream()
-                        .sorted(Comparator.comparing(Blog::getId, Comparator.comparing(Math::abs)).reversed())
-                        .limit(10).collect(Collectors.toList())
-                , BlogDTO.class);
+    public List<BlogDTO> getTopNew(Long id) {
+        List<Blog> blogs = blogRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Blog::getId, Comparator.comparing(Math::abs)).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+
+        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 
     @Override
-    public List<BlogDTO> getTopView() {
-        return ModelMapperControl.mapAll(blogRepository.findAll()
-                        .stream()
-                        .sorted(Comparator.comparing(Blog::getView, Comparator.comparing(Math::abs)).reversed())
-                        .limit(10).collect(Collectors.toList())
-                , BlogDTO.class);
+    public List<BlogDTO> getTopView(Long userId) {
+        List<Blog> blogs = blogRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Blog::getView, Comparator.comparing(Math::abs)).reversed())
+                .limit(10).collect(Collectors.toList());
+
+        filtersLove(blogs, userId);
+        return ModelMapperControl.mapAll(blogs, BlogDTO.class);
     }
 }

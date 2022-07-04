@@ -12,12 +12,10 @@ import com.stschools.security.CurrentUser;
 import com.stschools.security.UserPrincipal;
 import com.stschools.service.BlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,38 +29,24 @@ public class BlogController {
     private final BlogRepository blogRepository;
     private final BlogService blogService;
 
-    @GetMapping
-    public ResponseEntity<List<?>> getAllBlogs() {
-        return ResponseEntity.ok(blogService.findAllBlogs());
-    }
-
     @GetMapping("/user-love")
     public ResponseEntity<List<?>> getAllBlogsByLove(@CurrentUser UserPrincipal user) {
-        return ResponseEntity.ok(blogService.getAllBlogsByLove(user.getId()));
+        return ResponseEntity.ok(blogService.getAllBlogsByLove(user != null ? user.getId() : -1));
     }
 
     @GetMapping("/top-new")
-    public ResponseEntity<List<?>> getTopNew() {
-        try {
-            final List<BlogDTO> courses = blogService.getTopNew();
-            if (courses == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return ResponseEntity.ok().body(courses);
-
-        } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found blogs", ex);
-        }
+    public ResponseEntity<List<?>> getTopNew(@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(blogService.getTopNew(user != null ? user.getId() : -1));
     }
 
     @GetMapping("/top-view")
-    public ResponseEntity<List<?>> getTopView() {
-        return ResponseEntity.ok().body(blogService.getTopView());
+    public ResponseEntity<List<?>> getTopView(@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok().body(blogService.getTopView(user != null ? user.getId() : -1));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId) {
-        return ResponseEntity.ok(blogService.findBlogById(blogId));
+    public ResponseEntity<?> getBlog(@PathVariable("id") Long blogId,@CurrentUser UserPrincipal user) {
+        return ResponseEntity.ok(blogService.findBlogById(blogId,user != null ? user.getId() : -1));
     }
 
 
@@ -100,7 +84,7 @@ public class BlogController {
 
 
     @PostMapping(value = "/add")
-    public ResponseEntity<BlogDTO> registerPost(@ModelAttribute BlogRequest blog,
+    public ResponseEntity<?> registerPost(@ModelAttribute BlogRequest blog,
                                                 @CurrentUser UserPrincipal user,
                                                 BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -111,7 +95,7 @@ public class BlogController {
     }
 
     @PostMapping("/add/file")
-    public ResponseEntity<List<?>> importToExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> importToExcel(@RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(blogService.addBlog(file));
     }
 

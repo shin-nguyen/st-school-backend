@@ -75,7 +75,7 @@ public class Blog {
     private String userLove;
 
     @Transient
-    private Boolean isLove = false;
+    private Boolean love = false;
 
     @Transient
     private Integer recordLove = 0;

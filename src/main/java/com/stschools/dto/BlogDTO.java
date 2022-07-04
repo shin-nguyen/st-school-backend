@@ -24,7 +24,7 @@ public class BlogDTO {
     private Integer view;
     private String userLove;
     private Long recordLove;
-    private Boolean isLove;
+    private Boolean love;
     private UserResponse user;
     private String topic;
 }

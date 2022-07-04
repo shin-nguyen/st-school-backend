@@ -1,7 +1,6 @@
 package com.stschools.service;
 
 import com.stschools.dto.BlogDTO;
-import com.stschools.dto.BlogUserLoveDTO;
 import com.stschools.payload.blog.BlogRequest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,9 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface BlogService {
-    BlogDTO findBlogById(Long blogId);
-
-    List<BlogDTO> findAllBlogs();
+    BlogDTO findBlogById(Long blogId,Long id);
 
     List<BlogDTO> getAllBlogsByLove(Long id);
 
@@ -27,10 +24,10 @@ public interface BlogService {
 
     BlogDTO updateBlogStatus(Long blogId);
 
-    List<BlogUserLoveDTO> updateLove(Long blogId, Long id);
+    BlogDTO updateLove(Long blogId, Long id);
 
-    List<BlogDTO> getTopNew();
+    List<BlogDTO> getTopNew(Long id);
 
-    List<BlogDTO> getTopView();
+    List<BlogDTO> getTopView(Long id);
 }
 

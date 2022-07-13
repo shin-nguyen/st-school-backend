@@ -11,9 +11,11 @@ vnpay:
   sup_check: QRXINORZNIQWXKWHYLEKENHXHAGNJTMT
 
 twilio:
+  file: privateKey.rsa
   account_sid: ACf1764ff3399bae30ca1ca505de34f898
   auth_token: 2fdf240bd1a1b3312c29afc83a79273b
   trial_number: +19563046944
+  private_key: uszApZMW9bz43BO8UP0/60gemlYe+DkJvCHPLwTujFwy496zMCBa/gHY5zS9KpjjvO7IciqGUEq+koSUJbJpTGI/nFljdJnPXgg6pfM2buao4qVLeNSBam3VHF+76XkqanZGlXXYPWEhOydMuer8RFQY8XUcq/kxwAIhZ2FN+c4=
 
 cloudinary:
   cloud_name: qscloud

@@ -11,19 +11,16 @@ import com.stschools.repository.OrderRepository;
 import com.stschools.repository.UserRepository;
 import com.stschools.service.MailService;
 import com.stschools.service.VnpayService;
-import com.stschools.util.DateTimeControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service

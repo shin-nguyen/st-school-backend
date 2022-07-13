@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
         }
 
         return  userResponses.stream()
-                .sorted(Comparator.comparingInt(UserResponse::getPrice))
+                .sorted(Comparator.comparingInt(UserResponse::getPrice).reversed())
                 .limit(5).collect(Collectors.toList());
     }
 

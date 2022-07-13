@@ -1,18 +1,26 @@
 package com.stschools.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.Cipher;
+import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.*;
 
 @Component
 public class VnpaySha256Config {
 
-    public static String generateQueryUrl(Map<String, String> vnp_Params, String vnp_SupChecksumt)
+    public String generateQueryUrl(Map<String, String> vnp_Params, String vnp_SupCheckSum)
             throws UnsupportedEncodingException {
 
         List fieldNames = new ArrayList(vnp_Params.keySet());
@@ -22,7 +30,7 @@ public class VnpaySha256Config {
         Iterator itr = fieldNames.iterator();
         while (itr.hasNext()) {
             String fieldName = (String) itr.next();
-            String fieldValue = (String) vnp_Params.get(fieldName);
+            String fieldValue = vnp_Params.get(fieldName);
             if ((fieldValue != null) && (fieldValue.length() > 0)) {
                 // Build hash data
                 hashData.append(fieldName);
@@ -39,16 +47,12 @@ public class VnpaySha256Config {
             }
         }
         String queryUrl = query.toString();
-        String vnp_SecureHash = Sha256(vnp_SupChecksumt + hashData.toString());
-        queryUrl += "&vnp_SecureHashType=SHA256&vnp_SecureHash=" + vnp_SecureHash;
-        return queryUrl;
-    }
+        String message = vnp_SupCheckSum + hashData.toString();
 
-    public static String Sha256(String message) {
         String digest = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(message.getBytes("UTF-8"));
+            byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
 
             // converting byte array to Hexadecimal String
             StringBuilder sb = new StringBuilder(2 * hash.length);
@@ -58,12 +62,12 @@ public class VnpaySha256Config {
 
             digest = sb.toString();
 
-        } catch (UnsupportedEncodingException ex) {
-            digest = "";
         } catch (NoSuchAlgorithmException ex) {
             digest = "";
         }
-        return digest;
-    }
 
+        String vnp_SecureHash = digest;
+        queryUrl += "&vnp_SecureHashType=SHA256&vnp_SecureHash=" + vnp_SecureHash;
+        return queryUrl;
+    }
 }

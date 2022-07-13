@@ -49,16 +49,18 @@ public class BlogServiceImpl implements BlogService {
     }
 
     private void filterLove(Blog blog, Long user) {
-        JSONArray userLove = new JSONArray(blog.getUserLove());
+        if (blog != null && blog.getUserLove() != null) {
+            JSONArray userLove = new JSONArray(blog.getUserLove());
 
-        for (int i = 0; i < userLove.length(); i++) {
-            JSONObject object = userLove.getJSONObject(i);
-            long idUser = object.getLong("id");
-            if (idUser == user) {
-                blog.setLove(true);
+            for (int i = 0; i < userLove.length(); i++) {
+                JSONObject object = userLove.getJSONObject(i);
+                long idUser = object.getLong("id");
+                if (idUser == user) {
+                    blog.setLove(true);
+                }
             }
+            blog.setRecordLove(userLove.length());
         }
-        blog.setRecordLove(userLove.length());
     }
 
     private void filtersLove(List<Blog> blogs, Long userId) {

@@ -50,7 +50,7 @@ public class VnpayServiceImpl implements VnpayService {
 
 
         Integer vnpAmount = course.getPrice();
-        vnpAmount *= 100000;
+        vnpAmount *= 2300000;
 
         String vnp_ReturnUrl = "https://" + urlapp + "/api/v1/pay-vn/submit?" + "course_Id=" + courseId
                 + "&email=" + user.getEmail() + "&callback=" + link;

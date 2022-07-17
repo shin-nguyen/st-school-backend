@@ -195,14 +195,15 @@ public class UserServiceImpl implements UserService {
         if(listOrder.isEmpty()) {
             return true;
         } else {
+            boolean result = true;
             for (Order order: listOrder) {
-                if(order.getVideos().isEmpty()){
-                    return true;
+                if(!order.getVideos().isEmpty()){
+                    result = false;
+                    break;
                 }
             }
+            return result;
         }
-
-        return false;
     }
 
 

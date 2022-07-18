@@ -192,7 +192,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isNewbie(Long id) {
         List<Order> listOrder = orderRepository.findOrderByUserId(id);
-        return listOrder.isEmpty() || (listOrder.size() == 1 && listOrder.get(0).getVideos().isEmpty());
+        if(listOrder.isEmpty()) {
+            return true;
+        } else {
+            boolean result = true;
+            for (Order order: listOrder) {
+                if(!order.getVideos().isEmpty()){
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
     }
 
 
